@@ -31,7 +31,7 @@ public class AtYouService extends AppCompatActivity {
         setContentView(R.layout.activity_at_you_service);
 
         url = findViewById(R.id.editTextURL);
-        output = findViewById(R.id.textViewTitle);
+        output = findViewById(R.id.textView_output);
     }
 
     public void callWebserviceButtonHandler(View view){
@@ -44,7 +44,7 @@ public class AtYouService extends AppCompatActivity {
         @Override
         protected String[] doInBackground(String... params) {
             String[] result = new String[2];
-            URL url = null;
+            URL url;
             try {
                 url = new URL(params[0]);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -61,11 +61,7 @@ public class AtYouService extends AppCompatActivity {
                 result[0] = jTitle;
                 result[1] = jBody;
                 return result;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             result[0] = "Something went wrong";
@@ -75,7 +71,7 @@ public class AtYouService extends AppCompatActivity {
         @Override
         protected void onPostExecute(String... s){
             super.onPostExecute(s);
-            TextView output = (TextView) findViewById(R.id.textViewTitle);
+            TextView output = (TextView) findViewById(R.id.textView_output);
             output.setText(s[0]);
         }
     }

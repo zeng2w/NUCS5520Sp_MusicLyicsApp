@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,20 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Type url here:"
-        android:inputType="textPersonName" />
+        android:hint="@string/string_input_url"
+        android:inputType="textUri|textPersonName" />
 
     <Button
         android:id="@+id/buttonTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="callWebserviceButtonHandler"
-        android:text="Test" />
+        android:text="@string/string_button_test" />
 
     <TextView
-        android:id="@+id/textViewTitle"
+        android:id="@+id/textView_output"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Output:" />
+        android:text="@string/string_output" />
 </LinearLayout>
