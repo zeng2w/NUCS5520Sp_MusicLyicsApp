@@ -8,25 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYouService;
 
 public class MainActivity extends AppCompatActivity {
-
     TextView teamName;
-    Button hw6;
-
+    Button buttonAtYourService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         teamName = findViewById(R.id.textView);
-        hw6 = findViewById(R.id.hw6Button);
-
-        hw6.setOnClickListener(new View.OnClickListener() {
+        buttonAtYourService = findViewById(R.id.buttonAtYourService);
+        buttonAtYourService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AtYouService.class);
+//                Intent intent = new Intent(MainActivity.this, WebServiceActivity.class);
+//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, example.class);
                 startActivity(intent);
             }
         });

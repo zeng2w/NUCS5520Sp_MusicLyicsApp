@@ -9,26 +9,31 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TEAM NAME"
+        android:layout_height="0dp"
+        android:layout_marginBottom="50dp"
+        android:text="@string/string_team_name"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_50percent_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/hw6Button"
+        android:id="@+id/buttonAtYourService"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/string_button_at_your_service"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_50percent_horizontal" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_50percent_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="navigate"
-        android:text="HW 6"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.263" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"
+ />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
