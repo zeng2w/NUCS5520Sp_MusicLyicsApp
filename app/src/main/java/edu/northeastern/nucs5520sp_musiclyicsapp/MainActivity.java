@@ -13,7 +13,7 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYouService;
 public class MainActivity extends AppCompatActivity {
 
     TextView teamName;
-    Button hw6;
+    Button buttonAtYourService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +21,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         teamName = findViewById(R.id.textView);
-        hw6 = findViewById(R.id.hw6Button);
+        buttonAtYourService = findViewById(R.id.buttonAtYourService);
 
-        hw6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AtYouService.class);
-                startActivity(intent);
-            }
+        buttonAtYourService.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AtYouService.class);
+            startActivity(intent);
         });
     }
 
