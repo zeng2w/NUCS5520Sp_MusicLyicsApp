@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NUCS5520Sp_MusicLyicsApp</string>
     <string name="string_button_at_your_service">at your service</string>
-    <string name="string_team_name">TEAM NAME</string>
+    <string name="string_team_name">TEAM 30</string>
     <string name="string_button_test">Test</string>
     <string name="string_output">Output:</string>
     <string name="string_input_url">Type url here:</string>
