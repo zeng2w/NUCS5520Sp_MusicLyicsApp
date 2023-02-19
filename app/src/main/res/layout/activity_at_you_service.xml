@@ -6,26 +6,69 @@
     android:orientation="vertical"
     tools:context=".a6.AtYouService">
 
-    <EditText
-        android:id="@+id/editTextURL"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+    <TextView
+        android:layout_width="226dp"
+        android:layout_height="32dp"
         android:layout_marginTop="20dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/string_input_url"
-        android:inputType="textUri|textPersonName" />
+        android:text="Currency Change" />
+
+    <EditText
+        android:id="@+id/amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Amount:"
+        android:layout_margin="16dp"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="From:"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/currencyFrom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="To:"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/currencyTo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/buttonTest"
+        android:id="@+id/convert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="callWebserviceButtonHandler"
-        android:text="@string/string_button_test" />
+        android:text="Convert" />
 
     <TextView
-        android:id="@+id/textView_output"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="@string/string_output" />
+
+    <TextView
+        android:id="@+id/output"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        />
 </LinearLayout>
