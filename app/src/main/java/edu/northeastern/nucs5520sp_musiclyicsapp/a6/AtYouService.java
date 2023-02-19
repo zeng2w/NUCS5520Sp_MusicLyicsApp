@@ -4,18 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,8 +32,13 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 
 public class AtYouService extends AppCompatActivity {
 
+    String Amount = "";
+    String from = "";
+    String to = "";
+
     TextView output;
     EditText amount;
+    Button convert;
     Spinner fromCurrency;
     Spinner toCurrency;
     ArrayAdapter adapter;
@@ -41,6 +53,7 @@ public class AtYouService extends AppCompatActivity {
 
         amount = findViewById(R.id.editTextAmount);
         output = findViewById(R.id.textViewAmountExchanged);
+        convert = findViewById(R.id.buttonTest);
         fromCurrency = findViewById(R.id.spinnerFrom);
         toCurrency = findViewById(R.id.spinnerTo);
 
@@ -72,56 +85,45 @@ public class AtYouService extends AppCompatActivity {
 
             }
         });
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        convert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Amount = (String) amount.getText().toString();
+                String url_str = String.format("https://api.exchangerate.host/convert?from=%s&to=%s&amount=%s",from,to,Amount);
+                URL url = null;
+                try {
+                    url = new URL(url_str);
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                }
+                HttpURLConnection request = null;
+                try {
+                    request = (HttpURLConnection) url.openConnection();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    request.connect();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                JsonParser jp = new JsonParser();
+                JsonElement root = null;
+                try {
+                    root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                JsonObject jsonobj = root.getAsJsonObject();
+
+                String req_result = jsonobj.get("result").getAsString();
+                output.setText(req_result);
+            }
+        });
     }
 
-//    public void callWebserviceButtonHandler(View view){
-//        PingWebServiceTask task = new PingWebServiceTask();
-//        task.execute(url.getText().toString());
-//    }
-//
-//    private class PingWebServiceTask extends AsyncTask<String, Integer, String[]> {
-//
-//        @Override
-//        protected String[] doInBackground(String... params) {
-//            String[] result = new String[2];
-//            URL url = null;
-//            try {
-//                url = new URL(params[0]);
-//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//                conn.setRequestMethod("GET");
-//                conn.setDoInput(true);
-//                conn.connect();
-//
-//                InputStream inputStream = conn.getInputStream();
-//                final String response = convertStreamToString(inputStream);
-//
-//                JSONObject jObject = new JSONObject(response);
-//                String jTitle = jObject.getString("title");
-//                String jBody = jObject.getString("body");
-//                result[0] = jTitle;
-//                result[1] = jBody;
-//                return result;
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            result[0] = "Something went wrong";
-//            return(result);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String... s){
-//            super.onPostExecute(s);
-//            TextView output = (TextView) findViewById(R.id.textViewAmountExchanged);
-//            output.setText(s[0]);
-//        }
-//    }
-//
-//    private String convertStreamToString(InputStream is){
-//        Scanner s = new Scanner(is).useDelimiter("\\A");
-//        return s.hasNext() ? s.next().replace(",", ",\n") : "";
-//    }
 }
