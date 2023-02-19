@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,7 +21,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".a6.ActivityAtYourService"
+            android:name=".a6.AtYourService"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
         <activity

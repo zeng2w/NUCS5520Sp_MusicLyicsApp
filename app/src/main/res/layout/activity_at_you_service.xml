@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".a6.ActivityAtYourService">
+    android:onClick="onClick"
+    tools:context=".a6.AtYourService">
 
     <EditText
         android:id="@+id/editText_original_amount"
@@ -17,8 +17,8 @@
         android:hint="@string/string_amount_to_be_converted_e_g_123_45"
         android:inputType="numberDecimal"
         android:minHeight="48dp"
-        android:textColorHint="#757575"
         android:textAlignment="center"
+        android:textColorHint="#757575"
         app:layout_constraintEnd_toStartOf="@+id/spinner_from_currency"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -78,6 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:onClick="onClick"
         android:text="@string/string_button_convert"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

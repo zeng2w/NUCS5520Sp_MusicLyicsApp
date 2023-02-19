@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 
-public class ActivityAtYourService extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class AtYourService extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     EditText editTextOriginalAmount;
     TextView textViewConvertedAmount;
@@ -96,6 +96,7 @@ public class ActivityAtYourService extends AppCompatActivity implements View.OnC
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
         request.connect();
         int status = request.getResponseCode();
+        System.out.println("status: " + status);
 
 
         if (status == HttpURLConnection.HTTP_OK) {
@@ -135,7 +136,7 @@ public class ActivityAtYourService extends AppCompatActivity implements View.OnC
             new Thread(currencyConvertRunnable).start();
         }
         else if (viewId == R.id.button_history) {
-            Intent intent = new Intent(ActivityAtYourService.this, ActivityConversionHistory.class);
+            Intent intent = new Intent(AtYourService.this, ActivityConversionHistory.class);
             intent.putParcelableArrayListExtra("conversion list", conversionList);
         }
     }
@@ -166,6 +167,9 @@ public class ActivityAtYourService extends AppCompatActivity implements View.OnC
             String originalAmountStr = editTextOriginalAmount.getText().toString();
             String finalFromCurrencyStr = spinnerFrom.getSelectedItem().toString();
             String finalToCurrencyStr = spinnerTo.getSelectedItem().toString();
+//            String originalAmountStr = "2000.00";
+//            String finalFromCurrencyStr = "USD";
+//            String finalToCurrencyStr = "EUR";
             try {
                 Conversion newConversion = convert(originalAmountStr, finalFromCurrencyStr, finalToCurrencyStr);
                 handler.post(() -> textViewConvertedAmount.setText(newConversion.getConvertedAmount()));
