@@ -13,6 +13,12 @@
     <string name="string_spinner_from_currency">Select the currency you want to convert from</string>
     <string name="string_spinner_to_currency">Select the currency you want to convert to</string>
     <string name="string_button_history">History</string>
+    <string name="string_history_from">From</string>
+    <string name="string_history_to">To</string>
+    <string name="string_equal_currency_icon">Arrows indicating two currencies are equal in value</string>
+    <string name="string_from_amount_row">amount</string>
+    <string name="string_to_amount_row">amount</string>
+    <string name="string_to_currency_row">currency</string>
     <string-array name="currencies">
         <item>USD</item>
         <item>EUR</item>

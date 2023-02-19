@@ -2,7 +2,6 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.a6;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -32,15 +31,13 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 
 public class AtYourService extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    EditText editTextOriginalAmount;
-    TextView textViewConvertedAmount;
+    private EditText editTextOriginalAmount;
+    private TextView textViewConvertedAmount;
     private final Handler handler = new Handler();
-    Spinner spinnerFrom;
-    Spinner spinnerTo;
-    String fromCurrencyStr;
-    String toCurrencyStr;
+    private Spinner spinnerFrom;
+    private Spinner spinnerTo;
 
-    ArrayList<Conversion> conversionList;
+    private ArrayList<Conversion> conversionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class AtYourService extends AppCompatActivity implements View.OnClickList
         // Initialize the conversionList that stores all Conversion objects
         conversionList = new ArrayList<>();
 
-        // credit: https://www.youtube.com/watch?v=on_OrrX7Nw4
+        // Credit: https://www.youtube.com/watch?v=on_OrrX7Nw4
         // Create the Spinner objects for selecting from currency and to currency
         spinnerFrom = findViewById(R.id.spinner_from_currency);
         spinnerTo = findViewById(R.id.spinner_to_currency);
@@ -135,9 +132,12 @@ public class AtYourService extends AppCompatActivity implements View.OnClickList
             CurrencyConvertRunnable currencyConvertRunnable = new CurrencyConvertRunnable();
             new Thread(currencyConvertRunnable).start();
         }
+        // Transfer conversionList to the new activity brought up with clicking the "History" button
+        // Credit: https://medium.com/android-news/passing-data-between-activities-using-intent-in-android-85cb097f3016
         else if (viewId == R.id.button_history) {
             Intent intent = new Intent(AtYourService.this, ActivityConversionHistory.class);
             intent.putParcelableArrayListExtra("conversion list", conversionList);
+            startActivity(intent);
         }
     }
 
@@ -146,13 +146,7 @@ public class AtYourService extends AppCompatActivity implements View.OnClickList
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        int viewId = view.getId();
-        if (viewId == R.id.spinner_from_currency) {
-            fromCurrencyStr = adapterView.getItemAtPosition(i).toString();
-        }
-        else if (viewId == R.id.spinner_to_currency) {
-            toCurrencyStr = adapterView.getItemAtPosition(i).toString();
-        }
+
     }
 
     @Override
@@ -165,11 +159,9 @@ public class AtYourService extends AppCompatActivity implements View.OnClickList
         @Override
         public void run() {
             String originalAmountStr = editTextOriginalAmount.getText().toString();
+            // The 3-letter currencies are the selected items in the spinners
             String finalFromCurrencyStr = spinnerFrom.getSelectedItem().toString();
             String finalToCurrencyStr = spinnerTo.getSelectedItem().toString();
-//            String originalAmountStr = "2000.00";
-//            String finalFromCurrencyStr = "USD";
-//            String finalToCurrencyStr = "EUR";
             try {
                 Conversion newConversion = convert(originalAmountStr, finalFromCurrencyStr, finalToCurrencyStr);
                 handler.post(() -> textViewConvertedAmount.setText(newConversion.getConvertedAmount()));
@@ -179,15 +171,15 @@ public class AtYourService extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("conversion list", conversionList);
-        outState.putString("from amount", textViewConvertedAmount.getText().toString());
-        outState.putString("to amount", editTextOriginalAmount.getText().toString());
-        // Save spinner selection state for screen rotation
-        // Credit: https://stackoverflow.com/questions/48601676/how-to-handle-spinners-when-screen-orientation-changes
-        outState.putInt("from currency selection", spinnerFrom.getSelectedItemPosition());
-        outState.putInt("to currency selection", spinnerTo.getSelectedItemPosition());
-    }
+//    @Override
+//    protected void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putParcelableArrayList("conversion list", conversionList);
+//        outState.putString("from amount", textViewConvertedAmount.getText().toString());
+//        outState.putString("to amount", editTextOriginalAmount.getText().toString());
+//        // Save spinner selection state for screen rotation
+//        // Credit: https://stackoverflow.com/questions/48601676/how-to-handle-spinners-when-screen-orientation-changes
+//        outState.putInt("from currency selection", spinnerFrom.getSelectedItemPosition());
+//        outState.putInt("to currency selection", spinnerTo.getSelectedItemPosition());
+//    }
 }
