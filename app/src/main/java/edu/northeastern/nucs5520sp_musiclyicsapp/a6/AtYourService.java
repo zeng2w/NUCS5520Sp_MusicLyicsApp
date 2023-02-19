@@ -95,7 +95,6 @@ public class AtYourService extends AppCompatActivity implements View.OnClickList
         int status = request.getResponseCode();
         System.out.println("status: " + status);
 
-
         if (status == HttpURLConnection.HTTP_OK) {
             // Build JSON object
             // Credit: https://www.digitalocean.com/community/tutorials/java-httpurlconnection-example-java-http-request-get-post
@@ -170,16 +169,4 @@ public class AtYourService extends AppCompatActivity implements View.OnClickList
             }
         }
     }
-
-//    @Override
-//    protected void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putParcelableArrayList("conversion list", conversionList);
-//        outState.putString("from amount", textViewConvertedAmount.getText().toString());
-//        outState.putString("to amount", editTextOriginalAmount.getText().toString());
-//        // Save spinner selection state for screen rotation
-//        // Credit: https://stackoverflow.com/questions/48601676/how-to-handle-spinners-when-screen-orientation-changes
-//        outState.putInt("from currency selection", spinnerFrom.getSelectedItemPosition());
-//        outState.putInt("to currency selection", spinnerTo.getSelectedItemPosition());
-//    }
 }
