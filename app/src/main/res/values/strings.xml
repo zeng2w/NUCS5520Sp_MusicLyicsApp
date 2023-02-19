@@ -5,4 +5,39 @@
     <string name="string_button_test">Test</string>
     <string name="string_output">Output:</string>
     <string name="string_input_url">Type url here:</string>
+    <string name="string_amount_to_be_converted_e_g_123_45">Amount (e.g., 123.45)</string>
+    <string name="string_currency_to">To:</string>
+    <string name="string_currency_from">From:</string>
+    <string name="string_button_convert">Convert</string>
+    <string name="string_result_null">-</string>
+    <string name="string_spinner_from_currency">Select the currency you want to convert from</string>
+    <string name="string_spinner_to_currency">Select the currency you want to convert to</string>
+    <string name="string_button_history">History</string>
+    <string-array name="currencies">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>JPY</item>
+        <item>GBP</item>
+        <item>AUD</item>
+        <item>CAD</item>
+        <item>CHF</item>
+        <item>CNY</item>
+        <item>SEK</item>
+        <item>MXN</item>
+        <item>NZD</item>
+        <item>SGD</item>
+        <item>HKD</item>
+        <item>NOK</item>
+        <item>KRW</item>
+        <item>TRY</item>
+        <item>INR</item>
+        <item>RUB</item>
+        <item>BRL</item>
+        <item>ZAR</item>
+        <item>DKK</item>
+        <item>PLN</item>
+        <item>TWD</item>
+        <item>THB</item>
+        <item>MYR</item>
+    </string-array>
 </resources>
