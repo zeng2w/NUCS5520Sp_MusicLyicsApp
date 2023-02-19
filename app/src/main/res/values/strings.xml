@@ -1,3 +1,14 @@
+<!--<resources>-->
+<!--    <string name="app_name">NUCS5520Sp_MusicLyicsApp</string>-->
+<!--</resources>-->
+
 <resources>
-    <string name="app_name">NUCS5520Sp_MusicLyicsApp</string>
+    <string name="app_name">NUCS5520Sp_MusicLyicsApp</string>-->
+    <string-array name="currencies">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>VND</item>
+        <item>KOR</item>
+        <item>YEN</item>
+    </string-array>
 </resources>
