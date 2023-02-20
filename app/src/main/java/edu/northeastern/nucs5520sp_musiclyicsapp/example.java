@@ -3,19 +3,15 @@ package edu.northeastern.nucs5520sp_musiclyicsapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -29,11 +25,6 @@ public class example<policy> extends AppCompatActivity {
 
     static String REQUEST_API1 = "https://api.exchangerate.host/convert?from=CNY&to=USD&amount=";
     static String REQUEST_API2 = "https://api.exchangerate.host/convert?from=USD&to=CNY&amount=";
-    private HttpURLConnection connection;
-    private BufferedReader bufferedReader;
-    private InputStream inputStream;
-    private String res;
-    private String rate;
 
 
     @Override
@@ -58,9 +49,10 @@ public class example<policy> extends AppCompatActivity {
                 String rateS = "";
                 String cnS = "";
 
-                if ("".equals(usdS)) {
-                    usdD = 0;
-                    cnS = "";
+                if ("".equals(usdS) || "0".equals(usdS)) {
+                    tv_cn.setText("0");
+                    tv_usd.setText("0");
+                    return;
                 } else {
                     usdD = Double.valueOf(usdS);
                     cnS = getInfoFromServer(usdD,REQUEST_API2)[0];
@@ -86,8 +78,10 @@ public class example<policy> extends AppCompatActivity {
                 String cnS = tv_cn.getText().toString();
                 double cnD;
 
-                if ("".equals(cnS)) {
-                    cnD = 0;
+                if ("".equals(cnS) || "0".equals(cnS)) {
+                    tv_cn.setText("0");
+                    tv_usd.setText("0");
+                    return;
                 } else {
                     cnD = Double.valueOf(cnS);
                 }

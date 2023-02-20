@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
         buttonAtYourService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, WebServiceActivity.class);
-//                startActivity(intent);
                 Intent intent = new Intent(MainActivity.this, example.class);
                 startActivity(intent);
             }
