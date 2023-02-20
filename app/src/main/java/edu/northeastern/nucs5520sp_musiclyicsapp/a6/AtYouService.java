@@ -37,6 +37,7 @@ public class AtYouService extends AppCompatActivity {
     EditText amountInput;
     Spinner fromCurrency;
     Spinner toCurrency;
+    webServiceThread webThread;
 
 
     String[] currency = { "USD", "EUR",
@@ -88,49 +89,49 @@ public class AtYouService extends AppCompatActivity {
             }
         });
 
-
+        Button covertButton = findViewById(R.id.convertButton);
+        covertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webThread = new webServiceThread();
+                webThread.start();
+            }
+        });
     }
+
 
     class webServiceThread extends Thread{
         @Override
         public void run(){
-            Button covertButton = findViewById(R.id.convertButton);
-            covertButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String input = amountInput.getText().toString();
-                    try{
+
+            String input = amountInput.getText().toString();
+            try{
 //                        String url_str = "https://api.exchangerate.host/convert?from=USD&to=EUR";
-                        String url_str = "https://api.exchangerate.host/convert?from=" + currencyFrom +"&to=" + currencyTo +"&amount=" + input ;
+                String url_str = "https://api.exchangerate.host/convert?from=" + currencyFrom +"&to="
+                        + currencyTo +"&amount=" + input ;
 
-                        URL url = new URL(url_str);
-                        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+                URL url = new URL(url_str);
+                HttpURLConnection request = (HttpURLConnection) url.openConnection();
 
-                        request.connect();
-                        JsonParser jp = new JsonParser();
-                        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
-                        JsonObject jsonobj = root.getAsJsonObject();
+                request.connect();
+                JsonParser jp = new JsonParser();
+                JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                JsonObject jsonobj = root.getAsJsonObject();
 
-                        String req_result = jsonobj.get("result").getAsString();
+                String req_result = jsonobj.get("result").getAsString();
+                output.setText(req_result);
 
 
-//                        Toast.makeText(getApplicationContext(),currencyFrom, Toast.LENGTH_LONG).show();
-//                        Toast.makeText(getApplicationContext(),req_result, Toast.LENGTH_LONG).show();
-                        textHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                output.setText(req_result);
-                            }
-                        });
-                        Log.d(TAG, req_result);
+
+                Log.d(TAG, req_result);
 
 //                        output.setText(req_result);
 
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+
         }
 
     }
