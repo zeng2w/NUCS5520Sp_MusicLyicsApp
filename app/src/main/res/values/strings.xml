@@ -24,6 +24,12 @@
     <string name="string_username">Username</string>
     <string name="string_sign_up"><u>Sign Up</u></string>
     <string name="string_new_to_this_app">New to this app?</string>
+    <string name="string_forgot_your_username">Forgot your username?</string>
+    <string name="string_recover_username"><u>Recover</u></string>
+    <string name="email_for_username_recovery_optional">Email for username recovery (optional)</string>
+    <string name="string_sign_up_button">Sign Up</string>
+    <string name="string_already_a_user">Already a user?</string>
+    <string name="string_log_in_button"><u>Log In</u></string>
     <string-array name="currencies">
         <item>USD</item>
         <item>EUR</item>

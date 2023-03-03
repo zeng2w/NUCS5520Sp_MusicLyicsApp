@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".a8.ActivitySignUp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <EditText
+        android:id="@+id/editTextTextUsernameSignUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/string_username"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextRecoveryEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextTextRecoveryEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/email_for_username_recovery_optional"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextUsernameSignUp"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextUsernameSignUp"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/buttonSignUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/string_sign_up_button"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextRecoveryEmail"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextRecoveryEmail"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <TextView
+        android:id="@+id/textViewAlreadyAUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/string_already_a_user"
+        app:layout_constraintEnd_toStartOf="@+id/textViewLogIn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/buttonSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignUp" />
+
+    <TextView
+        android:id="@+id/textViewLogIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/string_log_in_button"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAlreadyAUser"
+        app:layout_constraintEnd_toEndOf="@+id/buttonSignUp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewAlreadyAUser"
+        app:layout_constraintTop_toTopOf="@+id/textViewAlreadyAUser" />
+</androidx.constraintlayout.widget.ConstraintLayout>
