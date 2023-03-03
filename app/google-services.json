@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "70399928626",
+    "firebase_url": "https://a8-project-2bba9-default-rtdb.firebaseio.com",
+    "project_id": "a8-project-2bba9",
+    "storage_bucket": "a8-project-2bba9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70399928626:android:ce402571d2e375025fcf2b",
+        "android_client_info": {
+          "package_name": "edu.northeastern.nucs5520sp_musiclyicsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70399928626-7op7ob7p82r5f9hcevsl4l16l0aja0pq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTT-DOmDJqRzj6YyaZLQarhn6eZt8UEd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70399928626-7op7ob7p82r5f9hcevsl4l16l0aja0pq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
