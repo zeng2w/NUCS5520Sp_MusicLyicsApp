@@ -19,6 +19,7 @@
     <string name="string_from_amount_row">amount</string>
     <string name="string_to_amount_row">amount</string>
     <string name="string_to_currency_row">currency</string>
+    <string name="string_stick_it_to_em">Stick It To \'Em</string>
     <string-array name="currencies">
         <item>USD</item>
         <item>EUR</item>

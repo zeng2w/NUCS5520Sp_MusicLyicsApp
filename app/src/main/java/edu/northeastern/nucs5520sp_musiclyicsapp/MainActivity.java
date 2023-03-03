@@ -1,22 +1,16 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYourService;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.ActivityStickItToEm;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    TextView teamName;
-    Button buttonAtYourService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +25,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (viewId == R.id.buttonAtYourService) {
             Intent intentAtYourService = new Intent(MainActivity.this, AtYourService.class);
             startActivity(intentAtYourService);
+        }
+        else if (viewId == R.id.buttonStickItToEm) {
+            Intent intentStickItToEm = new Intent(MainActivity.this, ActivityStickItToEm.class);
+            startActivity(intentStickItToEm);
         }
     }
 }
