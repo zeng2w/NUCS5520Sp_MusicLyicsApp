@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pic2"
     tools:context=".MainActivity">
 
     <TextView
@@ -22,12 +23,36 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="50dp"
-        android:onClick="onClick"
-        android:text="@string/string_button_at_your_service"
+        android:backgroundTint="@color/teal_700"
+        android:text="at your service"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_50percent_horizontal" />
+
+    <Button
+        android:id="@+id/buttonStickItToEm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:text="Stick It To Em"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_50percent_horizontal" />
+
+    <Button
+        android:id="@+id/buttonAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:text="about"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_50percent_horizontal"
+        app:layout_constraintVertical_bias="0.826" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_50percent_horizontal"

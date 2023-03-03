@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pic1"
     android:onClick="onClick"
     tools:context=".a6.AtYourService">
 
@@ -79,6 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:backgroundTint="@color/teal_700"
         android:onClick="onClick"
         android:text="@string/string_button_convert"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,6 +110,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:backgroundTint="@color/teal_700"
         android:onClick="onClick"
         android:text="@string/string_button_history"
         app:layout_constraintEnd_toEndOf="@+id/button_convert"
