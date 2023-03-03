@@ -22,6 +22,7 @@
     <string name="string_button_about">About</string>
     <string name="string_TeamName">Team 30</string>
     <string name="string_teamMember">Anh Hoang \nBolang Yu\nWanting Zeng\nYilei Bao\nZhenzhou Zhou</string>
+    <string name="string_stickIt">Stick It to Em</string>
     <string-array name="currencies">
         <item>USD</item>
         <item>EUR</item>

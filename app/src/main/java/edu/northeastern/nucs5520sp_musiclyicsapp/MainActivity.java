@@ -8,10 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYourService;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.StickItToEm;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (viewId == R.id.buttonAbout){
             Intent intentAbout = new Intent(MainActivity.this, GroupInformationActivity.class);
             startActivity(intentAbout);
+        } else if (viewId == R.id.buttonStickIt){
+            Intent intentStickIt = new Intent(MainActivity.this, StickItToEm.class);
+            startActivity(intentStickIt);
         }
     }
 }
