@@ -15,9 +15,6 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYourService;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView teamName;
-    Button buttonAtYourService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (viewId == R.id.buttonAtYourService) {
             Intent intentAtYourService = new Intent(MainActivity.this, AtYourService.class);
             startActivity(intentAtYourService);
+        } else if (viewId == R.id.buttonAbout){
+            Intent intentAbout = new Intent(MainActivity.this, GroupInformationActivity.class);
+            startActivity(intentAbout);
         }
     }
 }
