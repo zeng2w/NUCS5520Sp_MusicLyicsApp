@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "646542602585",
+    "project_id": "lyricsnow-41c2a",
+    "storage_bucket": "lyricsnow-41c2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646542602585:android:c1c07e2488c9e451c09c48",
+        "android_client_info": {
+          "package_name": "edu.northeastern.nucs5520sp_musiclyicsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646542602585-qga4bdgkc9i2u3l4bfh3370k2uk25t0t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-xieGnSR8PIS6fb8K2isL0LndoKLr1x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646542602585-qga4bdgkc9i2u3l4bfh3370k2uk25t0t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
