@@ -30,7 +30,8 @@
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_StickItToEm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_StickItToEm"
@@ -66,12 +67,14 @@
         android:id="@+id/textViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onClick"
         android:text="@string/string_sign_up"
         app:layout_constraintBottom_toBottomOf="@+id/textViewNewUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textViewNewUser"
-        app:layout_constraintTop_toTopOf="@+id/textViewNewUser" />
+        app:layout_constraintTop_toTopOf="@+id/textViewNewUser"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/textViewRecoverUsername"
@@ -83,7 +86,7 @@
         app:layout_constraintTop_toTopOf="@+id/textViewForgotUsername" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progressBarLogIn"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
