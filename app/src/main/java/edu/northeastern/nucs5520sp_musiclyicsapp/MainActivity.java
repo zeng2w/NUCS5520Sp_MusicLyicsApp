@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYourService;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.ActivityStickItToEm;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.ActivityLogIn;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intentAtYourService);
         }
         else if (viewId == R.id.buttonStickItToEm) {
-            Intent intentStickItToEm = new Intent(MainActivity.this, ActivityStickItToEm.class);
-            startActivity(intentStickItToEm);
+            Intent intentLogin = new Intent(MainActivity.this, ActivityLogIn.class);
+            startActivity(intentLogin);
         }
     }
 }

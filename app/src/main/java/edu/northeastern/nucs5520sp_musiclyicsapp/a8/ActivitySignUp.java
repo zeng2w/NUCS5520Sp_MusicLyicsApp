@@ -41,8 +41,9 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         int viewId = view.getId();
         if (viewId == R.id.textViewLogIn) {
-            Intent intentLogIn = new Intent(ActivitySignUp.this, ActivityStickItToEm.class);
-            startActivity(intentLogIn);
+            // Same as pressing the back button; go back to log in page, but won't automatically
+            // log in if there's a current user logged in.
+            finish();
         }
         else if (viewId == R.id.buttonSignUp) {
             signUp();
@@ -93,10 +94,12 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
                                 .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                 .setValue(user).addOnCompleteListener(task1 -> {
                                     // Display a Toast if user is successfully added to database
+                                    // Lead to main chat page.
                                     if (task1.isSuccessful()) {
                                         Toast.makeText(ActivitySignUp.this,
                                                 successMsg,
                                                 Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(ActivitySignUp.this, ActivityChatMain.class));
                                     }
                                     else {
                                         Toast.makeText(ActivitySignUp.this,
@@ -109,8 +112,9 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
                     // If the sign up is not successful, make a toast.
                     else {
                         Toast.makeText(ActivitySignUp.this,
-                                "Failed to register. Please retry",
+                                "Failed to register. User already exists",
                                 Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
     }
