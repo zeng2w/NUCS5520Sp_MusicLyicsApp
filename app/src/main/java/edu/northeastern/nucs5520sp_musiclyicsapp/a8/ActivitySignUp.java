@@ -1,21 +1,16 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,7 +23,6 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth mAuth;
     private EditText editTextUsername, editTextEmail;
     private ProgressBar progressBar;
-    private final String blockedCharSet = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,25 +81,29 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
         // Create new user and add the new user to Firebase Realtime Database
         // Credit to: https://www.youtube.com/watch?v=Z-RE1QuUWPg
         String finalUsernameStr = usernameStr;
-        mAuth.createUserWithEmailAndPassword(usernameStr, "password")
+        mAuth.createUserWithEmailAndPassword(emailStr, "password")
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         // Create User object.
                         User user = new User(finalUsernameStr, emailStr);
-
                         String successMsg = String.format("%s has been registered successfully", finalUsernameStr);
                         // Add user to database
                         FirebaseDatabase.getInstance()
                                 .getReference("Users")
                                 .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                 .setValue(user).addOnCompleteListener(task1 -> {
-                                    // When the sign up process is complete, display a toast
-                                    // and hide the progressBar.
-                                    Toast.makeText(ActivitySignUp.this,
-                                            "User has been registered successfully",
-                                            Toast.LENGTH_LONG).show();
+                                    // Display a Toast if user is successfully added to database
+                                    if (task1.isSuccessful()) {
+                                        Toast.makeText(ActivitySignUp.this,
+                                                successMsg,
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        Toast.makeText(ActivitySignUp.this,
+                                                "Failed to add new user to database",
+                                                Toast.LENGTH_LONG).show();
+                                    }
                                     progressBar.setVisibility(View.GONE);
-
                                 });
                     }
                     // If the sign up is not successful, make a toast.
@@ -115,7 +113,6 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
                                 Toast.LENGTH_LONG).show();
                     }
                 });
-
     }
 
     /**
@@ -123,6 +120,7 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
      * Credit to: https://stackoverflow.com/questions/21828323/how-can-restrict-my-edittext-input-to-some-special-character-like-backslash-t
      */
     private final InputFilter usernameFilter = (charSequence, i, i1, spanned, i2, i3) -> {
+        String blockedCharSet = " ";
         if (charSequence!= null && blockedCharSet.contains("" + charSequence)) {
             return "";
         }
