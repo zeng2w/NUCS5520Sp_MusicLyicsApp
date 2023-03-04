@@ -33,7 +33,7 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
 
         editTextUsername = findViewById(R.id.editTextTextUsernameSignUp);
         editTextUsername.setFilters(new InputFilter[] {usernameFilter});
-        editTextEmail = findViewById(R.id.editTextTextRecoveryEmail);
+        editTextEmail = findViewById(R.id.editTextEmailSignUp);
         progressBar = findViewById(R.id.progressBarSignUp);
     }
 

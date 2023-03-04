@@ -32,7 +32,7 @@
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/editTextTextRecoveryEmail"
+        android:id="@+id/editTextEmailSignUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
@@ -54,8 +54,8 @@
         android:layout_marginTop="15dp"
         android:onClick="onClick"
         android:text="@string/string_sign_up_button"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextRecoveryEmail"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextRecoveryEmail"
+        app:layout_constraintEnd_toEndOf="@+id/editTextEmailSignUp"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmailSignUp"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <TextView

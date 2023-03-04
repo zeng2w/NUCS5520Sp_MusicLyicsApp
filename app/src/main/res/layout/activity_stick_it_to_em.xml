@@ -7,7 +7,7 @@
     tools:context=".a8.ActivityStickItToEm">
 
     <EditText
-        android:id="@+id/editTextUsername"
+        android:id="@+id/editTextEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -16,7 +16,7 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/string_email"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_StickItToEm"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,8 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="@string/string_log_in"
-        app:layout_constraintEnd_toEndOf="@+id/editTextUsername"
-        app:layout_constraintStart_toStartOf="@+id/editTextUsername"
+        app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmail"
         app:layout_constraintTop_toTopOf="@+id/guideline_StickItToEm" />
 
     <TextView
