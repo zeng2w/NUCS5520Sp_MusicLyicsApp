@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 
 public class ActivityLogIn extends AppCompatActivity implements View.OnClickListener {
@@ -21,7 +22,6 @@ public class ActivityLogIn extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth;
     private EditText editTextEmail;
     private ProgressBar progressBar;
-    private FirebaseUser firebaseUser;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -36,7 +36,7 @@ public class ActivityLogIn extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
 
         // If there is a current user, then automatically open the main chat ActivityChatMain.
-        firebaseUser = mAuth.getCurrentUser();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if (firebaseUser != null) {
             startActivity(new Intent(ActivityLogIn.this, ActivityChatMain.class));
         }
@@ -92,5 +92,9 @@ public class ActivityLogIn extends AppCompatActivity implements View.OnClickList
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ActivityLogIn.this, MainActivity.class));
+        finish();
+    }
 }
