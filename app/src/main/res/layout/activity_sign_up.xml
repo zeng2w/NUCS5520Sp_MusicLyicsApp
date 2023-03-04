@@ -25,9 +25,11 @@
         android:hint="@string/string_username"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextRecoveryEmail"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/editTextTextRecoveryEmail"
@@ -36,11 +38,12 @@
         android:layout_marginBottom="15dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/email_for_username_recovery_optional"
+        android:hint="@string/string_email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextUsernameSignUp"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextUsernameSignUp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editTextTextUsernameSignUp"
         tools:ignore="TextContrastCheck" />
 
@@ -49,6 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:onClick="onClick"
         android:text="@string/string_sign_up_button"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextRecoveryEmail"
         app:layout_constraintStart_toStartOf="@+id/editTextTextRecoveryEmail"

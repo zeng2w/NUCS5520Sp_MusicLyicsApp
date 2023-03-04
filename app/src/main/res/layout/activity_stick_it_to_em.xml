@@ -6,26 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".a8.ActivityStickItToEm">
 
-    <TextView
-        android:id="@+id/textViewForgotUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/string_forgot_your_username"
-        app:layout_constraintEnd_toEndOf="@+id/textViewNewUser"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNewUser" />
-
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="15dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/string_username"
+        android:hint="@string/string_email"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_StickItToEm"
@@ -46,8 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="@string/string_log_in"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/editTextUsername"
+        app:layout_constraintStart_toStartOf="@+id/editTextUsername"
         app:layout_constraintTop_toTopOf="@+id/guideline_StickItToEm" />
 
     <TextView
@@ -75,15 +65,6 @@
         app:layout_constraintStart_toEndOf="@+id/textViewNewUser"
         app:layout_constraintTop_toTopOf="@+id/textViewNewUser"
         tools:ignore="TouchTargetSizeCheck" />
-
-    <TextView
-        android:id="@+id/textViewRecoverUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/string_recover_username"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewForgotUsername"
-        app:layout_constraintStart_toStartOf="@+id/textViewSignUp"
-        app:layout_constraintTop_toTopOf="@+id/textViewForgotUsername" />
 
     <ProgressBar
         android:id="@+id/progressBarLogIn"
