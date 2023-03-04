@@ -15,18 +15,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.NUCS5520Sp_MusicLyicsApp"
-        tools:targetApi="31"
         android:usesCleartextTraffic="true"
-        >
+        tools:targetApi="31">
+        <activity
+            android:name=".a8.CheckStickerHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".a8.SendStickerActivity"
+            android:exported="false" />
         <activity
             android:name=".a8.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".a8.StickItToEm"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
-            >
-        </activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".GroupInformationActivity"
             android:exported="false" />

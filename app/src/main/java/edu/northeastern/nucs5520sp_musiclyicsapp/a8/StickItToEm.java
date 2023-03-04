@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +30,8 @@ public class StickItToEm extends AppCompatActivity {
     private Button loginButton;
     private Button signUpButton;
 
-    String username, email, password;
+    String username, email;
+    private final String password = "12345671111";
     DatabaseReference databaseReference;
 
     @Override
@@ -50,13 +52,16 @@ public class StickItToEm extends AppCompatActivity {
             public void onClick(View v) {
                 //username = usernameText.getText().toString();
                 email = binding.emailInput.getText().toString();
-                password = "1234567";
-                login();
+
+                if(TextUtils.isEmpty(email)){
+                    Toast.makeText(StickItToEm.this, "Email is empty", Toast.LENGTH_SHORT).show();
+                } else{
+                    login();
+                }
 
 
-                Toast.makeText(StickItToEm.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                //User user = new User(username);
+
             }
 
         });
@@ -66,9 +71,6 @@ public class StickItToEm extends AppCompatActivity {
             public void onClick(View v) {
                 username = binding.usernameInput.getText().toString();
                 email = binding.emailInput.getText().toString();
-
-                //email = emailText.getText().toString();
-                password = "1234567111";
                 if(TextUtils.isEmpty(username) || TextUtils.isEmpty(email)){
                     Toast.makeText(StickItToEm.this, "Empty input", Toast.LENGTH_SHORT).show();
                 } else{
@@ -81,8 +83,7 @@ public class StickItToEm extends AppCompatActivity {
     }
 
     private void signUp() {
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.trim(), password.trim())
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.trim(), password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
@@ -103,15 +104,22 @@ public class StickItToEm extends AppCompatActivity {
     }
 
     private void login() {
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.trim(), password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+        Log.d("email", email);
+        Log.d("password", password);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email.trim(), password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
                 UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 firebaseUser.updateProfile(userProfileChangeRequest);
+                Toast.makeText(StickItToEm.this, "Login successful!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(StickItToEm.this, HomeActivity.class));
                 finish();
             }
+        }).addOnFailureListener(er -> {
+            Log.d("login error", er.getMessage());
+            Toast.makeText(StickItToEm.this, "" + er.getMessage(), Toast.LENGTH_SHORT).show();
+
         });
     }
 

@@ -3,7 +3,6 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,23 +20,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
-    private ArrayList<User> userList = new ArrayList<>();
-
-    private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
-    private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
 
     ActivityHomeBinding binding;
     DatabaseReference databaseReference;
 
     UserAdapter userAdapter;
 
-
+    private TextView currentUserText;
 
 
     @Override
@@ -43,6 +39,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        currentUserText = findViewById(R.id.userLogin);
 
         userAdapter = new UserAdapter(this);
         binding.recycler.setAdapter(userAdapter);
@@ -70,6 +68,9 @@ public class HomeActivity extends AppCompatActivity {
                         userAdapter.add(user);
                         userAdapter.notifyDataSetChanged();
                     }
+                    else{
+                        currentUserText.setText("Current User: " + dataSnapshot.child("username").getValue().toString());
+                    }
                 }
             }
 
@@ -80,10 +81,16 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+        binding.historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, CheckStickerHistoryActivity.class));
+                finish();
+            }
+        });
+
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

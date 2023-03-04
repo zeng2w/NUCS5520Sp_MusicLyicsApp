@@ -1,9 +1,11 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +46,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder>{
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         User user = userList.get(position);
         holder.name.setText(user.getUsername());
+        holder.email.setText(user.getEmail());
+
+        Intent intent = new Intent(context, SendStickerActivity.class);
+        intent.putExtra("userId", user.getUserId());
+        intent.putExtra("name", user.getUsername());
+        intent.putExtra("email", user.getEmail());
+
+        holder.sendStickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivities(new Intent[]{intent});
+            }
+        });
+
 
     }
 
@@ -54,10 +70,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder>{
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView name;
+        private TextView email;
+        private Button sendStickerButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.userName);
+            email = itemView.findViewById(R.id.email);
+            sendStickerButton = itemView.findViewById(R.id.send);
         }
+
     }
 }
