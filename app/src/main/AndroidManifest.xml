@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".a8.StickersListActivity"
+            android:exported="false" />
+        <activity
             android:name=".a8.CheckStickerHistoryActivity"
             android:exported="false" />
         <activity
