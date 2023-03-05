@@ -9,7 +9,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +24,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
@@ -32,10 +36,13 @@ public class SendStickerActivity extends AppCompatActivity {
     private String recieverId;
     private String recieverName;
     private String recieverEmail;
+    private String currentUserId;
+    private String currentUserName;
     private String chosenImage;
 
-    DatabaseReference databaseReferenceSender;
-    DatabaseReference databaseReferenceReciever;
+    DatabaseReference databaseReferenceSendImages;
+    DatabaseReference databaseReferenceReceiveImages;
+    DatabaseReference databaseReference;
 
 
     //String senderRoom, recieverRoom;
@@ -71,7 +78,7 @@ public class SendStickerActivity extends AppCompatActivity {
         binding.SendImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage();
+                sendImage();
             }
         });
 
@@ -81,6 +88,30 @@ public class SendStickerActivity extends AppCompatActivity {
         recieverEmail = intent.getStringExtra("email");
         chosenImage = intent.getStringExtra("imageSrc");
 
+        currentUserId = FirebaseAuth.getInstance().getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    String uid = dataSnapshot.getKey();
+                    if(uid.equals(FirebaseAuth.getInstance().getUid())){
+//                        String userId = dataSnapshot.child("userId").getValue().toString();
+                        String username = dataSnapshot.child("username").getValue().toString();
+//                        String email = dataSnapshot.child("email").getValue().toString();
+//                        String password = dataSnapshot.child("password").getValue().toString();
+                        currentUserName = username;
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         binding.sendToText.setText("Send Sticker To: " + recieverName);
         if(chosenImage != null) {
             binding.selectedImageView.setImageResource(Integer.parseInt(chosenImage));
@@ -89,11 +120,24 @@ public class SendStickerActivity extends AppCompatActivity {
 //        senderRoom = FirebaseAuth.getInstance().getUid() + recieverId;
 //        recieverRoom = recieverId + FirebaseAuth.getInstance().getUid();
 
-//        databaseReferenceSender = FirebaseDatabase.getInstance().getReference("sendImage").child(senderRoom);
-//        databaseReferenceReciever = FirebaseDatabase.getInstance().getReference("sendImage").child(recieverRoom);
+        databaseReferenceSendImages = FirebaseDatabase.getInstance().getReference("sendImages").child(currentUserId);
+        databaseReferenceReceiveImages = FirebaseDatabase.getInstance().getReference("ReceiveImages").child(recieverId);
 
+//        databaseReferenceSendImages.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    ImageModel imageModel = dataSnapshot.getValue(ImageModel.class);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
-//        databaseReferenceSender.addValueEventListener(new ValueEventListener() {
+//        databaseReferenceReceiveImages.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
 //                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
@@ -129,51 +173,44 @@ public class SendStickerActivity extends AppCompatActivity {
         goSelectImageActivity.putExtra("receiverName", recieverName);
         goSelectImageActivity.putExtra("receiverEmail", recieverEmail);
 
-
         startActivity(goSelectImageActivity);
         finish();
 
-        // defining implicit intent to mobile gallery
-//        Intent selectImageIntent = new Intent();
-//        selectImageIntent.setType("image/*");
-//        selectImageIntent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(selectImageIntent, "Select Sticker from here..."),
-//                PICK_IMAGE_REQUEST);
     }
 
-    // override onActivityResult method
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // checking request code and result code
-        //if request code is PICK_IMAGE_REQUEST and
-        // resultCode is RESULT_OK
-        // then set image in the image view
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
-            // get the uri of data
-            filePath = data.getData();
-            try {
-                // setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                binding.selectedImageView.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+    private void sendImage() {
+        String imageId = UUID.randomUUID().toString();
+        if(chosenImage != null){
+            DateTimeFormatter dtf = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            }
+            LocalDateTime now = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                now = LocalDateTime.now();
+            }
+            ImageModel imageModel = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+                imageModel = new ImageModel(imageId, chosenImage, currentUserId,currentUserName,recieverId,recieverName,dtf.format(now));
+                databaseReferenceSendImages.child(imageId).setValue(imageModel);
+                databaseReferenceReceiveImages.child(imageId).setValue(imageModel);
+
+                Toast.makeText(SendStickerActivity.this, "Send Image Successful!", Toast.LENGTH_SHORT).show();
+
             }
 
+        } else{
+            Toast.makeText(SendStickerActivity.this, "not choose a sticker yet", Toast.LENGTH_SHORT).show();
+
         }
-
-    }
-
-    private void uploadImage() {
     }
 
 
-    private void sendImage(String imageSrc) {
-        String imageId = UUID.randomUUID().toString();
-        ImageModel imageModel = new ImageModel(imageId, FirebaseAuth.getInstance().getUid(), imageSrc, recieverId);
-        databaseReferenceSender.child(imageId).setValue(imageModel);
-        databaseReferenceReciever.child(imageId).setValue(imageModel);
-    }
+//    private void sendImage(String imageSrc) {
+//        String imageId = UUID.randomUUID().toString();
+//        ImageModel imageModel = new ImageModel(imageId, FirebaseAuth.getInstance().getUid(), imageSrc, recieverId);
+//        databaseReferenceSender.child(imageId).setValue(imageModel);
+//        databaseReferenceReciever.child(imageId).setValue(imageModel);
+//    }
 }

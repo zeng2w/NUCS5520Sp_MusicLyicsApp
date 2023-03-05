@@ -87,8 +87,9 @@ public class StickersListActivity extends AppCompatActivity {
         }
         getChosenIntent.putExtra("userId", recieverId);
         getChosenIntent.putExtra("name", recieverName);
-        getChosenIntent.putExtra("email", recieverEmail);        startActivity(getChosenIntent);
+        getChosenIntent.putExtra("email", recieverEmail);
 
+        startActivity(getChosenIntent);
         finish();
 
     }

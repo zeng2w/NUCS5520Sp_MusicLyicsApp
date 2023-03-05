@@ -21,9 +21,6 @@
             android:name=".a8.CheckSentStickersDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".a8.ReceivedStickerHistoryActivity"
-            android:exported="false" />
-        <activity
             android:name=".a8.StickersListActivity"
             android:exported="false" />
         <activity

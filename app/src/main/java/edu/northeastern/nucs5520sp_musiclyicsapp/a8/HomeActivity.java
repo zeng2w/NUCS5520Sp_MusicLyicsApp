@@ -89,6 +89,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        binding.checkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, CheckSentStickersDetailsActivity.class));
+                finish();
+            }
+        });
+
 
     }
 
