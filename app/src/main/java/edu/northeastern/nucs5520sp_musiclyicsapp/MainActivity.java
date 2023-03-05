@@ -1,15 +1,11 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYourService;
 
@@ -33,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intentAbout);
         }
         else if(viewId == R.id.firebase){
-            Intent intentFirebase = new Intent(MainActivity.this,loginPage.class);
+            Intent intentFirebase = new Intent(MainActivity.this, login.class);
             startActivity(intentFirebase);
         }
     }
