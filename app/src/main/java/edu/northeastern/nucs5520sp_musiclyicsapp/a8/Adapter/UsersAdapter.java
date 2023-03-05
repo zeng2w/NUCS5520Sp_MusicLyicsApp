@@ -1,10 +1,10 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.ActivityMessage;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.User;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> {
@@ -38,6 +39,15 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         User user = usersList.get(position);
         holder.username.setText(user.getUsername());
         holder.email.setText(user.getEmail());
+
+        // If a user is clicked, go to the message page with that user.
+        // Credit: https://www.youtube.com/watch?v=KB2BIm_m1Os
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ActivityMessage.class);
+            intent.putExtra("username", user.getUsername());
+            intent.putExtra("email", user.getEmail());
+            context.startActivity(intent);
+        });
     }
 
     @Override

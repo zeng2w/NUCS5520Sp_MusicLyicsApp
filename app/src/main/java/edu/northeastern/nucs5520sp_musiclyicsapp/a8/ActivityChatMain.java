@@ -34,6 +34,7 @@ public class ActivityChatMain extends AppCompatActivity {
 
     FirebaseUser currentUser;
     DatabaseReference currentUserRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,11 @@ public class ActivityChatMain extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+        // Enable the back button in Action Bar.
+        // Credit: https://stackoverflow.com/questions/15686555/display-back-button-on-action-bar
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Initialize the Tab Layout and View Pager objects on ActivityChatMain's UI.
         // Credit: https://www.youtube.com/watch?v=KB2BIm_m1Os
@@ -101,7 +107,15 @@ public class ActivityChatMain extends AppCompatActivity {
             finish();
             return true;
         }
-        return false;
+        // Back arrow button (upper left)
+        // Credit: https://stackoverflow.com/questions/15686555/display-back-button-on-action-bar
+        else if (itemId == android.R.id.home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -113,8 +127,8 @@ public class ActivityChatMain extends AppCompatActivity {
     // Credit: https://www.youtube.com/watch?v=KB2BIm_m1Os
     static class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        private ArrayList<Fragment> fragments;
-        private ArrayList<String> titles;
+        private final ArrayList<Fragment> fragments;
+        private final ArrayList<String> titles;
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);

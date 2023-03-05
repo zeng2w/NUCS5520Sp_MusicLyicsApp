@@ -1,5 +1,6 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,7 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
@@ -21,6 +26,7 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 public class ActivitySignUp extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseAuth mAuth;
+    private DatabaseReference ref;
     private EditText editTextUsername, editTextEmail;
     private ProgressBar progressBar;
 
@@ -30,9 +36,9 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_up);
 
         mAuth = FirebaseAuth.getInstance();
+        ref = FirebaseDatabase.getInstance().getReference("Users");
 
         editTextUsername = findViewById(R.id.editTextTextUsernameSignUp);
-        editTextUsername.setFilters(new InputFilter[] {usernameFilter});
         editTextEmail = findViewById(R.id.editTextEmailSignUp);
         progressBar = findViewById(R.id.progressBarSignUp);
 
@@ -89,11 +95,9 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
                     if(task.isSuccessful()) {
                         // Create User object.
                         User user = new User(finalUsernameStr, emailStr);
-                        String successMsg = String.format("%s has been registered successfully", finalUsernameStr);
+                        String successMsg = String.format("'%s' has been registered successfully", finalUsernameStr);
                         // Add user to database
-                        FirebaseDatabase.getInstance()
-                                .getReference("Users")
-                                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                        ref.child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                                 .setValue(user).addOnCompleteListener(task1 -> {
                                     // Display a Toast if user is successfully added to database
                                     // Lead to main chat page.
@@ -120,18 +124,4 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
                     }
                 });
     }
-
-    /**
-     * Input filter to block spaces in username entry
-     * Credit to: https://stackoverflow.com/questions/21828323/how-can-restrict-my-edittext-input-to-some-special-character-like-backslash-t
-     */
-    private final InputFilter usernameFilter = (charSequence, i, i1, spanned, i2, i3) -> {
-        String blockedCharSet = " ";
-        if (charSequence!= null && blockedCharSet.contains("" + charSequence)) {
-            return "";
-        }
-        return null;
-    };
-
-
 }

@@ -21,7 +21,7 @@
     <string name="string_to_currency_row">currency</string>
     <string name="string_stick_it_to_em">Stick It To \'Em</string>
     <string name="string_log_in">Log In</string>
-    <string name="string_username">Username (default is email; no space)</string>
+    <string name="string_username">Username (default is email)</string>
     <string name="string_sign_up"><u>Sign Up</u></string>
     <string name="string_new_to_this_app">New to this app?</string>
     <string name="string_email">Email</string>
