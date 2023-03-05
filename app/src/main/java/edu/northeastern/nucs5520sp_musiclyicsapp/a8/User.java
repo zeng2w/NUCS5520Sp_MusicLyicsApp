@@ -23,4 +23,8 @@ public class User {
     public String getUsername() {
         return this.username;
     }
+
+    public String getEmail() {
+        return this.email;
+    }
 }

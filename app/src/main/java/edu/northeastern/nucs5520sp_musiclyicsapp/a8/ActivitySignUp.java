@@ -35,6 +35,8 @@ public class ActivitySignUp extends AppCompatActivity implements View.OnClickLis
         editTextUsername.setFilters(new InputFilter[] {usernameFilter});
         editTextEmail = findViewById(R.id.editTextEmailSignUp);
         progressBar = findViewById(R.id.progressBarSignUp);
+
+        editTextEmail.requestFocus();
     }
 
     @Override
