@@ -1,15 +1,10 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,8 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -45,26 +38,12 @@ public class SendStickerActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
 
-    //String senderRoom, recieverRoom;
-
-    private Uri filePath;
-    private final int PICK_IMAGE_REQUEST = 22;
-    //int MY_RESULT_LOAD_IMAGE = 10;
-
-    // instance for firebase storage and StorageReference
-    FirebaseStorage storage;
-    StorageReference storageReference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         binding = ActivitySendStickerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        //get the Firebase storage reference
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
 
         //select sticker button
         binding.selectImageButton.setOnClickListener(new View.OnClickListener() {
@@ -117,8 +96,6 @@ public class SendStickerActivity extends AppCompatActivity {
             binding.selectedImageView.setImageResource(Integer.parseInt(chosenImage));
         }
 
-//        senderRoom = FirebaseAuth.getInstance().getUid() + recieverId;
-//        recieverRoom = recieverId + FirebaseAuth.getInstance().getUid();
 
         databaseReferenceSendImages = FirebaseDatabase.getInstance().getReference("sendImages").child(currentUserId);
         databaseReferenceReceiveImages = FirebaseDatabase.getInstance().getReference("ReceiveImages").child(recieverId);
@@ -206,11 +183,4 @@ public class SendStickerActivity extends AppCompatActivity {
         }
     }
 
-
-//    private void sendImage(String imageSrc) {
-//        String imageId = UUID.randomUUID().toString();
-//        ImageModel imageModel = new ImageModel(imageId, FirebaseAuth.getInstance().getUid(), imageSrc, recieverId);
-//        databaseReferenceSender.child(imageId).setValue(imageModel);
-//        databaseReferenceReciever.child(imageId).setValue(imageModel);
-//    }
 }

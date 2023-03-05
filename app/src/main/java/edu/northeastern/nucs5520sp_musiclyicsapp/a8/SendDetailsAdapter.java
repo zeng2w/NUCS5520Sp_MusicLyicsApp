@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,26 +21,20 @@ public class SendDetailsAdapter extends RecyclerView.Adapter<SendDetailsAdapter.
     private Context context;
     private List<ImageModel> imageModelList;
     private int sendTimes = 0;
-    private Map<String, Integer> image_sendTimes_map;
+    private Map<String, Integer> image_sendTimes_map = new HashMap<>();
 
     public SendDetailsAdapter(Context context){
         this.context = context;
         imageModelList = new ArrayList<>();
     }
     public void add(ImageModel imageModel){
-//        if(image_sendTimes_map.containsKey(imageModel.getImageName())){
-//
-//            image_sendTimes_map.put(imageModel.getImageName(), image_sendTimes_map.get(imageModel.getImageName())+1);
-//        } else{
-//            image_sendTimes_map.put(imageModel.getImageName(), image_sendTimes_map.getOrDefault(image_sendTimes_map, 0));
-//
-//        }
-
-        imageModelList.add(imageModel);
-        notifyDataSetChanged();
-
-
-
+        if(image_sendTimes_map.containsKey(imageModel.getImageName())){
+            image_sendTimes_map.put(imageModel.getImageName(), image_sendTimes_map.get(imageModel.getImageName())+1);
+        } else{
+            image_sendTimes_map.put(imageModel.getImageName(), 1);
+            imageModelList.add(imageModel);
+            notifyDataSetChanged();
+        }
 
 
     }
@@ -61,7 +56,7 @@ public class SendDetailsAdapter extends RecyclerView.Adapter<SendDetailsAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ImageModel imageModel = imageModelList.get(position);
         holder.imageView.setImageResource(Integer.parseInt(imageModel.getImageName()));
-        //holder.times.setText(image_sendTimes_map.get(imageModel.getImageName()));
+        holder.times.setText(String.valueOf(image_sendTimes_map.get(imageModel.getImageName())));
 
     }
 
