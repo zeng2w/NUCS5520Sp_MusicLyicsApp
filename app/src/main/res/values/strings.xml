@@ -2,9 +2,6 @@
     <string name="app_name">NUCS5520Sp_MusicLyicsApp</string>
     <string name="string_button_at_your_service">at your service</string>
     <string name="string_team_name">TEAM 30</string>
-    <string name="string_button_test">Test</string>
-    <string name="string_output">Output:</string>
-    <string name="string_input_url">Type url here:</string>
     <string name="string_amount_to_be_converted_e_g_123_45">Amount (e.g., 123.45)</string>
     <string name="string_currency_to">To:</string>
     <string name="string_currency_from">From:</string>
@@ -60,4 +57,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="string_username_row">username</string>
     <string name="string_email_row">email</string>
+    <string name="string_send_sticker">send sticker</string>
+    <string name="string_send">send</string>
+    <string name="string_women_s_head">Women\'s head</string>
 </resources>

@@ -1,16 +1,15 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,14 +18,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
-import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 
 /**
  * Class for the Message UI with a specific user.
  * Credit: https://www.youtube.com/watch?v=KB2BIm_m1Os
  */
-public class ActivityMessage extends AppCompatActivity {
+public class ActivityMessage extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseUser currentUser;
     // Points to all Users
@@ -89,4 +87,11 @@ public class ActivityMessage extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if (viewId == R.id.buttonSendSticker) {
+            startActivity(new Intent(ActivityMessage.this, ActivityStickerSelector.class));
+        }
+    }
 }
