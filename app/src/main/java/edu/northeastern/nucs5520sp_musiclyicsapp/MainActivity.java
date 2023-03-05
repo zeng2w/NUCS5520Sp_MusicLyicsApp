@@ -32,5 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intentAbout = new Intent(MainActivity.this, GroupInformationActivity.class);
             startActivity(intentAbout);
         }
+        else if(viewId == R.id.firebase){
+            Intent intentFirebase = new Intent(MainActivity.this,loginPage.class);
+            startActivity(intentFirebase);
+        }
     }
 }

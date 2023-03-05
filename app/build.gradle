@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -32,6 +33,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src\\main\\java', 'src\\main\\java\\a8', 'src\\main\\java\\nucs5520sp_musiclyicsapp\\a8'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -40,6 +48,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'org.jsoup:jsoup:1.15.3'
+    implementation 'com.google.firebase:firebase-database:20.0.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
