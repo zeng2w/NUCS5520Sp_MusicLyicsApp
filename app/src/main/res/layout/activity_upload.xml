@@ -14,9 +14,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="134dp"
         android:text="Choose Image" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
 
     <ImageView
         android:id="@+id/imageUpload"
@@ -55,5 +62,18 @@
         android:layout_height="20dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="130dp" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/select"
+        style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+        <AutoCompleteTextView
+            android:id="@+id/auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

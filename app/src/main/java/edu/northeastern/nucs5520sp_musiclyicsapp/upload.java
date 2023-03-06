@@ -9,9 +9,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,10 +45,17 @@ public class upload extends AppCompatActivity {
     private ProgressBar bar;
     private TextView history;
     private Uri imageUri;
+    private TextView username;
     private int count = 0;
     private StorageReference myStoRef;
     private DatabaseReference mydbRef;
     private StorageTask myTask;
+
+    private AutoCompleteTextView autoTextView;
+    private ArrayAdapter<String> adapter;
+    private String userName;
+    private String friend;
+    private String[] friends = {"Tom", "Mike", "Henry"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +65,24 @@ public class upload extends AppCompatActivity {
         image = findViewById(R.id.imageUpload);
         bar = findViewById(R.id.progressBar);
         history = findViewById(R.id.textHistory);
+        username = findViewById(R.id.username);
+        userName = getIntent().getStringExtra("username");
+        autoTextView = findViewById(R.id.auto);
+        adapter = new ArrayAdapter<String>(this,R.layout.list_friend,friends);
+        autoTextView.setAdapter(adapter);
+
+        autoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               friend = adapterView.getItemAtPosition(i).toString();
+            }
+        });
+//        final LayoutInflater factory = getLayoutInflater();
+//        final View usernameEntered = factory.inflate(R.layout.activity_login,null);
+//        user = usernameEntered.findViewById(R.id.user);
+//        userName = user.getText().toString();
+        username.setText(userName);
+//        Toast.makeText(upload.this,"Username:"+userName,Toast.LENGTH_SHORT).show();
 
         FirebaseApp.initializeApp(this);
         myStoRef = FirebaseStorage.getInstance().getReference("Uploads");
@@ -125,10 +155,11 @@ public class upload extends AppCompatActivity {
                         public void run() {
                             bar.setProgress(0);
                         }
-                    },5000);
+                    },500);
 
                     Toast.makeText(upload.this,"Upload Sucessful",Toast.LENGTH_SHORT).show();
-                    Images image = new Images(taskSnapshot.getUploadSessionUri().toString(),count);
+                    Toast.makeText(upload.this,friend,Toast.LENGTH_SHORT).show();
+                    Images image = new Images(taskSnapshot.getUploadSessionUri().toString(),userName,"snoop",count);
                     String uploadId = mydbRef.push().getKey();
                     mydbRef.child(uploadId).setValue(image);
                 }
