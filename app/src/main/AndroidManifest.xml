@@ -34,7 +34,7 @@
             android:name=".a8.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".StickItToEm"
+            android:name=".a8.StickItToEm"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
