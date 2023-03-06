@@ -26,7 +26,7 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter.UsersAdapter;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.User;
 
-public class UsersFragment extends Fragment {
+public class FragmentUsers extends Fragment {
 
     private RecyclerView recyclerView;
     private UsersAdapter usersAdapter;

@@ -27,8 +27,8 @@ import java.util.Objects;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.ChatsFragment;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.UsersFragment;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentChats;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentUsers;
 
 public class ActivityChatMain extends AppCompatActivity {
 
@@ -73,8 +73,8 @@ public class ActivityChatMain extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add the fragments to the viewPagerAdapter.
-        viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
-        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+        viewPagerAdapter.addFragment(new FragmentChats(), "Chats");
+        viewPagerAdapter.addFragment(new FragmentUsers(), "Users");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
