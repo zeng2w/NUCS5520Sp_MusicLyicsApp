@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".SearchActivity"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        />
+
+    <RadioGroup
+        android:id="@+id/toggle_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ToggleButton
+            android:id="@+id/local_search_toggle"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:textOff="Local"
+            android:textOn="Local"
+            android:checked="true"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:background="@drawable/toggle_button_bg"
+            android:layout_gravity="center"
+            />
+        <ToggleButton
+            android:id="@+id/online_search_toggle"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:textOff="Online"
+            android:textOn="Online"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:background="@drawable/toggle_button_bg"
+            android:layout_gravity="center"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        >
+        <EditText
+            android:id="@+id/search_edittext"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:hint="Search Song"
+            android:paddingStart="8dp"
+            android:background="@drawable/oval_background"
+            android:inputType="text"
+            android:maxLines="1"
+            />
+<!--        <Button-->
+<!--            android:id="@+id/search_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Search"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textAllCaps="false"-->
+<!--            />-->
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/search_history_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="Search History:" />
+
+    <ListView
+        android:id="@+id/search_history_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

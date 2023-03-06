@@ -50,4 +50,12 @@
         <item>THB</item>
         <item>MYR</item>
     </string-array>
+
+
+    <array name="sort_options">
+        <item>Sort by Date</item>
+        <item>Sort by Rating</item>
+        <item>Sort by Popularity</item>
+    </array>
+
 </resources>
