@@ -155,36 +155,4 @@ public class ActivityMessage extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public void onClick(View view) {
-//        int viewId = view.getId();
-//        if (viewId == R.id.buttonSendSticker) {
-//
-////            Intent intentSend = new Intent(ActivityMessage.this, ActivityStickerSelector.class);
-//
-//            // Save the sender's uid, username, and email.
-////            intentSend.putExtra("sender uid", currentUser.getUid());
-//
-//            DatabaseReference senderRef = usersRef.child(currentUser.getUid());
-//
-//            senderRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    User currentUserObj = snapshot.getValue(User.class);
-//                    Intent intentSend = new Intent(ActivityMessage.this, ActivityStickerSelector.class);
-////                    intentSend.putExtra("sender uid", currentUser.getUid());
-//                    assert currentUserObj != null;
-//                    intentSend.putExtra("sender username", currentUserObj.getUsername());
-//                    intentSend.putExtra("sender email", currentUserObj.getEmail());
-//                    startActivity(intentSend);
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
-//        }
-//    }
 }
