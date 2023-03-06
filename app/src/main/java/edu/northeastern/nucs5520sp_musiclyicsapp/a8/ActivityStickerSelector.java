@@ -21,7 +21,7 @@ public class ActivityStickerSelector extends AppCompatActivity implements View.O
 
     private final int ROW_COUNT = 3;
     private String senderUid, senderUsername, senderEmail, receiverUid, receiverUsername, receiverEmail;
-    private int[] imgArr;
+    private String[] imgArr;
     private int selectedPos;
     private StickersAdapter adapter;
 
@@ -34,34 +34,35 @@ public class ActivityStickerSelector extends AppCompatActivity implements View.O
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("Select Sticker");
 
-        imgArr = new int[]{R.drawable.sticker1,
-                R.drawable.sticker2,
-                R.drawable.sticker3,
-                R.drawable.sticker4,
-                R.drawable.sticker5,
-                R.drawable.sticker6,
-                R.drawable.sticker7,
-                R.drawable.sticker8,
-                R.drawable.sticker9,
-                R.drawable.sticker10,
-                R.drawable.sticker11,
-                R.drawable.sticker12,
-                R.drawable.sticker13,
-                R.drawable.sticker14,
-                R.drawable.sticker15,
-                R.drawable.sticker16,
-                R.drawable.sticker17,
-                R.drawable.sticker18,
-                R.drawable.sticker19,
-                R.drawable.sticker20,
-                R.drawable.sticker21,
-                R.drawable.sticker22,
-                R.drawable.sticker23};
+        imgArr = new String[]{
+                "sticker1",
+                "sticker2",
+                "sticker3",
+                "sticker4",
+                "sticker5",
+                "sticker6",
+                "sticker7",
+                "sticker8",
+                "sticker9",
+                "sticker10",
+                "sticker11",
+                "sticker12",
+                "sticker13",
+                "sticker14",
+                "sticker15",
+                "sticker16",
+                "sticker17",
+                "sticker18",
+                "sticker19",
+                "sticker20",
+                "sticker21",
+                "sticker22",
+                "sticker23"};
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView_images);
         // Not the LinearLayoutManager as before!
         recyclerView.setLayoutManager(new GridLayoutManager(this, ROW_COUNT));
-        adapter = new StickersAdapter(imgArr);
+        adapter = new StickersAdapter(imgArr, this.getApplicationContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 

@@ -1,6 +1,7 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,14 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 
 public class StickersAdapter extends RecyclerView.Adapter<StickersAdapter.StickersViewHolder> {
 
-    private final int[] imgArr;
+    private final String[] imgArr;
+    private final Context context;
     int selectedPos = -1;
 
-    public StickersAdapter(int[] imgArr) {
+    public StickersAdapter(String[] imgArr, Context context) {
+
         this.imgArr = imgArr;
+        this.context = context;
     }
 
 
@@ -36,7 +40,12 @@ public class StickersAdapter extends RecyclerView.Adapter<StickersAdapter.Sticke
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull StickersAdapter.StickersViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.imageView.setImageResource(imgArr[position]);
+        // Get the resId from resName and change imageView based on the resId.
+        // Credit: https://stackoverflow.com/questions/3476430/how-to-get-a-resource-id-with-a-known-resource-name
+        // Credit: https://stackoverflow.com/questions/41007837/how-to-use-getresources-on-a-adapter-java
+        // Credit (extended knowledge): https://stackoverflow.com/questions/10641144/difference-between-getcontext-getapplicationcontext-getbasecontext-and
+        @SuppressLint("DiscouragedApi") int resId = context.getResources().getIdentifier(imgArr[position], "drawable", this.context.getPackageName());
+        holder.imageView.setImageResource(resId);
 
         holder.imageView.setOnClickListener(view -> {
             selectedPos = position;

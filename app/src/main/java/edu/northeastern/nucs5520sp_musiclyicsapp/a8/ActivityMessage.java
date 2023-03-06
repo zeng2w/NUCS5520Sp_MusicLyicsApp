@@ -115,23 +115,22 @@ public class ActivityMessage extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     receiverId = dataSnapshot.getKey();
-//                    readMessages(currentUser.getUid(), receiverId);
                 }
                 // Put receiver id into usersInfo; receiver information collection finished.
                 usersInfo.put("receiver uid", receiverId);
 
-//                // ValueEventListener to read messages between the currently logged in user and the receiver.
-//                assert receiverId != null;
-//                usersRef.child(receiverId).addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        readMessages(currentUser.getUid(), receiverId);
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                    }
-//                });
+                // ValueEventListener to read messages between the currently logged in user and the receiver.
+                assert receiverId != null;
+                usersRef.child(receiverId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        readMessages(currentUser.getUid(), receiverId);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
 
                 // Add a nested ValueEventListener to add the sender's username and email to usersInfo.
                 senderRef.addValueEventListener(new ValueEventListener() {
@@ -145,18 +144,15 @@ public class ActivityMessage extends AppCompatActivity {
                         usersInfo.put("sender email", senderEmail);
 
                         // Sender info also complete; now we add OnClickListener for "Send Sticker" Button.
-                        buttonSendSticker.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intentSend = new Intent(ActivityMessage.this, ActivityStickerSelector.class);
-                                intentSend.putExtra("sender uid", usersInfo.get("sender uid"));
-                                intentSend.putExtra("sender username", usersInfo.get("sender username"));
-                                intentSend.putExtra("sender email", usersInfo.get("sender email"));
-                                intentSend.putExtra("receiver uid", usersInfo.get("receiver uid"));
-                                intentSend.putExtra("receiver username", usersInfo.get("receiver username"));
-                                intentSend.putExtra("receiver email", usersInfo.get("receiver email"));
-                                startActivity(intentSend);
-                            }
+                        buttonSendSticker.setOnClickListener(view -> {
+                            Intent intentSend = new Intent(ActivityMessage.this, ActivityStickerSelector.class);
+                            intentSend.putExtra("sender uid", usersInfo.get("sender uid"));
+                            intentSend.putExtra("sender username", usersInfo.get("sender username"));
+                            intentSend.putExtra("sender email", usersInfo.get("sender email"));
+                            intentSend.putExtra("receiver uid", usersInfo.get("receiver uid"));
+                            intentSend.putExtra("receiver username", usersInfo.get("receiver username"));
+                            intentSend.putExtra("receiver email", usersInfo.get("receiver email"));
+                            startActivity(intentSend);
                         });
                     }
 
@@ -207,7 +203,7 @@ public class ActivityMessage extends AppCompatActivity {
 
                 // Loop through each chat.
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    Chat chat = dataSnapshot.getValue(Chat.class);
+                    Chat chat = new Chat(dataSnapshot.child("sender uid").getValue(String.class), dataSnapshot.child("receiver uid").getValue(String.class), dataSnapshot.child("sticker").getValue(String.class));
 
                     // If the chat is between me and the user.
                     if((chat.getReceiverUid().equals(myUid) && chat.getSenderUid().equals(userUid))

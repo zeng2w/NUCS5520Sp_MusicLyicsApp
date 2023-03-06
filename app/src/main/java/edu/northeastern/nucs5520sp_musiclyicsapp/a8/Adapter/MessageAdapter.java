@@ -1,5 +1,6 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         Chat chat = chatsList.get(position);
 
-        holder.show_message.setImageResource(Integer.parseInt(chat.getSticker()));
+        @SuppressLint("DiscouragedApi") int resId = context.getResources().getIdentifier(chat.getSticker(), "drawable", this.context.getPackageName());
+
+        holder.show_message.setImageResource(resId);
     }
 
     @Override
