@@ -14,6 +14,34 @@
         android:theme="@style/Theme.NUCS5520Sp_MusicLyicsApp"
         tools:targetApi="31">
         <activity
+            android:name=".StickerHistory"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ShowHistory"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".SendSticker"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".LoginPage"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AboutActivity"
             android:exported="false">
             <meta-data
@@ -21,7 +49,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".StickItToEm"
+            android:name=".a8.StickItToEm"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
