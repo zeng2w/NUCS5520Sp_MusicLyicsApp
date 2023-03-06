@@ -33,6 +33,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
@@ -40,6 +43,8 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityHomeBinding
 
 public class HomeActivity extends AppCompatActivity {
 
+
+    private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
     ActivityHomeBinding binding;
     DatabaseReference databaseReference;
 
@@ -49,8 +54,9 @@ public class HomeActivity extends AppCompatActivity {
 
     DatabaseReference databaseReferenceReceiveImages;
 
-
-
+    private static final String LAST_NOTIFICATION = "LAST_NOTIFICATION";
+    private static final String NUMBER_OF_NOTIFICATION = "NUMBER_OF_NOTIFICATION";
+    private ArrayList<String> notificationList = new ArrayList<>();
 
 
     @Override
@@ -58,6 +64,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        
+        initialNotificationData(savedInstanceState);
 
         currentUserText = findViewById(R.id.userLogin);
 
@@ -108,8 +116,30 @@ public class HomeActivity extends AppCompatActivity {
                 if(previousChildName != null){
                     Log.d("previousChildName", previousChildName);
                 }
-                notification(snapshot.child("senderName").getValue().toString(), snapshot.child("receiveDate").getValue().toString()
-                ,snapshot.child("imageName").getValue().toString());
+                //if(onOptionsItemSelected())
+                DateTimeFormatter dtf = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                }
+                LocalDateTime now = null;
+                LocalDateTime lower = null;
+                //LocalDateTime higher;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    now = LocalDateTime.now();
+                    lower = now.minusSeconds(5);
+
+                }
+                ImageModel imageModel = null;
+                LocalDateTime date = null;
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                    date = LocalDateTime.parse(snapshot.child("receiveDate").getValue().toString());
+//                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    if(date.isAfter(lower)) {
+                        notification(snapshot.child("senderName").getValue().toString(), snapshot.child("receiveDate").getValue().toString()
+                                , snapshot.child("imageName").getValue().toString());
+//                    }
+//                }
 
 
             }
@@ -152,6 +182,50 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void initialNotificationData(Bundle savedInstanceState) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(NUMBER_OF_NOTIFICATION)) {
+            if (notificationList == null || notificationList.size() == 0) {
+
+                int size = savedInstanceState.getInt(NUMBER_OF_NOTIFICATION);
+
+                // Retrieve keys we stored in the instance
+                for (int i = 0; i < size; i++) {
+                    String notification = savedInstanceState.getString(KEY_OF_INSTANCE + i);
+
+                    // We need to make sure names such as "XXX(checked)" will not duplicate
+                    // Use a tricky way to solve this problem, not the best though
+
+                    notificationList.add(notification);
+
+
+                }
+            }
+        }
+    }
+
+    // Handling Orientation Changes on Android
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+
+
+        int size = notificationList == null ? 0 : notificationList.size();
+        outState.putInt(NUMBER_OF_NOTIFICATION, size);
+
+        // Need to generate unique key for each item
+        // This is only a possible way to do, please find your own way to generate the key
+        //for (int i = 0; i < size; i++) {
+            // put image information id into instance
+            // put itemName information into instance
+            //outState.putString(KEY_OF_INSTANCE + i + "0", itemList.get(i).getName());
+            // put itemDesc information into instance
+            //outState.putString(KEY_OF_INSTANCE + i + "1", itemList.get(i).getUrl());
+        //}
+        for(int i = 0; i < size; i ++) {
+            outState.putString(KEY_OF_INSTANCE + i, notificationList.get(i));
+        }
+        super.onSaveInstanceState(outState);
 
     }
 

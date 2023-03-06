@@ -92,5 +92,7 @@ public class StickersListActivity extends AppCompatActivity {
         startActivity(getChosenIntent);
         finish();
 
+
+
     }
 }

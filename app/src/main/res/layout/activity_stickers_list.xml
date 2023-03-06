@@ -6,129 +6,138 @@
     android:layout_height="match_parent"
     tools:context=".a8.StickersListActivity">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/sticker1"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/sticker2"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+                <ImageView
+                    android:id="@+id/sticker1"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            <ImageView
-                android:id="@+id/sticker3"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+                <ImageView
+                    android:id="@+id/sticker2"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-        </TableRow>
+                <ImageView
+                    android:id="@+id/sticker3"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/sticker4"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/sticker5"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+                <ImageView
+                    android:id="@+id/sticker4"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            <ImageView
-                android:id="@+id/sticker6"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
-        </TableRow>
+                <ImageView
+                    android:id="@+id/sticker5"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/sticker6"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/sticker7"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/sticker8"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+                <ImageView
+                    android:id="@+id/sticker7"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            <ImageView
-                android:id="@+id/sticker9"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
-        </TableRow>
+                <ImageView
+                    android:id="@+id/sticker8"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/sticker9"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/sticker10"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/sticker11"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
+                <ImageView
+                    android:id="@+id/sticker10"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            <ImageView
-                android:id="@+id/sticker12"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:onClick="chosen"
-                tools:srcCompat="@tools:sample/avatars" />
-        </TableRow>
-    </TableLayout>
+                <ImageView
+                    android:id="@+id/sticker11"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <ImageView
+                    android:id="@+id/sticker12"
+                    android:layout_width="120dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:onClick="chosen"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
