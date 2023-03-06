@@ -2,12 +2,16 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,10 +21,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter.MessageAdapter;
 
 /**
  * Class for the Message UI with a specific user.
@@ -33,13 +40,20 @@ public class ActivityMessage extends AppCompatActivity {
     DatabaseReference usersRef;
     // Points to specific user currently chatting with
     DatabaseReference senderRef;
+    DatabaseReference chatsRef;
     String senderId, senderEmail, senderUsername, receiverId, receiverEmail, receiverUsername;
     // Collection of sender and receiver info
     HashMap<String, String> usersInfo;
     Button buttonSendSticker;
 
+    MessageAdapter messageAdapter;
+    List<Chat> chatsList;
+
+    RecyclerView recyclerView;
+
     Intent intentChatMain;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +69,20 @@ public class ActivityMessage extends AppCompatActivity {
         String chatTitle = String.format("%s (%s)", receiverUsernameStr, receiverEmailStr);
         Objects.requireNonNull(getSupportActionBar()).setTitle(chatTitle);
 
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        usersRef = FirebaseDatabase.getInstance().getReference("Users");
-
         // Enable the back button in Action Bar.
         // Credit: https://stackoverflow.com/questions/15686555/display-back-button-on-action-bar
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Credit: https://youtu.be/1mJv4XxWlu8?list=PLzLFqCABnRQftQQETzoVMuteXzNiXmnj8
+        recyclerView = findViewById(R.id.recyclerView_users);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
         // NEED TO USE CALLBACK BECAUSE FIREBASE IS ASYNCHRONOUS! (asynchronous callback)
         // CREDIT TO: https://www.youtube.com/watch?v=OvDZVV5CbQg
@@ -154,5 +175,11 @@ public class ActivityMessage extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void readMessage(String myUid, String userUid, String sticker) {
+        chatsList = new ArrayList<>();
+
+//        chatsRef = FirebaseDatabase.getInstance().getReference("Chats")
     }
 }
