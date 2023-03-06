@@ -5,13 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,7 +51,6 @@ public class ActivityMessage extends AppCompatActivity {
 
     Intent intentChatMain;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +74,7 @@ public class ActivityMessage extends AppCompatActivity {
         // Credit: https://youtu.be/1mJv4XxWlu8?list=PLzLFqCABnRQftQQETzoVMuteXzNiXmnj8
         recyclerView = findViewById(R.id.recyclerView_users);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getBaseContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -87,6 +84,7 @@ public class ActivityMessage extends AppCompatActivity {
         // NEED TO USE CALLBACK BECAUSE FIREBASE IS ASYNCHRONOUS! (asynchronous callback)
         // CREDIT TO: https://www.youtube.com/watch?v=OvDZVV5CbQg
         collectSenderReceiverInfo();
+
     }
 
     /**
@@ -117,9 +115,23 @@ public class ActivityMessage extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     receiverId = dataSnapshot.getKey();
+//                    readMessages(currentUser.getUid(), receiverId);
                 }
                 // Put receiver id into usersInfo; receiver information collection finished.
                 usersInfo.put("receiver uid", receiverId);
+
+//                // ValueEventListener to read messages between the currently logged in user and the receiver.
+//                assert receiverId != null;
+//                usersRef.child(receiverId).addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        readMessages(currentUser.getUid(), receiverId);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                    }
+//                });
 
                 // Add a nested ValueEventListener to add the sender's username and email to usersInfo.
                 senderRef.addValueEventListener(new ValueEventListener() {
@@ -160,6 +172,13 @@ public class ActivityMessage extends AppCompatActivity {
     }
 
     /**
+     * Display all messages with this specific user.
+     */
+    public void readMessagesWithUser() {
+
+    }
+
+    /**
      * Return to the tab before entering the specific chat page.
      * @param item  the MenuItem to be clicked
      * @return  true if the item is the back button in action bar; otherwise call the super method
@@ -177,9 +196,33 @@ public class ActivityMessage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void readMessage(String myUid, String userUid, String sticker) {
+    private void readMessages(String myUid, String userUid) {
         chatsList = new ArrayList<>();
 
-//        chatsRef = FirebaseDatabase.getInstance().getReference("Chats")
+        chatsRef = FirebaseDatabase.getInstance().getReference("Chats");
+        chatsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                chatsList.clear();
+
+                // Loop through each chat.
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    Chat chat = dataSnapshot.getValue(Chat.class);
+
+                    // If the chat is between me and the user.
+                    if((chat.getReceiverUid().equals(myUid) && chat.getSenderUid().equals(userUid))
+                            || (chat.getReceiverUid().equals(userUid) && chat.getSenderUid().equals(myUid))) {
+                        chatsList.add(chat);
+                    }
+
+                    messageAdapter = new MessageAdapter(ActivityMessage.this, chatsList);
+                    recyclerView.setAdapter(messageAdapter);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
