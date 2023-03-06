@@ -1,10 +1,21 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,12 +25,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+import java.util.Objects;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityHomeBinding;
@@ -32,6 +46,11 @@ public class HomeActivity extends AppCompatActivity {
     UserAdapter userAdapter;
 
     private TextView currentUserText;
+
+    DatabaseReference databaseReferenceReceiveImages;
+
+
+
 
 
     @Override
@@ -80,6 +99,42 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        databaseReferenceReceiveImages = FirebaseDatabase.getInstance().getReference("ReceiveImages").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+
+        databaseReferenceReceiveImages.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                if(previousChildName != null){
+                    Log.d("previousChildName", previousChildName);
+                }
+                notification(snapshot.child("senderName").getValue().toString(), snapshot.child("receiveDate").getValue().toString()
+                ,snapshot.child("imageName").getValue().toString());
+
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         binding.historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,4 +172,43 @@ public class HomeActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    private void notification(String username, String receiveDate, String imageName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("n", "n", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+            Bitmap myBitmap = BitmapFactory.decodeResource(getResources(),
+                    Integer.parseInt(imageName));
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "n")
+                    .setSmallIcon(R.drawable.notification_image).setAutoCancel(true)
+                    .setContentText(username + " send a sticker at " + receiveDate)
+                    .setLargeIcon(myBitmap).setStyle(new NotificationCompat.BigPictureStyle().bigPicture(myBitmap).bigLargeIcon(null));
+
+            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.notify(999, builder.build());
+
+//            Notification notification = builder.build();
+//            managerCompat.notify(999, builder.build());
+        }
+
+
+
+    }
+
+
 }

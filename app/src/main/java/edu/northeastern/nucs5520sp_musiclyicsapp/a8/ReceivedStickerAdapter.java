@@ -48,7 +48,7 @@ public class ReceivedStickerAdapter extends RecyclerView.Adapter<ReceivedSticker
         ImageModel imageModel = imageModelList.get(position);
 
         holder.imageView.setImageResource(Integer.parseInt(imageModel.getImageName()));
-        holder.sender.setText(imageModel.getSenderName());
+        holder.sender.setText("Sender: " + imageModel.getSenderName());
         holder.receiveTime.setText("Receive time: " + imageModel.getReceiveDate());
 
     }

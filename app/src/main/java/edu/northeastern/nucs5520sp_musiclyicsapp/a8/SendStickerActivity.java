@@ -1,24 +1,33 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.a8;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.UUID;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
@@ -36,6 +45,8 @@ public class SendStickerActivity extends AppCompatActivity {
     DatabaseReference databaseReferenceSendImages;
     DatabaseReference databaseReferenceReceiveImages;
     DatabaseReference databaseReference;
+    DatabaseReference databaseReferenceReceiveImagesNotify;
+
 
 
     @Override
@@ -67,14 +78,15 @@ public class SendStickerActivity extends AppCompatActivity {
         recieverEmail = intent.getStringExtra("email");
         chosenImage = intent.getStringExtra("imageSrc");
 
+
         currentUserId = FirebaseAuth.getInstance().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String uid = dataSnapshot.getKey();
-                    if(uid.equals(FirebaseAuth.getInstance().getUid())){
+                    if (uid.equals(FirebaseAuth.getInstance().getUid())) {
 //                        String userId = dataSnapshot.child("userId").getValue().toString();
                         String username = dataSnapshot.child("username").getValue().toString();
 //                        String email = dataSnapshot.child("email").getValue().toString();
@@ -91,8 +103,9 @@ public class SendStickerActivity extends AppCompatActivity {
             }
         });
 
+
         binding.sendToText.setText("Send Sticker To: " + recieverName);
-        if(chosenImage != null) {
+        if (chosenImage != null) {
             binding.selectedImageView.setImageResource(Integer.parseInt(chosenImage));
         }
 
@@ -100,40 +113,7 @@ public class SendStickerActivity extends AppCompatActivity {
         databaseReferenceSendImages = FirebaseDatabase.getInstance().getReference("sendImages").child(currentUserId);
         databaseReferenceReceiveImages = FirebaseDatabase.getInstance().getReference("ReceiveImages").child(recieverId);
 
-//        databaseReferenceSendImages.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                    ImageModel imageModel = dataSnapshot.getValue(ImageModel.class);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
-//        databaseReferenceReceiveImages.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                    ImageModel imageModel = dataSnapshot.getValue(ImageModel.class);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
-
-
-
         Intent goHomeIntent = new Intent(SendStickerActivity.this, HomeActivity.class);
-
-
 
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +121,32 @@ public class SendStickerActivity extends AppCompatActivity {
                 startActivity(goHomeIntent);
             }
         });
+
+    }
+
+    private void notification(String username, String receiveDate) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("n", "n", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "n")
+                .setContentText("send sticker").setSmallIcon(R.drawable.notification_image).setAutoCancel(true)
+                .setContentText(username + " send a sticker at " + receiveDate);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        managerCompat.notify(999, builder.build());
 
     }
 
