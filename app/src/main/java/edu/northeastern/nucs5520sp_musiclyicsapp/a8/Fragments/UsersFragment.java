@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +50,8 @@ public class UsersFragment extends Fragment {
     private void readUsers() {
 
         final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.addValueEventListener(new ValueEventListener() {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 usersList.clear();

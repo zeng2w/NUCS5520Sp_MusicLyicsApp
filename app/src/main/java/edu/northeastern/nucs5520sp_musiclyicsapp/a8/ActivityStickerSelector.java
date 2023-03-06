@@ -4,8 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter.StickersAdapter;
@@ -13,6 +20,10 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter.StickersAdapter;
 public class ActivityStickerSelector extends AppCompatActivity implements View.OnClickListener{
 
     private final int ROW_COUNT = 3;
+    private String senderUid, senderUsername, senderEmail, receiverUid, receiverUsername, receiverEmail;
+    private int[] imgArr;
+    private int selectedPos;
+    private StickersAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +34,7 @@ public class ActivityStickerSelector extends AppCompatActivity implements View.O
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("Select Sticker");
 
-        int[] imgArr = new int[]{R.drawable.sticker1,
+        imgArr = new int[]{R.drawable.sticker1,
                 R.drawable.sticker2,
                 R.drawable.sticker3,
                 R.drawable.sticker4,
@@ -50,8 +61,21 @@ public class ActivityStickerSelector extends AppCompatActivity implements View.O
         RecyclerView recyclerView = findViewById(R.id.recyclerView_images);
         // Not the LinearLayoutManager as before!
         recyclerView.setLayoutManager(new GridLayoutManager(this, ROW_COUNT));
-        recyclerView.setAdapter(new StickersAdapter(imgArr));
+        adapter = new StickersAdapter(imgArr);
+        recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+
+        selectedPos = RecyclerView.NO_POSITION;
+
+        // Recover the sender and receiver information.
+        // Credit: https://stackoverflow.com/questions/5265913/how-to-use-putextra-and-getextra-for-string-data
+        Intent intentSend = getIntent();
+        senderUid = intentSend.getStringExtra("sender uid");
+        senderUsername = intentSend.getStringExtra("sender username");
+        senderEmail = intentSend.getStringExtra("sender email");
+        receiverUid = intentSend.getStringExtra("receiver uid");
+        receiverUsername = intentSend.getStringExtra("receiver username");
+        receiverEmail = intentSend.getStringExtra("receiver email");
     }
 
     @Override
@@ -60,5 +84,42 @@ public class ActivityStickerSelector extends AppCompatActivity implements View.O
         if (viewId == R.id.buttonCancelImageSelector) {
             onBackPressed();
         }
+        else if (viewId == R.id.buttonSend) {
+            selectedPos = adapter.getSelectedPos();
+            if (selectedPos != RecyclerView.NO_POSITION) {
+                sendMessage(senderUid, senderUsername, senderEmail, receiverUid, receiverUsername, receiverEmail, String.valueOf(imgArr[selectedPos]));
+                // Reset selectedPos after send.
+                selectedPos = RecyclerView.NO_POSITION;
+                finish();
+            }
+            else {
+                Toast.makeText(this, "Need to select a sticker first", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+    /**
+     * Send sticker message from a sender to a receiver.
+     * @param senderUsername         sender's username
+     * @param senderEmail            sender's email
+     * @param receiverUsername       receiver's username
+     * @param receiverEmail          receiver's email
+     * @param sticker                the sticker to be send
+     */
+    private void sendMessage(String senderUid, String senderUsername, String senderEmail, String receiverUid, String receiverUsername, String receiverEmail, String sticker) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender uid", senderUid);
+        hashMap.put("sender username", senderUsername);
+        hashMap.put("sender email", senderEmail);
+        hashMap.put("receiver uid", receiverUid);
+        hashMap.put("receiver username", receiverUsername);
+        hashMap.put("receiver email", receiverEmail);
+        hashMap.put("sticker", sticker);
+
+        reference.child("Chats").push().setValue(hashMap);
     }
 }
