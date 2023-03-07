@@ -27,6 +27,7 @@ import java.util.List;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter.UsersAdapter;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Chat;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.ChatList;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.User;
 
 /**
@@ -60,31 +61,37 @@ public class FragmentChats extends Fragment {
 
         usersStrList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference = FirebaseDatabase.getInstance().getReference("ChatList");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 usersStrList.clear();
 
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
 
-                    String senderUid = dataSnapshot.child("sender uid").getValue(String.class);
-                    String receiverUid = dataSnapshot.child("receiver uid").getValue(String.class);
-                    String sticker = dataSnapshot.child("sticker").getValue(String.class);
-                    Chat chat = new Chat(senderUid, receiverUid, sticker);
+                    ChatList chat = dataSnapshot.getValue(ChatList.class);
 
-                    // For chat's sent by the current user, add the receiver's Uid to usersStrList.
-                    if (chat.getSenderUid().equals(currentUser.getUid())) {
-                        usersStrList.add(chat.getReceiverUid());
+                    assert chat != null;
+
+                    String senderUid = chat.getSenderUid();
+                    String receiverUid = chat.getReceiverUid();
+
+                    // If the current user is the sender, and the receiver is not in usersStrList,
+                    // add the receiver to usersStrList.
+                    if ((senderUid.equals(currentUser.getUid()))
+                            && (!usersStrList.contains(receiverUid))) {
+                        usersStrList.add(receiverUid);
                     }
 
-                    // For chats' received by the current user, add the sender's Uid to usersStrList.
-                    if (chat.getReceiverUid().equals(currentUser.getUid())) {
-                        usersStrList.add(chat.getSenderUid());
+                    // If the current user is the receiver, and the sender is not in usersStrList,
+                    // add the sender to usersStrList.
+                    else if ((receiverUid.equals(currentUser.getUid()))
+                            && (!usersStrList.contains(senderUid))) {
+                        usersStrList.add(senderUid);
                     }
                 }
 
-                readChats();
+                chatList();
             }
 
             @Override
@@ -93,49 +100,34 @@ public class FragmentChats extends Fragment {
             }
         });
 
+
         return view;
     }
 
-    /**
-     * Read all chats related to the currently logged in user.
-     */
-    private void readChats() {
+    private void chatList() {
 
         usersList = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 usersList.clear();
 
+                // Go through each User object, and add to usersList if Uid is in usersStrList.
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
 
                     User user = dataSnapshot.getValue(User.class);
                     String userUid = dataSnapshot.getKey();
 
-                    // Add all users whose Uid is in usersStrList into usersList, but no duplicates.
-                    for (String id: usersStrList) {
-
+                    for (String relatedUserUid: usersStrList) {
                         assert userUid != null;
-                        // If the user (User object) is among the usersStrList, we want to add it
-                        // to usersList.
-                        if (userUid.equals(id)) {
-                            // Make sure no duplicated users are added to usersList
-                            if (usersList.size() != 0) {
-                                for (User existingUser: usersList) {
-                                    assert user != null;
-                                    if (!user.getEmail().equals(existingUser.getEmail())) {
-                                        usersList.add(user);
-                                    }
-                                }
-                            }
-                            else {
-                                usersList.add(user);
-                            }
+                        if (userUid.equals(relatedUserUid)) {
+                            usersList.add(user);
                         }
                     }
+
                 }
                 usersAdapter = new UsersAdapter(getContext(), usersList);
                 recyclerView.setAdapter(usersAdapter);
@@ -147,4 +139,8 @@ public class FragmentChats extends Fragment {
             }
         });
     }
+
+
+
+
 }
