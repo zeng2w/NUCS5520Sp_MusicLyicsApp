@@ -11,7 +11,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,14 +20,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentChats;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentStickerSent;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentStickersSent;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentStickersReceived;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentUsers;
 
-public class ActivityStickerHistory extends AppCompatActivity {
+public class ActivityStickersHistory extends AppCompatActivity {
 
     FirebaseUser currentUser;
     DatabaseReference stickersSentRef;
@@ -37,7 +33,7 @@ public class ActivityStickerHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sticker_history);
+        setContentView(R.layout.activity_stickers_history);
 
         // Change text in Action Bar.
         assert getSupportActionBar() != null;
@@ -53,10 +49,10 @@ public class ActivityStickerHistory extends AppCompatActivity {
         // Credit: https://www.youtube.com/watch?v=KB2BIm_m1Os
         TabLayout tabLayout = findViewById(R.id.tabLayout_stickers_history);
         ViewPager viewPager = findViewById(R.id.viewPager_stickers_history);
-        ActivityStickerHistory.ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ActivityStickersHistory.ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add the fragments to the viewPagerAdapter.
-        viewPagerAdapter.addFragment(new FragmentStickerSent(), "Stickers Sent");
+        viewPagerAdapter.addFragment(new FragmentStickersSent(), "Stickers Sent");
         viewPagerAdapter.addFragment(new FragmentStickersReceived(), "Stickers Received");
 
         viewPager.setAdapter(viewPagerAdapter);
@@ -75,7 +71,7 @@ public class ActivityStickerHistory extends AppCompatActivity {
         // Credit: https://stackoverflow.com/questions/14437745/how-to-override-action-bar-back-button-in-android
         if (itemId == android.R.id.home) {
             // Changed
-            startActivity(new Intent(ActivityStickerHistory.this, ActivityChatMain.class));
+            startActivity(new Intent(ActivityStickersHistory.this, ActivityChatMain.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -83,7 +79,7 @@ public class ActivityStickerHistory extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(ActivityStickerHistory.this, ActivityChatMain.class));
+        startActivity(new Intent(ActivityStickersHistory.this, ActivityChatMain.class));
         finish();
     }
 

@@ -116,7 +116,7 @@ public class ActivityChatMain extends AppCompatActivity {
             return true;
         }
         else if (itemId == R.id.menu_sticker_history) {
-            startActivity(new Intent(ActivityChatMain.this, ActivityStickerHistory.class));
+            startActivity(new Intent(ActivityChatMain.this, ActivityStickersHistory.class));
             finish();
             return true;
         }

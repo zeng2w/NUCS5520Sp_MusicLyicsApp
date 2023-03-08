@@ -61,4 +61,8 @@
     <string name="string_send">send</string>
     <string name="string_women_s_head">Women\'s head</string>
     <string name="string_sticker_history">Sticker History</string>
+    <string name="stickers">Stickers</string>
+    <string name="string_count">Count</string>
+    <string name="string_stickers">Stickers</string>
+    <string name="string_0">0</string>
 </resources>

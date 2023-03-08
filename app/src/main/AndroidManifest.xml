@@ -15,7 +15,7 @@
         android:theme="@style/Theme.NUCS5520Sp_MusicLyicsApp"
         tools:targetApi="31">
         <activity
-            android:name=".a8.ActivityStickerHistory"
+            android:name=".a8.ActivityStickersHistory"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

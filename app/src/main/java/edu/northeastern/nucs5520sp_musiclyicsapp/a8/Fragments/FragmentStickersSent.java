@@ -20,8 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
@@ -30,16 +28,16 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.a8.StickerCount;
 
 /**
  * A simple Fragment subclass.
- * Use the FragmentStickersReceived factory method to
+ * Use the FragmentStickersSent factory method to
  * create an instance of this fragment.
  */
-public class FragmentStickersReceived extends Fragment {
+public class FragmentStickersSent extends Fragment {
 
     private RecyclerView recyclerView;
     private StickerCountAdapter stickerCountAdapter;
     private List<StickerCount> stickerCountList;
 
-    public FragmentStickersReceived() {
+    public FragmentStickersSent() {
         // Required empty public constructor
     }
 
@@ -47,7 +45,7 @@ public class FragmentStickersReceived extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_stickers_received, container, false);
+        View view = inflater.inflate(R.layout.fragment_stickers_sent, container, false);
         recyclerView = view.findViewById(R.id.recyclerView_users);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -63,7 +61,7 @@ public class FragmentStickersReceived extends Fragment {
 
         final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;
-        DatabaseReference stickersReceivedRef = FirebaseDatabase.getInstance().getReference("StickersReceived").child(currentUser.getUid());
+        DatabaseReference stickersReceivedRef = FirebaseDatabase.getInstance().getReference("StickersSent").child(currentUser.getUid());
         stickersReceivedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
