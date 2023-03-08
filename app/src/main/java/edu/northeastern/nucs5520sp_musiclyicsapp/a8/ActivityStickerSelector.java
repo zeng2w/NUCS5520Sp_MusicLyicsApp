@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter.StickersAdapter;
@@ -133,6 +134,51 @@ public class ActivityStickerSelector extends AppCompatActivity implements View.O
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chatRef.push().setValue(new ChatList(senderUid, receiverUid));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        // Update the count for stickers sent for the currentUser.
+        DatabaseReference stickersSentRef = FirebaseDatabase.getInstance().getReference("StickersSent").child(senderUid).child(sticker);
+        stickersSentRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+                    // If sticker never sent before, count is 1
+                    stickersSentRef.setValue("1");
+                }
+                else {
+                    // Sticker sent before, increment the count by 1
+                    int currentCount = Integer.parseInt(Objects.requireNonNull(snapshot.getValue(String.class)));
+                    currentCount = currentCount + 1;
+                    stickersSentRef.setValue(String.valueOf(currentCount));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference stickersReceivedRef = FirebaseDatabase.getInstance().getReference("StickersReceived").child(receiverUid).child(sticker);
+        stickersReceivedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+                    // If sticker never sent before, count is 1
+                    stickersReceivedRef.setValue("1");
+                }
+                else {
+                    // Sticker sent before, increment the count by 1
+                    int currentCount = Integer.parseInt(Objects.requireNonNull(snapshot.getValue(String.class)));
+                    currentCount = currentCount + 1;
+                    stickersReceivedRef.setValue(String.valueOf(currentCount));
+                }
             }
 
             @Override
