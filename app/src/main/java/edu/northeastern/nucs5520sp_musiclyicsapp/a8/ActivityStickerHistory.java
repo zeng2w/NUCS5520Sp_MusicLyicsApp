@@ -10,114 +10,72 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentChats;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentStickerSent;
+import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentStickersReceived;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Fragments.FragmentUsers;
 
-public class ActivityChatMain extends AppCompatActivity {
+public class ActivityStickerHistory extends AppCompatActivity {
 
     FirebaseUser currentUser;
-    DatabaseReference currentUserRef;
+    DatabaseReference stickersSentRef;
+    DatabaseReference stickersReceivedRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_main);
+        setContentView(R.layout.activity_sticker_history);
 
-        // Credit: https://www.youtube.com/watch?v=KB2BIm_m1Os
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        // Get child (i.e. one user) value (e.g., email, username)
-        // Credit: https://www.youtube.com/watch?v=KRtLZF-xlAs
-        // Credit: https://firebase.google.com/docs/database/android/read-and-write
-        currentUserRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
-        currentUserRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String currentUsernameStr = Objects.requireNonNull(snapshot.child("username").getValue()).toString();
-                // Change Action Bar text.
-                // Credit to: https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjoxYb-9ML9AhVEFVkFHRZuAycQFnoECA4QAw&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DlM-QxcE_mSU&usg=AOvVaw2IOfsOtCDDwDERAjLqZhEQ
-                Objects.requireNonNull(getSupportActionBar()).setTitle(currentUsernameStr);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        // Enable the back button in Action Bar.
-        // Credit: https://stackoverflow.com/questions/15686555/display-back-button-on-action-bar
+        // Change text in Action Bar.
         assert getSupportActionBar() != null;
+        getSupportActionBar().setTitle("Sticker History");
+        // Enable back button in Action Bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        stickersSentRef = FirebaseDatabase.getInstance().getReference("StickersSent").child(currentUser.getUid());
+        stickersReceivedRef = FirebaseDatabase.getInstance().getReference("StickersReceived").child(currentUser.getUid());
 
         // Initialize the Tab Layout and View Pager objects on ActivityChatMain's UI.
         // Credit: https://www.youtube.com/watch?v=KB2BIm_m1Os
-        TabLayout tabLayout = findViewById(R.id.tabLayout_chat_main);
-        ViewPager viewPager = findViewById(R.id.viewPager_chat_main);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        TabLayout tabLayout = findViewById(R.id.tabLayout_stickers_history);
+        ViewPager viewPager = findViewById(R.id.viewPager_stickers_history);
+        ActivityStickerHistory.ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add the fragments to the viewPagerAdapter.
-        viewPagerAdapter.addFragment(new FragmentChats(), "Chats");
-        viewPagerAdapter.addFragment(new FragmentUsers(), "Users");
+        viewPagerAdapter.addFragment(new FragmentStickerSent(), "Stickers Sent");
+        viewPagerAdapter.addFragment(new FragmentStickersReceived(), "Stickers Received");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     /**
-     * Add the menu to the chat UI for logging out.
-     * Credit: https://www.youtube.com/watch?v=KB2BIm_m1Os
-     * @param menu  the menu for logging out
-     * @return  true
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_chat_main, menu);
-        return true;
-    }
-
-    /**
-     * Log the user out.
+     * Return to the tab before entering the specific chat page.
      * @param item  the MenuItem to be clicked
-     * @return  true if logged out and false if not logged out
+     * @return  true if the item is the back button in action bar; otherwise call the super method
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.menu_logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(ActivityChatMain.this, ActivityLogIn.class));
-            finish();
-            return true;
-        }
-        // Back arrow button (upper left)
-        // Credit: https://stackoverflow.com/questions/15686555/display-back-button-on-action-bar
-        else if (itemId == android.R.id.home) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            return true;
-        }
-        else if (itemId == R.id.menu_sticker_history) {
-            startActivity(new Intent(ActivityChatMain.this, ActivityStickerHistory.class));
-            finish();
+        // Modify the back button in Action Bar to behave the same as back navigation button.
+        // Credit: https://stackoverflow.com/questions/14437745/how-to-override-action-bar-back-button-in-android
+        if (itemId == android.R.id.home) {
+            // Changed
+            startActivity(new Intent(ActivityStickerHistory.this, ActivityChatMain.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -125,7 +83,7 @@ public class ActivityChatMain extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(ActivityChatMain.this, MainActivity.class));
+        startActivity(new Intent(ActivityStickerHistory.this, ActivityChatMain.class));
         finish();
     }
 
@@ -182,5 +140,4 @@ public class ActivityChatMain extends AppCompatActivity {
             return titles.get(position);
         }
     }
-
 }

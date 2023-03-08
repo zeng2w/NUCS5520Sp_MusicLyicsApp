@@ -168,13 +168,6 @@ public class ActivityMessage extends AppCompatActivity {
     }
 
     /**
-     * Display all messages with this specific user.
-     */
-    public void readMessagesWithUser() {
-
-    }
-
-    /**
      * Return to the tab before entering the specific chat page.
      * @param item  the MenuItem to be clicked
      * @return  true if the item is the back button in action bar; otherwise call the super method
