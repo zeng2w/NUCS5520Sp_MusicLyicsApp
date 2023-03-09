@@ -111,7 +111,7 @@ public class ActivityChatMain extends AppCompatActivity {
             finish();
             return true;
         }
-        // Back arrow button (upper left)
+        // Back button (upper left)
         // Credit: https://stackoverflow.com/questions/15686555/display-back-button-on-action-bar
         else if (itemId == android.R.id.home) {
             Intent intent = new Intent(this, MainActivity.class);

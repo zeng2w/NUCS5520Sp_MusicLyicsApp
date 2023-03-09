@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.Adapter.MessageAdapter;
 
@@ -180,8 +181,9 @@ public class ActivityMessage extends AppCompatActivity {
         // Modify the back button in Action Bar to behave the same as back navigation button.
         // Credit: https://stackoverflow.com/questions/14437745/how-to-override-action-bar-back-button-in-android
         if (itemId == android.R.id.home) {
-            // Changed
-            onBackPressed();
+            Intent intent = new Intent(this, ActivityChatMain.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
