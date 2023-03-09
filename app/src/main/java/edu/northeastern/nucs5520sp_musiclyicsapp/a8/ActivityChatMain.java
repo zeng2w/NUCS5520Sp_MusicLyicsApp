@@ -82,8 +82,7 @@ public class ActivityChatMain extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         MyNotification notification = new MyNotification(this);
-        notification.buildNotification();
-
+        notification.checkForNotification();
     }
 
     /**

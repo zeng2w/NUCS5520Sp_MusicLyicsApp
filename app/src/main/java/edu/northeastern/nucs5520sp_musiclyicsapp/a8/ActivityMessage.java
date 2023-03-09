@@ -85,6 +85,8 @@ public class ActivityMessage extends AppCompatActivity {
         // CREDIT TO: https://www.youtube.com/watch?v=OvDZVV5CbQg
         collectSenderReceiverInfo();
 
+
+
     }
 
     /**

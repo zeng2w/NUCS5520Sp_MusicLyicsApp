@@ -125,6 +125,7 @@ public class ActivityStickerSelector extends AppCompatActivity implements View.O
         hashMap.put("receiver username", receiverUsername);
         hashMap.put("receiver email", receiverEmail);
         hashMap.put("sticker", sticker);
+        hashMap.put("notified", "False");
 
         reference.child("Chats").push().setValue(hashMap);
 

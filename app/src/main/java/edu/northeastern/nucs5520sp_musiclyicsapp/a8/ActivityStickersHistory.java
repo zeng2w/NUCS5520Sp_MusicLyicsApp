@@ -57,6 +57,9 @@ public class ActivityStickersHistory extends AppCompatActivity {
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        MyNotification notification = new MyNotification(this);
+        notification.checkForNotification();
     }
 
     /**
