@@ -8,7 +8,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,6 +80,9 @@ public class ActivityChatMain extends AppCompatActivity {
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        MyNotification notification = new MyNotification(this);
+        notification.buildNotification();
 
     }
 
