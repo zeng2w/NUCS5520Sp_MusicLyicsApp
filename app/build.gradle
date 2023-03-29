@@ -94,6 +94,6 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-messaging:23.1.2'
     implementation 'com.android.volley:volley:1.2.1'
-
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }

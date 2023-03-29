@@ -3,9 +3,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/library"
-            android:icon="@drawable/Library"
             android:checkable="true"
-            />
+            android:icon="@drawable/Library" />
         <item
             android:id="@+id/menu_item_2"
             android:icon="@drawable/currentSong"

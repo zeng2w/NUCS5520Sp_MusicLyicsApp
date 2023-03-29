@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/pic2"
     android:layout_height="match_parent"
+    android:background="@drawable/pic2"
     android:orientation="vertical"
     tools:context=".final_project.UserPageActivity">
 
@@ -14,11 +14,14 @@
         android:layout_marginTop="40dp"
         android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userPage_userProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center"
+            android:src="@drawable/sticker2"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
 
         <TextView
             android:id="@+id/userPage_username"
@@ -118,7 +121,7 @@
             android:id="@+id/navBarView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="end"
             app:elevation="8dp"
             app:itemIconTint="@color/spotify_color"
             app:menu="@menu/menu_navigation" />

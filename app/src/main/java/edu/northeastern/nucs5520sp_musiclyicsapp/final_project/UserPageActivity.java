@@ -25,7 +25,7 @@ Log out button: to log out the account
 Nav Bar: to move to different UI such as current User Page, Current Song Page, Library Page
  */
 public class UserPageActivity extends AppCompatActivity {
-    ImageView userPage_userProfile;
+
     TextView userPage_username;
     TextView userPage_following;
     TextView userPage_follower;
@@ -40,7 +40,7 @@ public class UserPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_page);
-        userPage_userProfile = findViewById(R.id.userPage_userProfile);
+
         userPage_username = findViewById(R.id.userPage_username);
         userPage_following = findViewById(R.id.userPage_following);
         userPage_follower = findViewById(R.id.userPage_follower);
