@@ -37,7 +37,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
             android:backgroundTint="@color/spotify_color"
             android:text="cancel" />
 
@@ -48,7 +47,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
             android:backgroundTint="@color/spotify_color"
             android:text="save" />
     </LinearLayout>

@@ -43,7 +43,7 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         currentSong_artist = findViewById(R.id.currentSong_artist);
         currentSong_lyricEditor = findViewById(R.id.currentSong_lyricEditor);
         currentSong_textLyric = findViewById(R.id.currentSong_textLyric);
-        currentSong_buttonLike = findViewById(R.id.currentSong_buttonLike);
+        currentSong_buttonLike = findViewById(R.id.editPage_fullScreenButton1);
         currentSong_buttonComment = findViewById(R.id.currentSong_buttonComment);
         currentSong_buttonReport = findViewById(R.id.currentSong_buttonReport);
         currentSong_buttonTranslate = findViewById(R.id.currentSong_buttonTranslate);

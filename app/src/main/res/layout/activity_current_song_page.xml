@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,11 +9,14 @@
     tools:context=".final_project.CurrentSongPageActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
+        android:layout_margin="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/currentSong_albumImage"
@@ -63,35 +66,43 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="vertical">
+        android:layout_margin="30dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
         <TextView
             android:id="@+id/currentSong_textLyric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Look at the stars Look how they shine for you And everything you do Yeah, they were all yellow I came along I wrote a song for you And all the things you do And it was called Yellow So then I took my turn Oh, what a thing to have done And it was all yellow Your skin, oh yeah, your skin and bones Turn into"
-            android:textSize="16sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="30dp"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/currentSong_buttonLike"
+                android:id="@+id/editPage_fullScreenButton1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -116,19 +127,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:gravity="right"
+            android:layout_marginLeft="45dp"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/currentSong_buttonTranslate"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:drawableEnd="@drawable/Translate" />
 
             <Button
                 android:id="@+id/currentSong_buttonEdit"
@@ -136,7 +138,19 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:drawableEnd="@drawable/Edit" />
+                android:drawableEnd="@drawable/Edit"
+                tools:layout_editor_absoluteX="263dp"
+                tools:layout_editor_absoluteY="269dp" />
+
+            <Button
+                android:id="@+id/currentSong_buttonTranslate"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:drawableEnd="@drawable/Translate"
+                tools:layout_editor_absoluteX="313dp"
+                tools:layout_editor_absoluteY="269dp" />
 
             <Button
                 android:id="@+id/currentSong_buttonAddToFav"
@@ -144,24 +158,27 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:drawableEnd="@drawable/AddToFav" />
+                android:drawableEnd="@drawable/AddToFav"
+                tools:layout_editor_absoluteX="363dp"
+                tools:layout_editor_absoluteY="269dp" />
         </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navBarView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:background="@color/transparent"
+        app:elevation="0dp"
+        app:itemIconSize="40dp"
+        app:itemIconTint="@color/spotify_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_navigation" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/navBarView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
 
-            app:elevation="8dp"
-            app:itemIconTint="@color/spotify_color"
-            app:menu="@menu/menu_navigation" />
-    </LinearLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
