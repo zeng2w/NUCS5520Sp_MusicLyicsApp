@@ -60,4 +60,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_50percent_horizontal" />
 
+    <Button
+        android:id="@+id/buttonLyricsApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lyrics App"
+        android:onClick="onClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStickIt" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

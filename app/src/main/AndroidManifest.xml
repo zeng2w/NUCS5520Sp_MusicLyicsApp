@@ -19,35 +19,35 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".CreateEditPageActivity"
+            android:name=".final_project.CreateEditPageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LibraryPageActivity"
+            android:name=".final_project.LibraryPageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".CurrentSongPageActivity"
+            android:name=".final_project.CurrentSongPageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".UserPageActivity"
+            android:name=".final_project.UserPageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LogInActivity"
+            android:name=".final_project.LogInActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
