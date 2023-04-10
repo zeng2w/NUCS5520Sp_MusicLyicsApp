@@ -11,6 +11,7 @@ import android.view.View;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYourService;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.StickItToEm;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.LogInActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (viewId == R.id.buttonStickIt){
             Intent intentStickIt = new Intent(MainActivity.this, StickItToEm.class);
             startActivity(intentStickIt);
+        } else if (viewId == R.id.buttonLyricsApp) {
+            Intent intentLyricsApp = new Intent(MainActivity.this, LogInActivity.class);
+            startActivity(intentLyricsApp);
+
         }
     }
 }
