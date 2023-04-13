@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "edu.northeastern.nucs5520sp_musiclyicsapp"
-        minSdk 24
+        minSdk 27
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -33,67 +33,25 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildFeatures{
-        dataBinding = true
-        viewBinding = true
-    }
 }
 
-
-
+//Firebase - credit to: https://www.youtube.com/watch?v=jbHfJpoOzkI&t=190s
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'org.jsoup:jsoup:1.15.3'
-    implementation 'com.google.firebase:firebase-database:20.1.0'
+    implementation 'com.google.firebase:firebase-auth:21.3.0'
+    implementation 'com.google.firebase:firebase-database:20.2.0'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation "com.spotify.android:auth:1.2.5"
+    implementation files('libs/spotify-app-remote-release-0.7.2.aar')
+    implementation files('libs/spotify-auth-release-1.2.3.arr')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:31.2.0')
-
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-
-    // Add the dependency for the Firebase SDK for Google Analytics
+    implementation platform('com.google.firebase:firebase-bom:31.2.3')
     implementation 'com.google.firebase:firebase-analytics'
-
-    // TODO: Add the dependencies for any other Firebase products you want to use
-    // See https://firebase.google.com/docs/android/setup#available-libraries
-    // For example, add the dependencies for Firebase Authentication and Cloud Firestore
-    implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-firestore'
-
-    // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:31.2.0')
-
-    // Add the dependency for the Firebase Authentication library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-auth'
-
-    // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:31.2.0')
-
-    // Add the dependency for the Firebase Authentication library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-auth'
-
-    // Also add the dependency for the Google Play services library and specify its version
-    implementation 'com.google.android.gms:play-services-auth:20.4.1'
-
-    implementation platform('com.google.firebase:firebase-bom:31.2.2')
-
-    // Add the dependency for the Firebase Authentication library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-auth'
-
-    //firebase storage
-    implementation 'com.google.firebase:firebase-storage:20.1.0'
-
-    implementation 'com.google.firebase:firebase-messaging:23.1.2'
-    implementation 'com.android.volley:volley:1.2.1'
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }
