@@ -48,6 +48,6 @@ public class UserPageActivity extends AppCompatActivity {
         userPage_setting = findViewById(R.id.userPage_setting);
         userPage_bugReport = findViewById(R.id.userPage_bugReport);
         logOut = findViewById(R.id.userPage_logout);
-        navBarView = findViewById(R.id.navBarView);
+//        navBarView = findViewById(R.id.navBarView);
     }
 }
