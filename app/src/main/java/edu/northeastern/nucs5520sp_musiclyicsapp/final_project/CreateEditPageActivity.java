@@ -28,10 +28,10 @@ the translation of the lyric by themselves
 public class CreateEditPageActivity extends AppCompatActivity {
 
     ActivityCreateEditPageBinding binding;
-    DatabaseReference databaseReference;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
     DatabaseReference databaseReferenceSharedLyrics;
     String currentUserEmail;
+    String currentUid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +41,7 @@ public class CreateEditPageActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             currentUserEmail = user.getEmail();
+            currentUid = user.getUid();
         }
 
 
@@ -66,11 +67,11 @@ public class CreateEditPageActivity extends AppCompatActivity {
                     // else will save the lyrics to db
                     // if user select 'Accessible to other user', it will save into db --> both shared_Lyrics and users_Lyrics_Library
                     if (binding.editPageCheckBox.isChecked()){
-                        databaseReferenceUsersLyricsLibrary.child(currentUserEmail.replaceAll("[^a-zA-Z0-9]",""))
+                        databaseReferenceUsersLyricsLibrary.child(currentUid)
                                 .child(newLyric_Name + newLyric_Artist).setValue(new_song);
-                        databaseReferenceSharedLyrics.child(newLyric_Name+ newLyric_Artist + currentUserEmail.replaceAll("[^a-zA-Z0-9]","")).setValue(new_song);
+                        databaseReferenceSharedLyrics.child(newLyric_Name+ newLyric_Artist + currentUid).setValue(new_song);
                     } else {
-                        databaseReferenceUsersLyricsLibrary.child(currentUserEmail.replaceAll("[^a-zA-Z0-9]",""))
+                        databaseReferenceUsersLyricsLibrary.child(currentUid)
                                 .child(newLyric_Name + newLyric_Artist).setValue(new_song);
                     }
                     // when save successful, go to library page, then the new added song will show on library page
