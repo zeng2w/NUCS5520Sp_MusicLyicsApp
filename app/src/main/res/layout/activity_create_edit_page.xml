@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/textViewCreateEdit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Create/Edit"
@@ -82,7 +82,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Lyrics..."
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +107,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Romanization/Translation..."
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editPage_editLyric" />
@@ -165,5 +165,16 @@
             android:backgroundTint="@color/spotify_color"
             android:text="save" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/editPage_buttonCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Camera"
+        app:layout_constraintEnd_toStartOf="@+id/editPage_fullScreenButton1"
+        app:layout_constraintHorizontal_bias="0.887"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
