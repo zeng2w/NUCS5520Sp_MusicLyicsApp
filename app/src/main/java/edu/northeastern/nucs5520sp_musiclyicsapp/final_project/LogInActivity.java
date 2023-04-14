@@ -17,12 +17,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.HomeActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.StickItToEm;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.User;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityLogInBinding;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.UserModel;
 
 /*
 Login page: for user to login
@@ -35,12 +37,8 @@ user need to log in instead
 
  */
 public class LogInActivity extends AppCompatActivity {
-
-    Button buttonSubmit;
-    Button buttonSignup;
-    EditText emailAddress;
-    EditText password;
-
+    private EditText emailText;
+    private EditText passwordText;
     ActivityLogInBinding binding;
     String username, emailString, passwordString;
     //password = "12345671111" by user1, user2,user3,user4,user6,user9
@@ -52,16 +50,15 @@ public class LogInActivity extends AppCompatActivity {
         binding = ActivityLogInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        buttonSubmit = findViewById(R.id.buttonSubmit);
-        buttonSignup = findViewById(R.id.buttonSignup);
-        emailAddress = findViewById(R.id.emailAddress);
-        password = findViewById(R.id.password);
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
+        emailText = findViewById(R.id.emailAddress);
+        passwordText = findViewById(R.id.password);
        binding.buttonSubmit.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                emailString = binding.emailAddress.getText().toString();
-               if(TextUtils.isEmpty(emailString)){
+               passwordString = binding.password.getText().toString();
+               if(TextUtils.isEmpty(emailString) || TextUtils.isEmpty(passwordString)){
                    Toast.makeText(LogInActivity.this, "Email is empty", Toast.LENGTH_SHORT).show();
                } else {
                    login();
@@ -86,8 +83,8 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void login() {
-        Log.d("email", emailString);
-        Log.d("password", passwordString);
+        Log.d("------email: ", emailString);
+        Log.d("------password: ", passwordString);
         FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString.trim(), passwordString).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
@@ -122,11 +119,11 @@ public class LogInActivity extends AppCompatActivity {
                         UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                         firebaseUser.updateProfile(userProfileChangeRequest);
-                        User user =new User(FirebaseAuth.getInstance().getUid(), username, emailString, passwordString);
+                        UserModel user = new UserModel(FirebaseAuth.getInstance().getUid(), username, emailString, passwordString);
                         databaseReference.child(FirebaseAuth.getInstance().getUid()).setValue(user);
                         Toast.makeText(LogInActivity.this, "SignUp successful!", Toast.LENGTH_SHORT).show();
 
-                        startActivity(new Intent(LogInActivity.this, HomeActivity.class));
+                        startActivity(new Intent(LogInActivity.this, UserPageActivity.class));
                         finish();
                     }
                 }).addOnFailureListener(er -> {
