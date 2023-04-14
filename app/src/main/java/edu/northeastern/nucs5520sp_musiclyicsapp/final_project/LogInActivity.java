@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,9 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.HomeActivity;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.StickItToEm;
-import edu.northeastern.nucs5520sp_musiclyicsapp.a8.User;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityLogInBinding;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.UserModel;
 
@@ -37,11 +33,8 @@ user need to log in instead
 
  */
 public class LogInActivity extends AppCompatActivity {
-    private EditText emailText;
-    private EditText passwordText;
     ActivityLogInBinding binding;
     String username, emailString, passwordString;
-    //password = "12345671111" by user1, user2,user3,user4,user6,user9
     DatabaseReference databaseReference;
 
     @Override
@@ -51,8 +44,8 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
-        emailText = findViewById(R.id.emailAddress);
-        passwordText = findViewById(R.id.password);
+
+        // log in
        binding.buttonSubmit.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -66,6 +59,7 @@ public class LogInActivity extends AppCompatActivity {
            }
        });
 
+       // signUp
        binding.buttonSignup.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -102,6 +96,7 @@ public class LogInActivity extends AppCompatActivity {
         });
     }
 
+    // Check if there is a user who already log in when project start
     @Override
     protected void onStart() {
         super.onStart();
