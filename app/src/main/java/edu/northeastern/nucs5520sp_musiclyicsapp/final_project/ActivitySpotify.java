@@ -2,6 +2,7 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import java.util.ArrayList;
@@ -22,6 +23,11 @@ public class ActivitySpotify extends AppCompatActivity {
         songService = new SongService(getApplicationContext());
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
+
+        // If sharedPreferences doesn't have anything, then user authorization is needed.
+        if (sharedPreferences.getAll().isEmpty()) {
+            startActivity(new Intent(ActivitySpotify.this, ActivitySpotifyAuth.class));
+        }
 
         getTracks();
     }
