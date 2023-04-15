@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/pic2"
+    android:background="@drawable/bg_orange"
     tools:context=".final_project.CurrentSongPageActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout7"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +29,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -38,16 +37,16 @@
                 android:id="@+id/currentSong_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Yellow"
-                android:singleLine="true"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit ="marquee_forever"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="Yellow"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
@@ -57,14 +56,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Coldplay"
-                android:singleLine="true"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit ="marquee_forever"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
-                android:textColor="@color/black"
+                android:singleLine="true"
+                android:text="Coldplay"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <TextView
@@ -72,14 +71,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Jerry Bao"
-                android:singleLine="true"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit ="marquee_forever"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
-                android:textColor="@color/black"
+                android:singleLine="true"
+                android:text="Jerry Bao"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
@@ -87,8 +86,12 @@
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_margin="30dp"
+        android:layout_height="0dp"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,10 +102,12 @@
         <TextView
             android:id="@+id/currentSong_textLyric"
             android:layout_width="match_parent"
-            android:layout_height="188dp"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
             android:text="Look at the stars Look how they shine for you And everything you do Yeah, they were all yellow I came along I wrote a song for you And all the things you do And it was called Yellow So then I took my turn Oh, what a thing to have done And it was all yellow Your skin, oh yeah, your skin and bones Turn into"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -110,9 +115,8 @@
         android:id="@+id/linearLayout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navBarView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -191,7 +195,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/white"
+        android:background="@color/transparent"
         app:elevation="0dp"
         app:itemIconSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
