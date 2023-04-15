@@ -11,5 +11,7 @@
     <color name="spotify_color">#1DB954</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="green_700">#0D351B</color>
+    <color name="gray">#E1E1E1</color>
+
 
 </resources>

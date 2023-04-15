@@ -39,6 +39,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyViewHo
         notifyDataSetChanged();
     }
 
+    public List<SongModel> getSongList(){
+        return songList;
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

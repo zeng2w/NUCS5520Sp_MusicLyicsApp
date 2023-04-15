@@ -53,6 +53,7 @@ public class UserPageActivity extends AppCompatActivity {
 
         //databaseReference = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
 
+        binding.navBarView.setSelectedItemId(R.id.navBar_user);
         // show current username on User Page
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -81,7 +82,6 @@ public class UserPageActivity extends AppCompatActivity {
 //                    break;
                 case R.id.navBar_library:
                     startActivity(new Intent(UserPageActivity.this, LibraryPageActivity.class));
-                    finish();
                     break;
             }
             return true;

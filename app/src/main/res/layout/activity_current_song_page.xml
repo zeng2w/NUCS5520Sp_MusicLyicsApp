@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_orange"
+    android:background="@drawable/bg_blue_dark"
     tools:context=".final_project.CurrentSongPageActivity">
 
     <LinearLayout
@@ -184,6 +184,18 @@
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 android:drawableEnd="@drawable/addtofav"
+                android:visibility="visible"
+                tools:layout_editor_absoluteX="363dp"
+                tools:layout_editor_absoluteY="269dp" />
+
+            <Button
+                android:id="@+id/currentSong_buttonExistInYourLibrary"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:drawableEnd="@drawable/baseline_playlist_add_check_24"
+                android:visibility="invisible"
                 tools:layout_editor_absoluteX="363dp"
                 tools:layout_editor_absoluteY="269dp" />
         </LinearLayout>

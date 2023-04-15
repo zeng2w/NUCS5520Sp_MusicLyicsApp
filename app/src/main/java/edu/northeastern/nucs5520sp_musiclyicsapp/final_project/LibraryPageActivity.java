@@ -3,11 +3,13 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityLibraryPageBinding;
@@ -49,9 +54,11 @@ public class LibraryPageActivity extends AppCompatActivity {
         binding = ActivityLibraryPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.navBarView.setSelectedItemId(R.id.navBar_library);
         // set adapter to recycler view
         libraryAdapter = new LibraryAdapter(this);
         binding.libraryRecyclerView.setAdapter(libraryAdapter);
+
         /*
         set layout manager for the recycler view
          */
@@ -109,6 +116,30 @@ public class LibraryPageActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        Toast.makeText(LibraryPageActivity.this, "Remove a Lyric from Library", Toast.LENGTH_SHORT).show();
+                        int position = viewHolder.getLayoutPosition();
+                        //itemList.remove(position);
+                        //delete item in Db
+                        String deletedSong_name = libraryAdapter.getSongList().get(position).getSong_name();
+                        String deletedSong_artist = libraryAdapter.getSongList().get(position).getSong_artist();
+                        String s = deletedSong_name.replaceAll("[^a-zA-Z0-9]", "") + deletedSong_artist.replaceAll("[^a-zA-Z0-9]", "");
+                        Log.d("----Deleted Song name", libraryAdapter.getSongList().get(position).getSong_name());
+                        databaseReferenceUsersLyricsLibrary.child(s).removeValue();
+                        libraryAdapter.notifyItemRemoved(position);
+
+                    }
+                });
+        itemTouchHelper.attachToRecyclerView(binding.libraryRecyclerView);
 
 
     }

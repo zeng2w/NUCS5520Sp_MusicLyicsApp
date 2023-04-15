@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="18dp"
     android:orientation="vertical"
     tools:context=".final_project.CreateEditPageActivity">
 
@@ -12,6 +11,7 @@
         android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,18 +21,21 @@
             android:id="@+id/textViewCreateEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
             android:text="Create/Edit"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,8 +45,9 @@
             android:id="@+id/imageButton"
             android:layout_width="180dp"
             android:layout_height="120dp"
-            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
 
+            android:layout_weight="3"
             tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
@@ -56,30 +60,36 @@
             <EditText
                 android:id="@+id/editPage_songName"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginTop="15dp"
-                android:backgroundTint="@color/design_default_color_on_primary"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray"
                 android:ems="10"
                 android:hint="Song Name..."
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/editPage_artist"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="15dp"
-                android:backgroundTint="@color/design_default_color_on_primary"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray"
                 android:ems="10"
                 android:hint="Artist..."
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 
     <EditText
         android:id="@+id/editPage_editLyric"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="15dp"
+        android:background="@color/gray"
         android:ems="10"
         android:hint="Lyrics..."
         android:inputType="textMultiLine"
@@ -103,8 +113,10 @@
     <EditText
         android:id="@+id/editPage_editTranslate"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="15dp"
+        android:background="@color/gray"
         android:ems="10"
         android:hint="Romanization/Translation..."
         android:inputType="textMultiLine"
@@ -115,7 +127,7 @@
     <Button
         android:id="@+id/editPage_fullScreenButton1"
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@android:color/transparent"
         android:drawableEnd="@drawable/ic_full_screen"
@@ -128,6 +140,7 @@
         android:id="@+id/editPage_checkBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"
         android:text="Accessible to other users"
         android:textStyle="bold"
@@ -139,11 +152,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPage_checkBox">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/editPage_buttonCancel"
@@ -168,13 +181,13 @@
 
     <Button
         android:id="@+id/editPage_buttonCamera"
-        android:layout_width="wrap_content"
+        android:layout_width="52dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Camera"
+        android:background="@android:color/transparent"
+        android:drawableEnd="@drawable/baseline_photo_camera_24"
         app:layout_constraintEnd_toStartOf="@+id/editPage_fullScreenButton1"
         app:layout_constraintHorizontal_bias="0.887"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
+        app:layout_constraintTop_toTopOf="@+id/editPage_editLyric" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
