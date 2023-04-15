@@ -54,9 +54,11 @@ public class LibraryPageActivity extends AppCompatActivity {
         binding = ActivityLibraryPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.navBarView.setSelectedItemId(R.id.navBar_library);
         // set adapter to recycler view
         libraryAdapter = new LibraryAdapter(this);
         binding.libraryRecyclerView.setAdapter(libraryAdapter);
+
         /*
         set layout manager for the recycler view
          */
