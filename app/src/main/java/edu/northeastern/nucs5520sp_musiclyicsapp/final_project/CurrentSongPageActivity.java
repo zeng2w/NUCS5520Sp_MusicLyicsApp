@@ -114,6 +114,9 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             return true;
         });
 
+        // make lyric scrolling
+        binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());
+
 
 
 
