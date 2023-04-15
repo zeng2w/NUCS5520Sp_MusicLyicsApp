@@ -32,6 +32,8 @@ public class CreateEditPageActivity extends AppCompatActivity {
     DatabaseReference databaseReferenceSharedLyrics;
     String currentUserEmail;
     String currentUid;
+    String songName, songArtist, lyricCreator, lyric, translation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,28 @@ public class CreateEditPageActivity extends AppCompatActivity {
 
         databaseReferenceSharedLyrics = FirebaseDatabase.getInstance().getReference("shared_Lyrics");
         databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library");
+
+        // this intent for receive the edit action from the lyric detail page
+        Intent intent = getIntent();
+        songName = intent.getStringExtra("song_name");
+        songArtist= intent.getStringExtra("song_artist");
+        lyricCreator = intent.getStringExtra("lyric_creator");
+        lyric = intent.getStringExtra("song_lyric");
+        translation = intent.getStringExtra("song_translation");
+
+        // if intent is not null, that means user need to edit the lyric
+
+        if(songName != null){
+            Log.d("----edit action", "true");
+            binding.editPageSongName.setText(songName);
+            binding.editPageArtist.setText(songArtist);
+            binding.editPageEditLyric.setText(lyric);
+            binding.editPageEditTranslate.setText(translation);
+        } else {
+            Log.d("----edit action", "false");
+
+        }
+
 
         // when click 'Save' button, if user select "Accessible to other users",
         // the created new lyric will save to firebase realtime db --> both shared_Lyrics and users_Lyrics_Library
@@ -71,18 +95,29 @@ public class CreateEditPageActivity extends AppCompatActivity {
                     // if user select 'Accessible to other user', it will save into db --> both shared_Lyrics and users_Lyrics_Library
                     String s = newLyric_Name.replaceAll("[^a-zA-Z0-9]", "") + newLyric_Artist.replaceAll("[^a-zA-Z0-9]", "");
                     if (binding.editPageCheckBox.isChecked()){
-                        databaseReferenceUsersLyricsLibrary.child(currentUid)
-                                .child(s).setValue(new_song);
-                        databaseReferenceSharedLyrics.child(newLyric_Name+ newLyric_Artist + currentUid).setValue(new_song);
+                        // if there is nothing to change, then shared lyrics will not save anything
+                        // this avoid different user shared the same lyrics and translation to the same song
+                        if(newLyric_Name.equals(songName) && newLyric_Artist.equals(songArtist) && newLyric.equals(lyric)
+                            && newLyric_translation.equals(translation)){
+                            databaseReferenceUsersLyricsLibrary.child(currentUid)
+                                    .child(s).setValue(new_song);
+                            Toast.makeText(CreateEditPageActivity.this, "Lyric already shared, and you haven't change anything", Toast.LENGTH_SHORT).show();
+                        } else {
+                            databaseReferenceUsersLyricsLibrary.child(currentUid)
+                                    .child(s).setValue(new_song);
+                            databaseReferenceSharedLyrics.child(s + currentUid).setValue(new_song);
+                            // when save successful, go to library page, then the new added song will show on library page
+                            startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
+                            finish();
+                        }
+
                     } else {
                         databaseReferenceUsersLyricsLibrary.child(currentUid)
                                 .child(s).setValue(new_song);
+                        // when save successful, go to library page, then the new added song will show on library page
+                        startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
+                        finish();
                     }
-                    // when save successful, go to library page, then the new added song will show on library page
-                    startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
-                    finish();
-                    //Toast.makeText(CreateEditPageActivity.this, "Saved Successful!", Toast.LENGTH_SHORT).show();
-
                 }
 
             }

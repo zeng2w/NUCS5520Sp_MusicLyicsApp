@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ the nav bar to transit to other page
 public class CurrentSongPageActivity extends AppCompatActivity {
 
     ActivityCurrentSongPageBinding binding;
-    String songName, songArtist, lyricCreator;
+    String songName, songArtist, lyricCreator, lyric, translation;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
 
 
@@ -44,10 +45,14 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         binding = ActivityCurrentSongPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // get the song's name/artist/creator infor from the library when user choose a song
         Intent intent = getIntent();
         songName = intent.getStringExtra("song_name");
         songArtist= intent.getStringExtra("song_artist");
         lyricCreator = intent.getStringExtra("lyric_creator");
+
+        // edit Intent: when edit a song lyric, it will send all of information to edit page
+        Intent editIntent = new Intent(CurrentSongPageActivity.this, CreateEditPageActivity.class);
 
         Log.d("------song name: ", songName);
         binding.currentSongTitle.setText(songName);
@@ -66,7 +71,8 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // get lyric of this song and update UI
-                String lyric = snapshot.child("song_lyric").getValue().toString();
+                lyric = snapshot.child("song_lyric").getValue().toString();
+                translation = snapshot.child("song_translation").getValue().toString();
                 Log.d("-----------lyric:", lyric);
                 binding.currentSongTextLyric.setText(lyric);
 
@@ -74,6 +80,21 @@ public class CurrentSongPageActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        // edit button in lyric details page will open the Create/Edit page to edit the lyric
+        binding.currentSongButtonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editIntent.putExtra("song_name", songName);
+                editIntent.putExtra("song_artist", songArtist);
+                editIntent.putExtra("lyricCreator", lyricCreator);
+                editIntent.putExtra("song_lyric", lyric);
+                editIntent.putExtra("song_translation", translation);
+                startActivity(new Intent(editIntent));
+                finish();
 
             }
         });

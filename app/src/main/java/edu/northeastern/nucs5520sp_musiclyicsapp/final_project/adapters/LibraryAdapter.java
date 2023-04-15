@@ -85,14 +85,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyViewHo
             song_name = itemView.findViewById(R.id.library_songTitle);
             song_artist = itemView.findViewById(R.id.library_artist);
             lyric_creator = itemView.findViewById(R.id.library_lyricEditor);
-            //sendStickerButton = itemView.findViewById(R.id.send);
         }
 
-//        @Override
-//        public void onClick(View v) {
-//            int itemPosition = RecyclerView.getChildLayoutPosition(view);
-////            String item = mList.get(itemPosition);
-//            context.startActivities(new Intent[]{intent});
-//        }
     }
 }
