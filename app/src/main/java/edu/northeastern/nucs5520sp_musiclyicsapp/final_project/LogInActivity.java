@@ -82,6 +82,7 @@ public class LogInActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString.trim(), passwordString).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+                System.out.println("we are in login()'s onSuccess()");
                 UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 firebaseUser.updateProfile(userProfileChangeRequest);
@@ -90,9 +91,8 @@ public class LogInActivity extends AppCompatActivity {
                 finish();
             }
         }).addOnFailureListener(er -> {
-            Log.d("login error", er.getMessage());
             Toast.makeText(LogInActivity.this, "" + er.getMessage(), Toast.LENGTH_SHORT).show();
-
+            Log.d("login error", er.getMessage());
         });
     }
 
@@ -101,7 +101,7 @@ public class LogInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            startActivity(new Intent(LogInActivity.this, UserPageActivity.class));
+            startActivity(new Intent(LogInActivity.this, LibraryPageActivity.class));
             finish();
         }
     }
