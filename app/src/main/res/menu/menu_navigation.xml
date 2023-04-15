@@ -5,16 +5,16 @@
             android:id="@+id/library"
             android:checkable="true"
             android:icon="@drawable/library"
-            android:title="LIBRARY" />
+            android:title="" />
         <item
             android:id="@+id/menu_item_2"
             android:icon="@drawable/currentsong"
             android:checkable="true"
-            android:title="CURRENTSONG" />
+            android:title="" />
         <item
             android:id="@+id/menu_item_3"
             android:icon="@drawable/user"
             android:checkable="true"
-            android:title="USER" />
+            android:title="" />
     </group>
 </menu>

@@ -1,6 +1,7 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.CurrentSongPageActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SongModel;
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyViewHolder> {
@@ -48,8 +50,20 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SongModel song = songList.get(position);
         holder.song_name.setText(song.getSong_name());
-        holder.song_artist.setText(song.getSong_artist());
-        holder.lyric_creator.setText(song.getLyric_creator());
+        holder.song_artist.setText("Artist: " + song.getSong_artist());
+        holder.lyric_creator.setText("Lyric Creator: " + song.getLyric_creator());
+
+        Intent intent = new Intent(context, CurrentSongPageActivity.class);
+        intent.putExtra("song_name", song.getSong_name());
+        intent.putExtra("song_artist", song.getSong_artist());
+        intent.putExtra("lyric_creator", song.getLyric_creator());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivities(new Intent[]{intent});
+            }
+        });
+
 
 
     }
@@ -74,5 +88,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyViewHo
             //sendStickerButton = itemView.findViewById(R.id.send);
         }
 
+//        @Override
+//        public void onClick(View v) {
+//            int itemPosition = RecyclerView.getChildLayoutPosition(view);
+////            String item = mList.get(itemPosition);
+//            context.startActivities(new Intent[]{intent});
+//        }
     }
 }

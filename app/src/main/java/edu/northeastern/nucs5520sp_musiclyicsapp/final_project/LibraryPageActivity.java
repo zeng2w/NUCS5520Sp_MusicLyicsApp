@@ -79,5 +79,12 @@ public class LibraryPageActivity extends AppCompatActivity {
             }
         });
 
+        binding.searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // go to search page
+            }
+        });
+
     }
 }

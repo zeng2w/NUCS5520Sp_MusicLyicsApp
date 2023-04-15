@@ -55,24 +55,28 @@ public class CreateEditPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // create a new lyric
-                String newLyric_Name = binding.editPageSongName.getText().toString().replaceAll("[^a-zA-Z0-9]","");
-                String newLyric_Artist = binding.editPageArtist.getText().toString().replaceAll("[^a-zA-Z0-9]","");
+                String newLyric_Name = binding.editPageSongName.getText().toString();
+                String newLyric_Artist = binding.editPageArtist.getText().toString();
                 String newLyric = binding.editPageEditLyric.getText().toString();
                 String newLyric_translation = binding.editPageEditTranslate.getText().toString();
+                Log.d("-----new lyrics", newLyric);
+
                 // Log.d("-----song name:", newLyric_Name);
                 SongModel new_song = new SongModel(newLyric_Name, newLyric_Artist, newLyric, newLyric_translation, currentUserEmail);
+                Log.d(" ----- new lyrics in the new_song object", new_song.getSong_lyric());
                 if(TextUtils.isEmpty(newLyric_Name) || TextUtils.isEmpty(newLyric_Artist) || TextUtils.isEmpty(newLyric)){
                     Toast.makeText(CreateEditPageActivity.this, "Input Empty, pleas fill out song Name/Artist/Lyrics", Toast.LENGTH_SHORT).show();
                 } else{
                     // else will save the lyrics to db
                     // if user select 'Accessible to other user', it will save into db --> both shared_Lyrics and users_Lyrics_Library
+                    String s = newLyric_Name.replaceAll("[^a-zA-Z0-9]", "") + newLyric_Artist.replaceAll("[^a-zA-Z0-9]", "");
                     if (binding.editPageCheckBox.isChecked()){
                         databaseReferenceUsersLyricsLibrary.child(currentUid)
-                                .child(newLyric_Name + newLyric_Artist).setValue(new_song);
+                                .child(s).setValue(new_song);
                         databaseReferenceSharedLyrics.child(newLyric_Name+ newLyric_Artist + currentUid).setValue(new_song);
                     } else {
                         databaseReferenceUsersLyricsLibrary.child(currentUid)
-                                .child(newLyric_Name + newLyric_Artist).setValue(new_song);
+                                .child(s).setValue(new_song);
                     }
                     // when save successful, go to library page, then the new added song will show on library page
                     startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
