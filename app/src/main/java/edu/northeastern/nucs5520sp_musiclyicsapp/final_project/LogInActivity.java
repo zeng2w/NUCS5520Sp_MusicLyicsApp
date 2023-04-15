@@ -87,7 +87,7 @@ public class LogInActivity extends AppCompatActivity {
                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 firebaseUser.updateProfile(userProfileChangeRequest);
                 Toast.makeText(LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LogInActivity.this, UserPageActivity.class));
+                startActivity(new Intent(LogInActivity.this, LibraryPageActivity.class));
                 finish();
             }
         }).addOnFailureListener(er -> {

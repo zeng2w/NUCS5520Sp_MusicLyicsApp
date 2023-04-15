@@ -99,6 +99,21 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             }
         });
 
+        // navigation bar on click action
+        binding.navBarView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.navBar_library:
+                    startActivity(new Intent(CurrentSongPageActivity.this, LibraryPageActivity.class));
+                    finish();
+                    break;
+                case R.id.navBar_user:
+                    startActivity(new Intent(CurrentSongPageActivity.this, UserPageActivity.class));
+                    finish();
+                    break;
+            }
+            return true;
+        });
+
 
 
 

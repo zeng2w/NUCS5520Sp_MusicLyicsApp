@@ -71,5 +71,20 @@ public class UserPageActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // navigation bar on click action
+        binding.navBarView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+//                case R.id.navBar_currentSong:
+//                    startActivity(new Intent(UserPageActivity.this, CurrentSongPageActivity.class));
+//                    finish();
+//                    break;
+                case R.id.navBar_library:
+                    startActivity(new Intent(UserPageActivity.this, LibraryPageActivity.class));
+                    finish();
+                    break;
+            }
+            return true;
+        });
     }
 }
