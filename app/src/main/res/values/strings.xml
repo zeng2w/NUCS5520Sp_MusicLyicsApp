@@ -53,8 +53,7 @@
 
 
     <array name="sort_options">
-        <item>Sort by Date</item>
-        <item>Sort by Rating</item>
+        <item>Sort by: Newest</item>
         <item>Sort by Popularity</item>
     </array>
 
