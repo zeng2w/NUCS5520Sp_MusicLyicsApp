@@ -4,10 +4,10 @@ import static edu.northeastern.nucs5520sp_musiclyicsapp.R.id.local_search_toggle
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
-
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 
 public class SearchActivity extends AppCompatActivity {

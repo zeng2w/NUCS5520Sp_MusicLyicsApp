@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,6 +100,10 @@ public class LibraryPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // go to search page
+                Context context = LibraryPageActivity.this;
+                Intent intent = new Intent(context, SearchActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

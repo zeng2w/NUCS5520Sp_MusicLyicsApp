@@ -19,21 +19,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".SearchActivity"
+            android:name=".final_project.SearchActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ImportActivity"
+            android:name=".final_project.ImportActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".CommentActivity"
+            android:name=".final_project.CommentActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
