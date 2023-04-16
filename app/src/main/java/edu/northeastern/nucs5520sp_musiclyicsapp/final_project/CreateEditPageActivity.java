@@ -1,8 +1,14 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,10 +18,20 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityCreateEditPageBinding;
@@ -28,11 +44,14 @@ the translation of the lyric by themselves
 public class CreateEditPageActivity extends AppCompatActivity {
 
     ActivityCreateEditPageBinding binding;
+    Uri imageUploadUri;
+    StorageReference storageReference;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
     DatabaseReference databaseReferenceSharedLyrics;
     String currentUserEmail;
     String currentUid;
     String songName, songArtist, lyricCreator, lyric, translation;
+    String imageFromIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +69,7 @@ public class CreateEditPageActivity extends AppCompatActivity {
         databaseReferenceSharedLyrics = FirebaseDatabase.getInstance().getReference("shared_Lyrics");
         databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library");
 
+
         // this intent for receive the edit action from the lyric detail page
         Intent intent = getIntent();
         songName = intent.getStringExtra("song_name");
@@ -57,15 +77,17 @@ public class CreateEditPageActivity extends AppCompatActivity {
         lyricCreator = intent.getStringExtra("lyric_creator");
         lyric = intent.getStringExtra("song_lyric");
         translation = intent.getStringExtra("song_translation");
+        imageFromIntent = intent.getStringExtra("image_url");
+
 
         // if intent is not null, that means user need to edit the lyric
-
         if(songName != null){
             Log.d("----edit action", "true");
             binding.editPageSongName.setText(songName);
             binding.editPageArtist.setText(songArtist);
             binding.editPageEditLyric.setText(lyric);
             binding.editPageEditTranslate.setText(translation);
+            Picasso.get().load(imageFromIntent).into(binding.imageButton);
         } else {
             Log.d("----edit action", "false");
 
@@ -118,8 +140,19 @@ public class CreateEditPageActivity extends AppCompatActivity {
                         startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
                         finish();
                     }
+
+                    // upload image to firebase store
+                    uploadImage();
                 }
 
+            }
+        });
+
+        // click image view then edit the image of the music
+        binding.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               selectImage();
             }
         });
 
@@ -131,5 +164,48 @@ public class CreateEditPageActivity extends AppCompatActivity {
                 startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
             }
         });
+    }
+
+    private void uploadImage() {
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
+//        Date now = new Date();
+        String name = binding.editPageSongName.getText().toString();
+        String artist = binding.editPageArtist.getText().toString();
+        String fileName = name.replaceAll("[^a-zA-Z0-9]", "") + artist.replaceAll("[^a-zA-Z0-9]", "") + currentUid;
+        storageReference = FirebaseStorage.getInstance().getReference("images/" +currentUid).child(fileName);
+
+        if(imageUploadUri != null) {
+            storageReference.putFile(imageUploadUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //binding.imageButton.setImageURI(null);
+                    //Toast.makeText()
+                    Log.d("------upload image", "successful");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("------upload image", "fail");
+
+                }
+            });
+        }
+    }
+
+    private void selectImage() {
+        Intent imageIntent = new Intent();
+        imageIntent.setType("image/");
+        imageIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(imageIntent,100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 100 && data != null && data.getData() != null){
+            imageUploadUri = data.getData();
+            binding.imageButton.setImageURI(imageUploadUri);
+        }
     }
 }

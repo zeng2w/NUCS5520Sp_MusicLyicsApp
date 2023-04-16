@@ -6,6 +6,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityCurrentSongPageBinding;
@@ -39,9 +44,13 @@ public class CurrentSongPageActivity extends AppCompatActivity {
     ActivityCurrentSongPageBinding binding;
     String songName, songArtist, lyricCreator, lyric, translation;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
+    StorageReference storageReference;
+    // this string is assigned as the node key of each song in db library
     String songName_artist_node;
-
+    // check if Add Button is checked
     Boolean isAdded;
+    String imageUrl;
+
     Button currentSong_buttonComment;
 
     @Override
@@ -75,12 +84,24 @@ public class CurrentSongPageActivity extends AppCompatActivity {
 
         Log.d("------song name: ", songName);
         binding.currentSongTitle.setText(songName);
+        // auto scrollable
         binding.currentSongTitle.setSelected(true);
         binding.currentSongArtist.setText("Artist: " + songArtist);
         binding.currentSongArtist.setSelected(true);
         binding.currentSongLyricEditor.setText("Lyric Creator" + lyricCreator);
         binding.currentSongLyricEditor.setSelected(true);
-        binding.currentSongAlbumImage.setImageResource(R.drawable.sticker6);
+        // load image from firebase storage
+        String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String fileName = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "") + currentUid;
+        storageReference = FirebaseStorage.getInstance().getReference("images/" +currentUid).child(fileName);
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                imageUrl = uri.toString();
+                Picasso.get().load(imageUrl).into(binding.currentSongAlbumImage);
+
+            }
+        });
 
         // set navbar
         binding.navBarView.setSelectedItemId(R.id.navBar_currentSong);
@@ -125,8 +146,33 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 editIntent.putExtra("lyricCreator", lyricCreator);
                 editIntent.putExtra("song_lyric", lyric);
                 editIntent.putExtra("song_translation", translation);
+                editIntent.putExtra("image_url", imageUrl);
                 startActivity(new Intent(editIntent));
                 finish();
+            }
+        });
+
+        // translation Button
+        binding.currentSongButtonTranslate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(binding.currentSongTextLyric.getText().toString().equals(lyric)){
+                    binding.currentSongTextLyric.setText(translation);
+                    Drawable drawable = ResourcesCompat.getDrawable(
+                            getResources(),
+                            R.drawable.baseline_translate_24_green,
+                            getTheme()
+                    );
+                    binding.currentSongButtonTranslate.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
+                } else if (binding.currentSongTextLyric.getText().toString().equals(translation)){
+                    binding.currentSongTextLyric.setText(lyric);
+                    Drawable drawable = ResourcesCompat.getDrawable(
+                            getResources(),
+                            R.drawable.translate,
+                            getTheme()
+                    );
+                    binding.currentSongButtonTranslate.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
+                }
 
             }
         });
