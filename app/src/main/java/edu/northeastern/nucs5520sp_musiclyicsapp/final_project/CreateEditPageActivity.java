@@ -93,6 +93,15 @@ public class CreateEditPageActivity extends AppCompatActivity {
 
         }
 
+        // button camera
+        binding.editPageButtonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CreateEditPageActivity.this, CameraCaptureTextActivity.class));
+                finish();
+            }
+        });
+
 
         // when click 'Save' button, if user select "Accessible to other users",
         // the created new lyric will save to firebase realtime db --> both shared_Lyrics and users_Lyrics_Library
