@@ -33,7 +33,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".final_project.CommentActivity"
             android:name=".final_project.ActivitySpotify"
             android:exported="false">
             <meta-data
@@ -55,7 +54,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".final_project.CreateEditPageActivity"
+            android:name=".final_project.CommentActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

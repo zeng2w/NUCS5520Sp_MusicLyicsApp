@@ -8,6 +8,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifySong;
 
 public class ActivitySpotify extends AppCompatActivity {
 

@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifyArtist;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifySong;
+
 // Credit: https://towardsdatascience.com/using-the-spotify-api-with-your-android-application-the-essentials-1a3c1bc36b9e
 public class SongService {
 

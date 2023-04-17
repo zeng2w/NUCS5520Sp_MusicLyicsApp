@@ -1,6 +1,8 @@
-package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
+package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model;
 
 import java.util.List;
+
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifyArtist;
 
 /**
  * Models a single song object.
