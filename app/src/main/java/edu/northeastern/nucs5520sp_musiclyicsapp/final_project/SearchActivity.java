@@ -9,13 +9,16 @@ import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
+import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivitySearchBinding;
 
 public class SearchActivity extends AppCompatActivity {
+    ActivitySearchBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        binding = ActivitySearchBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         ToggleButton myToggleButton = findViewById(local_search_toggle);
 
@@ -29,6 +32,18 @@ public class SearchActivity extends AppCompatActivity {
                     // The toggle button is off
                 }
             }
+        });
+
+        binding.navBarView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.navBar_library:
+                    startActivity(new Intent(SearchActivity.this, LibraryPageActivity.class));
+                    break;
+                case R.id.navBar_user:
+                    startActivity(new Intent(SearchActivity.this, UserPageActivity.class));
+                    break;
+            }
+            return true;
         });
 
     }

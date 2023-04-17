@@ -41,9 +41,6 @@ Library page that include recycler view of song title, artist, and lyric editor.
 nav bar to transit other page.
  */
 public class LibraryPageActivity extends AppCompatActivity {
-
-    RecyclerView library_recyclerView;
-
     ActivityLibraryPageBinding binding;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
     LibraryAdapter libraryAdapter;
@@ -103,6 +100,14 @@ public class LibraryPageActivity extends AppCompatActivity {
                 Context context = LibraryPageActivity.this;
                 Intent intent = new Intent(context, SearchActivity.class);
                 startActivity(intent);
+                finish();
+            }
+        });
+
+        binding.importButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LibraryPageActivity.this, ImportActivity.class));
                 finish();
             }
         });
