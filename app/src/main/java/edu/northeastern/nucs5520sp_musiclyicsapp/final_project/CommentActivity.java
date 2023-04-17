@@ -70,6 +70,7 @@ public class CommentActivity extends AppCompatActivity {
 
                         binding.textviewTrashTemp.setText(dataSnapshot.getKey().toString());
                         showSongComments(dataSnapshot.getKey().toString());
+                        setLyricsLikeNumIntoUI(dataSnapshot.getKey().toString());
                     }
                 }
             }
@@ -79,6 +80,8 @@ public class CommentActivity extends AppCompatActivity {
 
             }
         });
+
+
 
         // set Comments recycler view
         commentAdapter = new CommentAdapter(this);
@@ -124,7 +127,24 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    private void setLyricsLikeNumIntoUI(String creatorId) {
+        String path = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "")+ creatorId;
+        DatabaseReference databaseReferenceSongLike = FirebaseDatabase.getInstance().getReference("likes").child(path);
+        databaseReferenceSongLike.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Log.d("-----------children count", String.valueOf(snapshot.getChildrenCount()));
+                binding.likesCount.setText("( " + snapshot.getChildrenCount() + " )" );
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void showSongComments(String creatorId) {

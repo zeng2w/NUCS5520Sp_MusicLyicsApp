@@ -160,15 +160,5 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Reply List -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/reply_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reply_text_input_layout"
-        app:layout_constraintWidth_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
