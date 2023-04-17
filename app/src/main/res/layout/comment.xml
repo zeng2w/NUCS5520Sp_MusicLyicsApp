@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_width="380dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/profile_image_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="Profile picture"
+            android:src="@drawable/person_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/user_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:text="User name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profile_image_view"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/comment_text_view"
+        android:layout_width="380dp"
+        android:layout_height="20dp"
+
+        android:layout_marginTop="5dp"
+        android:text="Comment text goes here"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+    <TextView
+        android:id="@+id/comment_date_text_view"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:text="03/28/2023"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.006"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment_text_view" />
+
+    <LinearLayout
+        android:id="@+id/thumb_comment_row"
+        android:layout_width="160dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="220dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment_date_text_view"
+        tools:ignore="MissingConstraints">
+
+
+        <ImageButton
+            android:id="@+id/thumb_up_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@null"
+            android:contentDescription="Thumb up button"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_thumb_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/thumb_down_count_text_view"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/thumb_down_button"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="123dp" />
+
+        <ImageButton
+            android:id="@+id/thumb_down_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@null"
+            android:contentDescription="Thumb down button"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_thumb_down"
+            app:layout_constraintStart_toEndOf="@+id/thumb_up_count_text_view"
+            tools:layout_editor_absoluteY="122dp" />
+
+        <TextView
+            android:id="@+id/thumb_up_count_text_view"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/thumb_up_button"
+            tools:layout_editor_absoluteY="129dp" />
+
+        <ImageButton
+            android:id="@+id/comment_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_comment"
+            app:layout_constraintStart_toEndOf="@+id/thumb_down_count_text_view"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="123dp" />
+    </LinearLayout>
+
+    <!-- Reply input box -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/reply_text_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Reply to comments"
+        app:layout_constraintTop_toBottomOf="@id/thumb_comment_row"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/reply_text_input_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:inputType="text"
+            android:maxLines="3"
+            android:minLines="1"
+            android:imeOptions="actionDone"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Reply List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reply_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/reply_text_input_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.9"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

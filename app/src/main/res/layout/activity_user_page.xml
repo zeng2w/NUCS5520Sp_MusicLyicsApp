@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pic2"
+
     android:orientation="vertical"
     tools:context=".final_project.UserPageActivity">
 
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Following: 0"
+            android:text="Following 23"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Follower: 0"
+            android:text="Follower 23"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textStyle="bold" />
