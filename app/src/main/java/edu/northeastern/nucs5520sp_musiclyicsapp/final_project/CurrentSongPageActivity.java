@@ -51,6 +51,8 @@ public class CurrentSongPageActivity extends AppCompatActivity {
     Boolean isAdded;
     String imageUrl;
 
+    DatabaseReference databaseReferenceSongLikes;
+
     Button currentSong_buttonComment;
 
     @Override
@@ -216,8 +218,99 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             return true;
         });
 
+        // find lyric Creator id
+        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
+        databaseReferenceUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    if (dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
+                        //lyricCreatorId = dataSnapshot.getKey().toString();
+                        //binding.textviewTrashTemp.setText(dataSnapshot.getKey().toString());
+                        saveSongLikeOnDB(dataSnapshot.getKey().toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         // make lyric scrolling
         binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    private void saveSongLikeOnDB(String lyricCreatorId) {
+        // db like path for song
+        String path = songName.replaceAll("[^a-zA-Z0-9]","")+ songArtist.replaceAll("[^a-zA-Z0-9]","")+lyricCreatorId;
+        //check if current user liked this song lyric
+        databaseReferenceSongLikes = FirebaseDatabase.getInstance().getReference("likes").child(path);
+        String currentUserId = FirebaseAuth.getInstance().getUid();
+
+        // check if user already liked this song
+        final Boolean[] isLiked = {false};
+        databaseReferenceSongLikes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    if(dataSnapshot.getKey().equals(currentUserId)){
+                         isLiked[0] = true;
+                    }
+                }
+                if(isLiked[0]){
+                    Drawable drawable = ResourcesCompat.getDrawable(
+                            getResources(),
+                            R.drawable.baseline_thumb_up_24_red,
+                            getTheme()
+
+                    );
+                    binding.editPageFullScreenButton1.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
+                } else {
+                    Drawable drawable = ResourcesCompat.getDrawable(
+                            getResources(),
+                            R.drawable.like,
+                            getTheme()
+
+                    );
+                    binding.editPageFullScreenButton1.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
+                }
+
+                // when click the like button
+                binding.editPageFullScreenButton1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(isLiked[0]){
+                            Drawable drawable = ResourcesCompat.getDrawable(
+                                    getResources(),
+                                    R.drawable.like,
+                                    getTheme()
+
+                            );
+                            binding.editPageFullScreenButton1.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+                            databaseReferenceSongLikes.child(currentUserId).removeValue();
+                            isLiked[0] = false;
+                        } else {
+                            Drawable drawable = ResourcesCompat.getDrawable(
+                                    getResources(),
+                                    R.drawable.baseline_thumb_up_24_red,
+                                    getTheme()
+
+                            );
+                            binding.editPageFullScreenButton1.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+                            databaseReferenceSongLikes.child(currentUserId).setValue(currentUserId);
+                            isLiked[0] = true;
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void changeToAddIcon() {
