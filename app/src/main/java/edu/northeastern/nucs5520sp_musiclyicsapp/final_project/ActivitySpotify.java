@@ -42,6 +42,7 @@ public class ActivitySpotify extends AppCompatActivity {
                 // Songs in songsList can be used as input to the Genius API.
                 if (finished) {
                     // These commented-out lines are used to test if songsList has all elements we want.
+
 //                    System.out.println("There are " + songsList.size() + " songs in the test playlist");
 //                    System.out.println("songList size is: " + songsList.size());
 //                    int count = 1;
@@ -49,6 +50,7 @@ public class ActivitySpotify extends AppCompatActivity {
 //                        System.out.println(count + " ==== " + "Song Title: " + song.getSongName());
 //                        count += 1;
 //                    }
+
                 }
             }
         });
