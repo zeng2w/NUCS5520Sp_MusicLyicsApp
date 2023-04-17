@@ -1,7 +1,7 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
-import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.CommentActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.CommentModel;
 
 public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters.CommentAdapter.MyViewHolder>{
@@ -35,7 +34,9 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         notifyDataSetChanged();
     }
 
-    public List<CommentModel> getCommentModelList(){return commentModelList;}
+    public List<CommentModel> getCommentModelList(){
+        return commentModelList;
+    }
 
     @NonNull
     @Override
@@ -50,21 +51,26 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         holder.username.setText(commet.getUsername());
         holder.commentContext.setText(commet.getContext());
         holder.date.setText(commet.getCurrentDate());
-        holder.thumbUpNum.setText(commet.getNum_thumb_up());
-        holder.thumbDownNum.setText(commet.getGetNum_thumb_down());
+        Log.d("--------num like", String.valueOf(commet.getNum_like()));
+        holder.num_dislike.setText(String.valueOf(commet.getNum_dislike()));
+        holder.num_like.setText(String.valueOf(commet.getNum_like()));
+//        holder.num_like.setText(commet.getNum_like());
+//        holder.num_dislike.setText(commet.getNum_dislike());
+//        holder.thumbUpNum.setText(commet.getNum_thumb_up());
+//        holder.thumbDownNum.setText(commet.getGetNum_thumb_down());
 
-        Intent intent = new Intent(context, CommentActivity.class);
-        intent.putExtra("username", commet.getUsername());
-        intent.putExtra("commentContext", commet.getContext());
-        intent.putExtra("date", commet.getCurrentDate());
-        intent.putExtra("thumbUpNum", commet.getNum_thumb_up());
-        intent.putExtra("thumbDownNum", commet.getGetNum_thumb_down());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivities(new Intent[]{intent});
-            }
-        });
+//        Intent intent = new Intent(context, CommentActivity.class);
+//        intent.putExtra("username", commet.getUsername());
+//        intent.putExtra("commentContext", commet.getContext());
+//        intent.putExtra("date", commet.getCurrentDate());
+//        intent.putExtra("thumbUpNum", commet.getNum_thumb_up());
+//        intent.putExtra("thumbDownNum", commet.getGetNum_thumb_down());
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                context.startActivities(new Intent[]{intent});
+//            }
+//        });
     }
 
     @Override
@@ -76,16 +82,16 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         private TextView username;
         private TextView commentContext;
         private TextView date;
-        private TextView thumbUpNum;
-        private TextView thumbDownNum;
+        private TextView num_dislike;
+        private TextView num_like;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.user_name_text_view);
             commentContext = itemView.findViewById(R.id.comment_text_view);
             date = itemView.findViewById(R.id.comment_date_text_view);
-            thumbUpNum = itemView.findViewById(R.id.thumb_up_button);
-            thumbDownNum = itemView.findViewById(R.id.thumb_down_button);
+            num_dislike = itemView.findViewById(R.id.textView_num_dislike);
+            num_like = itemView.findViewById(R.id.textView_num_like);
         }
     }
 }
