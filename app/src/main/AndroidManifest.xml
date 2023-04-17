@@ -32,8 +32,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name=".final_project.CommentActivity"
+            android:exported= "false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
-            android:name=".final_project.CommentActivity"
             android:name=".final_project.ActivitySpotify"
             android:exported="false">
             <meta-data
@@ -42,13 +47,6 @@
         </activity>
         <activity
             android:name=".final_project.ActivitySpotifyAuth"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".final_project.CreateEditPageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
