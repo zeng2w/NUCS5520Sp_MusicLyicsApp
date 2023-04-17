@@ -74,7 +74,7 @@ public class CreateEditPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         songName = intent.getStringExtra("song_name");
         songArtist= intent.getStringExtra("song_artist");
-        lyricCreator = intent.getStringExtra("lyric_creator");
+        lyricCreator = intent.getStringExtra("lyricCreator");
         lyric = intent.getStringExtra("song_lyric");
         translation = intent.getStringExtra("song_translation");
         imageFromIntent = intent.getStringExtra("image_url");

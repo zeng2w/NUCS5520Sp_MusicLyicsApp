@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYourService;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.StickItToEm;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.LogInActivity;
@@ -20,6 +22,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d("CREATION", "Hi");
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
     }
 
     @Override

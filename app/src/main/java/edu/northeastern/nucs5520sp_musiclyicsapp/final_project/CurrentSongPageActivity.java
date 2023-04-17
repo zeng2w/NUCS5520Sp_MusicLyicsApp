@@ -61,13 +61,6 @@ public class CurrentSongPageActivity extends AppCompatActivity {
 
         // set the button click jump to comment page
         currentSong_buttonComment = findViewById(R.id.currentSong_buttonComment);
-        currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);
-                startActivity(intent);
-            }
-        });
 
         // get the song's name/artist/creator infor from the library when user choose a song
         Intent intent = getIntent();
@@ -106,6 +99,9 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         // set navbar
         binding.navBarView.setSelectedItemId(R.id.navBar_currentSong);
 
+        // find lyric Creator id
+        DatabaseReference databaseReferenceUser = FirebaseDatabase.getInstance().getReference("User");
+
         // check if song already in user's library
         // if already in, then the "add" icon will change to "check" icon
         // else, show "add" icon
@@ -135,7 +131,19 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             }
         });
 
-
+        Intent commentIntent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);
+        currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentIntent.putExtra("song_name",songName);
+                commentIntent.putExtra("song_artist", songArtist);
+                commentIntent.putExtra("lyricCreator", lyricCreator);
+                commentIntent.putExtra("song_lyric", lyric);
+                commentIntent.putExtra("song_translation", translation);
+                commentIntent.putExtra("image_url", imageUrl);
+                startActivity(commentIntent);
+            }
+        });
 
         // edit button in lyric details page will open the Create/Edit page to edit the lyric
         binding.currentSongButtonEdit.setOnClickListener(new View.OnClickListener() {

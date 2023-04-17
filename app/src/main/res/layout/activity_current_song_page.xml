@@ -82,6 +82,7 @@
                 android:text="Jerry Bao"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
         </LinearLayout>
     </LinearLayout>
 
@@ -105,10 +106,12 @@
             android:id="@+id/currentSong_textLyric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="10dp"
             android:scrollbars="vertical"
             android:text="Look at the stars Look how they shine for you And everything you do Yeah, they were all yellow I came along I wrote a song for you And all the things you do And it was called Yellow So then I took my turn Oh, what a thing to have done And it was all yellow Your skin, oh yeah, your skin and bones Turn into"
             android:textColor="@color/white"
-            android:textSize="40dp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
     </LinearLayout>
