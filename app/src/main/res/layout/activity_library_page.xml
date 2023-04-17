@@ -46,34 +46,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginTop="250dp"
+            android:layout_marginBottom="60dp"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.924"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewLibrary">
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="10dp"
                 android:contentDescription="addLyric"
                 android:src="@drawable/ic_add1"
-
                 app:backgroundTint="@color/spotify_color"
-                app:maxImageSize="30dp"
+                app:fabSize="auto"
+                app:maxImageSize="24dp"
                 app:tint="@null" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/download_button"
+                android:id="@+id/import_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="10dp"
                 android:contentDescription="downloadLyric"
                 android:src="@drawable/ic_download1"
                 app:backgroundTint="@color/spotify_color"
-                app:maxImageSize="30dp"
+                app:fabSize="auto"
+                app:maxImageSize="24dp"
                 app:tint="@null"
                 tools:ignore="ImageContrastCheck" />
 
@@ -81,11 +82,15 @@
                 android:id="@+id/search_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="10dp"
                 android:contentDescription="searchLyric"
                 android:src="@drawable/ic_search1"
                 app:backgroundTint="@color/spotify_color"
+                app:fabSize="auto"
                 app:maxImageSize="30dp"
                 app:tint="@null" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -96,7 +101,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:elevation="8dp"
-        app:itemIconTint="@color/spotify_color"
         app:itemIconSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

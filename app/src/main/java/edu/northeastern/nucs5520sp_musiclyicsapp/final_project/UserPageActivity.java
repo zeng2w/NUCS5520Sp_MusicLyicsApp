@@ -1,15 +1,27 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationBarItemView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
+import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityUserPageBinding;
 
 /*
 User Page: showing the profile of user.
@@ -26,28 +38,53 @@ Nav Bar: to move to different UI such as current User Page, Current Song Page, L
  */
 public class UserPageActivity extends AppCompatActivity {
 
-    TextView userPage_username;
-    TextView userPage_following;
-    TextView userPage_follower;
-    TextView userPage_account;
-    TextView userPage_setting;
-    TextView userPage_bugReport;
-    Button logOut;
-    NavigationBarItemView navBarView;
+//    NavigationBarItemView navBarView;
 
+    ActivityUserPageBinding binding;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_page);
+        binding = ActivityUserPageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        userPage_username = findViewById(R.id.userPage_username);
-        userPage_following = findViewById(R.id.userPage_following);
-        userPage_follower = findViewById(R.id.userPage_follower);
-        userPage_account = findViewById(R.id.userPage_account);
-        userPage_setting = findViewById(R.id.userPage_setting);
-        userPage_bugReport = findViewById(R.id.userPage_bugReport);
-        logOut = findViewById(R.id.userPage_logout);
-        navBarView = findViewById(R.id.navBarView);
+//        navBarView = findViewById(R.id.navBarView);
+
+        //databaseReference = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
+
+        binding.navBarView.setSelectedItemId(R.id.navBar_user);
+        // show current username on User Page
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String current_username = user.getEmail();
+            binding.userPageUsername.setText(current_username);
+            //Log.d("----username:", current_username);
+        }
+        // show current username on User Page
+
+
+        binding.userPageLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(UserPageActivity.this, LogInActivity.class));
+                finish();
+            }
+        });
+
+        // navigation bar on click action
+        binding.navBarView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+//                case R.id.navBar_currentSong:
+//                    startActivity(new Intent(UserPageActivity.this, CurrentSongPageActivity.class));
+//                    finish();
+//                    break;
+                case R.id.navBar_library:
+                    startActivity(new Intent(UserPageActivity.this, LibraryPageActivity.class));
+                    break;
+            }
+            return true;
+        });
     }
 }
