@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,9 +41,6 @@ Library page that include recycler view of song title, artist, and lyric editor.
 nav bar to transit other page.
  */
 public class LibraryPageActivity extends AppCompatActivity {
-
-    RecyclerView library_recyclerView;
-
     ActivityLibraryPageBinding binding;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
     LibraryAdapter libraryAdapter;
@@ -99,6 +97,18 @@ public class LibraryPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // go to search page
+                Context context = LibraryPageActivity.this;
+                Intent intent = new Intent(context, SearchActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        binding.importButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LibraryPageActivity.this, ImportActivity.class));
+                finish();
             }
         });
 

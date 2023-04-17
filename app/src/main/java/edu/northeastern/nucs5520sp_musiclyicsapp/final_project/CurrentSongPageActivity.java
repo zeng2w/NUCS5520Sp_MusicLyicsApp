@@ -51,12 +51,23 @@ public class CurrentSongPageActivity extends AppCompatActivity {
     Boolean isAdded;
     String imageUrl;
 
+    Button currentSong_buttonComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCurrentSongPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // set the button click jump to comment page
+        currentSong_buttonComment = findViewById(R.id.currentSong_buttonComment);
+        currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // get the song's name/artist/creator infor from the library when user choose a song
         Intent intent = getIntent();
@@ -123,6 +134,8 @@ public class CurrentSongPageActivity extends AppCompatActivity {
 
             }
         });
+
+
 
         // edit button in lyric details page will open the Create/Edit page to edit the lyric
         binding.currentSongButtonEdit.setOnClickListener(new View.OnClickListener() {

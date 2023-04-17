@@ -46,7 +46,7 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="25dp"
         android:background="@null"
@@ -61,7 +61,7 @@
     <EditText
         android:id="@+id/emailAddress"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:background="@null"
 
