@@ -61,7 +61,7 @@
             <EditText
                 android:id="@+id/editPage_songName"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/gray"
@@ -73,7 +73,7 @@
             <EditText
                 android:id="@+id/editPage_artist"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/gray"
@@ -167,7 +167,8 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:backgroundTint="@color/spotify_color"
-            android:text="Cancel" />
+            android:text="Cancel"
+            android:textColor="@color/design_default_color_background" />
 
         <Button
             android:id="@+id/editPage_buttonSave"
@@ -177,7 +178,8 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:backgroundTint="@color/spotify_color"
-            android:text="save" />
+            android:text="save"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <Button
