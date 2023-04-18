@@ -13,7 +13,9 @@ public class CommentModel {
     int num_like;
     String currentDate; // can support only 3 input parameter year/month/day
 
-    public CommentModel(String username, String context, int num_dislike, int num_like, String currentDate) {
+    public CommentModel(String songId,String commentId, String username, String context, int num_dislike, int num_like, String currentDate) {
+        this.songId = songId;
+        this.commentId = commentId;
         this.username = username;
         this.context = context;
         this.num_dislike = num_dislike;
@@ -25,7 +27,8 @@ public class CommentModel {
 
     }
 
-    public CommentModel(String commentId, String username, String context) {
+    public CommentModel(String songId,String commentId, String username, String context) {
+        this.songId = songId;
         this.commentId = commentId;
         this.username = username;
         this.context = context;

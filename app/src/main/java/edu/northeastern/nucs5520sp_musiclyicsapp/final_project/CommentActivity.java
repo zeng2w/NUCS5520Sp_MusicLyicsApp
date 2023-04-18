@@ -61,8 +61,6 @@ public class CommentActivity extends AppCompatActivity {
         showSongComments(lyricCreatorId);
         setLyricsLikeNumIntoUI(lyricCreatorId);
 
-
-
         // set Comments recycler view
         commentAdapter = new CommentAdapter(this);
         binding.commentList.setAdapter(commentAdapter);
@@ -74,7 +72,6 @@ public class CommentActivity extends AppCompatActivity {
                 commentId = UUID.randomUUID().toString();
                 username = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                 context = binding.commentContext.getText().toString();
-                CommentModel new_comment = new CommentModel(commentId, username,context);
                 // if user comment a lyric which created by genius
                 String s;
                 if(lyricCreator.toLowerCase().equals("genius")){
@@ -82,6 +79,7 @@ public class CommentActivity extends AppCompatActivity {
                 } else {
                     s = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "")+ lyricCreatorId;
                 }
+                CommentModel new_comment = new CommentModel(s, commentId, username,context);
                 if(!Objects.equals(context, "")){
                     databaseReferenceSongComment.child(s).child(commentId).setValue(new_comment);
                     Toast.makeText(CommentActivity.this, "Post Comment Successful", Toast.LENGTH_SHORT).show();
@@ -138,12 +136,13 @@ public class CommentActivity extends AppCompatActivity {
                 Log.d("---------show", s);
                 commentAdapter.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    String commentId = dataSnapshot.child("commentId").getValue().toString();
                     String username = dataSnapshot.child("username").getValue().toString();
                     String commentContext = dataSnapshot.child("context").getValue().toString();
                     String currentDateTime = dataSnapshot.child("currentDate").getValue().toString();
                     String numLike = dataSnapshot.child("num_like").getValue().toString();
                     String numDislike = dataSnapshot.child("num_dislike").getValue().toString();
-                    CommentModel comment = new CommentModel(username,commentContext, Integer.parseInt(numDislike),Integer.parseInt(numLike),currentDateTime);
+                    CommentModel comment = new CommentModel(s, commentId,username,commentContext, Integer.parseInt(numDislike),Integer.parseInt(numLike),currentDateTime);
                     Log.d("-----in show adapter", username);
                     commentAdapter.add(comment);
                 }

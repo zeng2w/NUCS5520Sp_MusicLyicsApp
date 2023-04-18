@@ -5,10 +5,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +59,39 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         Log.d("--------num like", String.valueOf(commet.getNum_like()));
         holder.num_dislike.setText(String.valueOf(commet.getNum_dislike()));
         holder.num_like.setText(String.valueOf(commet.getNum_like()));
+        holder.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.likeButton.setImageResource(R.drawable.baseline_thumb_up_24_red);
+                int likes = commet.getNum_like()+1;
+                commet.setNum_like(likes);
+                String songId = commet.getSongId();
+                String commentId = commet.getCommentId();
+                Log.d("-----comment id", commentId);
+                //CommentModel(String songId, String username, String context, int num_dislike, int num_like, String currentDate)
+                CommentModel updateComment = new CommentModel(songId, commentId, commet.getUsername(), commet.getContext(),commet.getNum_dislike(),commet.getNum_like(),commet.getCurrentDate());
+                DatabaseReference databaseReferenceComment = FirebaseDatabase.getInstance().getReference("comments");
+                databaseReferenceComment.child(songId).child(commentId).setValue(updateComment);
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.dislikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.dislikeButton.setImageResource(R.drawable.baseline_thumb_down_24_black);
+                int dislike = commet.getNum_dislike()+1;
+                commet.setNum_dislike(dislike);
+                String songId = commet.getSongId();
+                String commentId = commet.getCommentId();
+                Log.d("-----comment id", commentId);
+                //CommentModel(String songId, String username, String context, int num_dislike, int num_like, String currentDate)
+                CommentModel updateComment = new CommentModel(songId, commentId, commet.getUsername(), commet.getContext(),commet.getNum_dislike(),commet.getNum_like(),commet.getCurrentDate());
+                DatabaseReference databaseReferenceComment = FirebaseDatabase.getInstance().getReference("comments");
+                databaseReferenceComment.child(songId).child(commentId).setValue(updateComment);
+                notifyDataSetChanged();
+            }
+        });
 //        holder.num_like.setText(commet.getNum_like());
 //        holder.num_dislike.setText(commet.getNum_dislike());
 //        holder.thumbUpNum.setText(commet.getNum_thumb_up());
@@ -84,6 +122,8 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         private TextView date;
         private TextView num_dislike;
         private TextView num_like;
+        private ImageButton likeButton;
+        private ImageButton dislikeButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +132,8 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
             date = itemView.findViewById(R.id.comment_date_text_view);
             num_dislike = itemView.findViewById(R.id.textView_num_dislike);
             num_like = itemView.findViewById(R.id.textView_num_like);
+            likeButton = itemView.findViewById(R.id.thumb_up_button);
+            dislikeButton = itemView.findViewById(R.id.thumb_down_button);
         }
     }
 }
