@@ -42,7 +42,7 @@ the nav bar to transit to other page
 public class CurrentSongPageActivity extends AppCompatActivity {
 
     ActivityCurrentSongPageBinding binding;
-    String songName, songArtist, lyricCreator, lyric, translation;
+    String songName, songArtist, lyricCreator, lyric, translation, lyricCreatorId;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
     StorageReference storageReference;
     // this string is assigned as the node key of each song in db library
@@ -52,6 +52,8 @@ public class CurrentSongPageActivity extends AppCompatActivity {
     String imageUrl;
 
     DatabaseReference databaseReferenceSongLikes;
+    DatabaseReference databaseReferenceSharedLyrics;
+    DatabaseReference databaseReferenceUser;
 
     Button currentSong_buttonComment;
 
@@ -102,7 +104,24 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         binding.navBarView.setSelectedItemId(R.id.navBar_currentSong);
 
         // find lyric Creator id
-        DatabaseReference databaseReferenceUser = FirebaseDatabase.getInstance().getReference("User");
+        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
+        databaseReferenceUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    if (dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
+                        lyricCreatorId = dataSnapshot.getKey().toString();
+                        Log.d("-------lyric creator id", lyricCreatorId);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // check if song already in user's library
         // if already in, then the "add" icon will change to "check" icon
@@ -143,6 +162,7 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 commentIntent.putExtra("song_lyric", lyric);
                 commentIntent.putExtra("song_translation", translation);
                 commentIntent.putExtra("image_url", imageUrl);
+                commentIntent.putExtra("lyricCreatorId", lyricCreatorId);
                 startActivity(commentIntent);
             }
         });

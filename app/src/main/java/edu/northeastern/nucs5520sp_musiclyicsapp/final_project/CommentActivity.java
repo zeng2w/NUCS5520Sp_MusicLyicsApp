@@ -37,8 +37,6 @@ public class CommentActivity extends AppCompatActivity {
     String lyricCreator;
     String lyricCreatorId;
     String lyric, translation,imageUrl;
-
-    DatabaseReference databaseReferenceUser;
     DatabaseReference databaseReferenceSongComment;
     String commentId, username, context;
 
@@ -56,30 +54,12 @@ public class CommentActivity extends AppCompatActivity {
         lyric = intent.getStringExtra("song_lyric");
         translation = intent.getStringExtra("song_translation");
         imageUrl = intent.getStringExtra("image_url");
+        lyricCreatorId = intent.getStringExtra("lyricCreatorId");
 
         databaseReferenceSongComment = FirebaseDatabase.getInstance().getReference("comments");
-        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
 
-        // find lyric Creator id
-        databaseReferenceUser.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    if (dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
-                        //lyricCreatorId = dataSnapshot.getKey().toString();
-
-                        binding.textviewTrashTemp.setText(dataSnapshot.getKey().toString());
-                        showSongComments(dataSnapshot.getKey().toString());
-                        setLyricsLikeNumIntoUI(dataSnapshot.getKey().toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        showSongComments(lyricCreatorId);
+        setLyricsLikeNumIntoUI(lyricCreatorId);
 
 
 
@@ -96,7 +76,6 @@ public class CommentActivity extends AppCompatActivity {
                 context = binding.commentContext.getText().toString();
                 CommentModel new_comment = new CommentModel(commentId, username,context);
                 // if user comment a lyric which created by genius
-                lyricCreatorId = binding.textviewTrashTemp.getText().toString();
                 String s;
                 if(lyricCreator.toLowerCase().equals("genius")){
                     s = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "")+ "genius";
