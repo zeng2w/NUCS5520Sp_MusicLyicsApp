@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -87,7 +88,7 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         binding.currentSongTitle.setSelected(true);
         binding.currentSongArtist.setText("Artist: " + songArtist);
         binding.currentSongArtist.setSelected(true);
-        binding.currentSongLyricEditor.setText("Lyric Creator" + lyricCreator);
+        binding.currentSongLyricEditor.setText("Lyric Creator: " + lyricCreator);
         binding.currentSongLyricEditor.setSelected(true);
         // load image from firebase storage
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -103,6 +104,12 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 Picasso.get().load(imageUrl).into(binding.currentSongAlbumImage);
 
 
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("-----fail to load image", "do not find image");
+                binding.currentSongAlbumImage.setImageResource(R.drawable.edit_image_pic);
             }
         });
 
