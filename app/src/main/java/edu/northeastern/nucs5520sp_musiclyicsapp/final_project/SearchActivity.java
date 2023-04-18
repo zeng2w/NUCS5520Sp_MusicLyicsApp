@@ -1,10 +1,12 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
 import static edu.northeastern.nucs5520sp_musiclyicsapp.R.id.local_search_toggle;
+import static edu.northeastern.nucs5520sp_musiclyicsapp.R.id.online_search_toggle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
@@ -14,22 +16,41 @@ import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivitySearchBindi
 public class SearchActivity extends AppCompatActivity {
     ActivitySearchBinding binding;
 
+
+    // set the local and online togglebutton
+    private ToggleButton localSearchToggle;
+    private ToggleButton onlineSearchToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ToggleButton myToggleButton = findViewById(local_search_toggle);
+        // change the name of myToggleButton into localSearchToggle
+//        ToggleButton myToggleButton = findViewById(local_search_toggle);
 
-        myToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        localSearchToggle = findViewById(local_search_toggle);
+        onlineSearchToggle = findViewById(online_search_toggle);
+
+        localSearchToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Handle the toggle state change here
                 if (isChecked) {
                     // The toggle button is on
+                    onlineSearchToggle.setChecked(false);
                 } else {
                     // The toggle button is off
+                }
+            }
+        });
+
+        onlineSearchToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    localSearchToggle.setChecked(false);
                 }
             }
         });
