@@ -52,7 +52,7 @@ public class SearchActivity extends AppCompatActivity {
 
         //database reference
         databaseReferenceUserLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library").child(FirebaseAuth.getInstance().getUid());
-        databaseReferenceSharedLibrary = FirebaseDatabase.getInstance().getReference("shared_lyrics");
+        databaseReferenceSharedLibrary = FirebaseDatabase.getInstance().getReference("shared_Lyrics");
 
         // change the name of myToggleButton into localSearchToggle
 //        ToggleButton myToggleButton = findViewById(local_search_toggle);
@@ -87,21 +87,46 @@ public class SearchActivity extends AppCompatActivity {
         // else, when online search button clicked, then click Search button, it will search
         // users' shared song in firebase realtime db and
         // lyrics from API
-        if(binding.localSearchToggle.isChecked()){
-            binding.floatingActionButtonSearchButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("-------local search", String.valueOf(binding.localSearchToggle.isChecked()));
-                    String search_inputText = binding.searchEdittext.getText().toString();
-                    if(search_inputText.isEmpty()){
-                        Toast.makeText(SearchActivity.this, "Search Empty", Toast.LENGTH_SHORT).show();
-                    } else{
+        binding.floatingActionButtonSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String search_inputText = binding.searchEdittext.getText().toString();
+                if(search_inputText.isEmpty()){
+                    Toast.makeText(SearchActivity.this, "Search Empty", Toast.LENGTH_SHORT).show();
+                } else{
+                    if(binding.localSearchToggle.isChecked()) {
+                        Log.d("-------local search", String.valueOf(binding.localSearchToggle.isChecked()));
                         Log.d("-----input search", search_inputText);
                         databaseReferenceUserLibrary.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 libraryAdapter.clear();
                                 Log.d("------snapshot.getChildren", String.valueOf(snapshot.getChildrenCount()));
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    if (dataSnapshot.child("song_name").getValue().toString().toLowerCase().contains(search_inputText.toLowerCase())) {
+                                        String song_name = dataSnapshot.child("song_name").getValue().toString();
+                                        String song_artist = dataSnapshot.child("song_artist").getValue().toString();
+                                        String lyric_creator = dataSnapshot.child("lyric_creator").getValue().toString();
+                                        String song_lyric = dataSnapshot.child("song_lyric").getValue().toString();
+                                        String song_translation = dataSnapshot.child("song_translation").getValue().toString();
+                                        SongModel song = new SongModel(song_name, song_artist, song_lyric, song_translation, lyric_creator);
+                                        libraryAdapter.add(song);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    } else if(binding.onlineSearchToggle.isChecked()){
+                        Log.d("--------online search", String.valueOf(binding.onlineSearchToggle.isChecked()));
+                        // search from shared lyric in firebase realtime db
+                        databaseReferenceSharedLibrary.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                libraryAdapter.clear();
                                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                                     if(dataSnapshot.child("song_name").getValue().toString().toLowerCase().contains(search_inputText.toLowerCase())){
                                         String song_name = dataSnapshot.child("song_name").getValue().toString();
@@ -120,25 +145,13 @@ public class SearchActivity extends AppCompatActivity {
 
                             }
                         });
+
+                        // search from API
                     }
                 }
-            });
+            }
+        });
 
-        }else if(binding.onlineSearchToggle.isChecked()){
-            binding.floatingActionButtonSearchButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("-------local search", String.valueOf(binding.localSearchToggle.isChecked()));
-                    String search_inputText = binding.searchEdittext.getText().toString();
-                    if(search_inputText.isEmpty()){
-                        Toast.makeText(SearchActivity.this, "Search Empty", Toast.LENGTH_SHORT).show();
-                    } else{
-
-                    }
-
-                }
-            });
-        }
 
         // navBar click action
         binding.navBarView.setOnItemSelectedListener(item -> {
