@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
@@ -75,6 +76,7 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         // this string is assigned as the node key of each song in db library
         songName_artist_node = songName.replaceAll("[^a-zA-Z0-9]", "")+songArtist.replaceAll("[^a-zA-Z0-9]", "");
         databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library").child(FirebaseAuth.getInstance().getUid());
+        databaseReferenceSharedLyrics = FirebaseDatabase.getInstance().getReference("shared_Lyrics");
 
         // edit Intent: when edit a song lyric, it will send all of information to edit page
         Intent editIntent = new Intent(CurrentSongPageActivity.this, CreateEditPageActivity.class);
@@ -90,38 +92,22 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         // load image from firebase storage
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String fileName = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "") + currentUid;
-        storageReference = FirebaseStorage.getInstance().getReference("images/" +currentUid).child(fileName);
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/" + currentUid).child(fileName);
+
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 imageUrl = uri.toString();
+
                 Picasso.get().load(imageUrl).into(binding.currentSongAlbumImage);
+
 
             }
         });
 
         // set navbar
         binding.navBarView.setSelectedItemId(R.id.navBar_currentSong);
-
-        // find lyric Creator id
-        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
-        databaseReferenceUser.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    if (dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
-                        lyricCreatorId = dataSnapshot.getKey().toString();
-                        Log.d("-------lyric creator id", lyricCreatorId);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         // check if song already in user's library
         // if already in, then the "add" icon will change to "check" icon
@@ -143,6 +129,9 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 } else {
                     Log.d("----- exists in database", "false");
                     changeToAddIcon();
+                    // if not exist in user's library, then will show the lyrics from shared_Lyrics
+                    showSharedLyric();
+
                 }
             }
 
@@ -151,6 +140,29 @@ public class CurrentSongPageActivity extends AppCompatActivity {
 
             }
         });
+
+        // find lyric Creator id
+        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
+        databaseReferenceUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    if (dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
+                        lyricCreatorId = dataSnapshot.getKey().toString();
+                        Log.d("-------lyric creator id", lyricCreatorId);
+                        saveSongLikeOnDB(dataSnapshot.getKey().toString());
+                        //showSharedLyric(lyricCreatorId);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         Intent commentIntent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);
         currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {
@@ -238,18 +250,42 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             return true;
         });
 
-        // find lyric Creator id
-        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
+        // make lyric scrolling
+        binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    private void showSharedLyric() {
         databaseReferenceUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     if (dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
-                        //lyricCreatorId = dataSnapshot.getKey().toString();
-                        //binding.textviewTrashTemp.setText(dataSnapshot.getKey().toString());
-                        saveSongLikeOnDB(dataSnapshot.getKey().toString());
+                        lyricCreatorId = dataSnapshot.getKey().toString();
+                        Log.d("-------lyric creator id", lyricCreatorId);
+                        //saveSongLikeOnDB(dataSnapshot.getKey().toString());
+                        //showSharedLyric(lyricCreatorId);
+                        String path = songName.replaceAll("[^a-zA-Z0-9]","")+ songArtist.replaceAll("[^a-zA-Z0-9]","")+dataSnapshot.getKey().toString();
+                        databaseReferenceSharedLyrics.child(path).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    Log.d("------exist in shared lyric", "Object exists: " + snapshot.getValue());
+                                    lyric = snapshot.child("song_lyric").getValue().toString();
+                                    translation = snapshot.child("song_translation").getValue().toString();
+                                    binding.currentSongTextLyric.setText(lyric);
+                                } else {
+                                    Log.d("------not exist in shared lyric", "Object not exists");
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
+
             }
 
             @Override
@@ -258,8 +294,10 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             }
         });
 
-        // make lyric scrolling
-        binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    private void showUserLibraryLyric() {
+
     }
 
     private void saveSongLikeOnDB(String lyricCreatorId) {
