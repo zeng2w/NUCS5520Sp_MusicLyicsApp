@@ -8,29 +8,32 @@ public class CommentModel {
     String commentId;
 
     String username;
+    String userId;
     String context;
     int num_dislike;
     int num_like;
     String currentDate; // can support only 3 input parameter year/month/day
 
-    public CommentModel(String songId,String commentId, String username, String context, int num_dislike, int num_like, String currentDate) {
+    public CommentModel(){
+
+    }
+
+    public CommentModel(String songId,String commentId, String username, String userId, String context, int num_dislike, int num_like, String currentDate) {
         this.songId = songId;
         this.commentId = commentId;
         this.username = username;
+        this.userId = userId;
         this.context = context;
         this.num_dislike = num_dislike;
         this.num_like = num_like;
         this.currentDate = currentDate;
     }
 
-    public CommentModel(){
-
-    }
-
-    public CommentModel(String songId,String commentId, String username, String context) {
+    public CommentModel(String songId,String commentId, String username, String userId, String context) {
         this.songId = songId;
         this.commentId = commentId;
         this.username = username;
+        this.userId = userId;
         this.context = context;
         num_dislike = 0;
         num_like = 0;
@@ -98,5 +101,13 @@ public class CommentModel {
 
     public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

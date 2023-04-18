@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image_view"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -54,7 +54,7 @@
         android:layout_marginTop="2dp"
         android:background="#FFFFFF"
         android:text="Comment text goes here"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line1" />
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="03/28/2023"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.006"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,8 +86,8 @@
 
         <ImageButton
             android:id="@+id/thumb_up_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@null"
             android:contentDescription="Thumb up button"
             android:scaleType="fitCenter"
@@ -97,8 +97,8 @@
 
         <TextView
             android:id="@+id/textView_num_like"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:gravity="center"
             android:text="0"
             android:textSize="16sp"
@@ -108,8 +108,8 @@
 
         <ImageButton
             android:id="@+id/thumb_down_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@null"
             android:contentDescription="Thumb down button"
             android:scaleType="fitCenter"
@@ -119,8 +119,8 @@
 
         <TextView
             android:id="@+id/textView_num_dislike"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:gravity="center"
             android:text="0"
             android:textSize="16sp"
@@ -129,8 +129,8 @@
 
         <ImageButton
             android:id="@+id/comment_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@null"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_comment"
