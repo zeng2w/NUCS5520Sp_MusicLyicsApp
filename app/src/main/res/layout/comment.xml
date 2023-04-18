@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="#ECE8E8"
-    android:padding="16dp">
+    android:background= "@drawable/bg_oval"
+    android:padding="5dp">
 
     <LinearLayout
         android:id="@+id/line1"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="2dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="03/28/2023"
-        android:textSize="18sp"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.006"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,30 +135,5 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="123dp" />
     </LinearLayout>
-
-    <!-- Reply input box -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/reply_text_input_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Reply to comments"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/thumb_comment_row"
-        app:layout_constraintWidth_percent="0.9">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reply_text_input_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:maxLines="3"
-            android:minLines="1" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Reply List -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
