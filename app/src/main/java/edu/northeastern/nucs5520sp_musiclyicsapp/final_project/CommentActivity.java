@@ -88,7 +88,6 @@ public class CommentActivity extends AppCompatActivity {
         binding.commentList.setAdapter(commentAdapter);
         binding.commentList.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
 
-
         binding.buttonPostComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
