@@ -67,6 +67,7 @@ public class LibraryPageActivity extends AppCompatActivity {
         databaseReferenceUsersLyricsLibrary.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("-----num of song in library", String.valueOf(snapshot.getChildrenCount()));
                 libraryAdapter.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     String song_name = dataSnapshot.child("song_name").getValue().toString();
