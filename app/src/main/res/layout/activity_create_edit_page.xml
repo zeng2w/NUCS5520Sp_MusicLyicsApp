@@ -184,12 +184,12 @@
 
     <Button
         android:id="@+id/editPage_buttonCamera"
-        android:layout_width="52dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:drawableEnd="@drawable/baseline_photo_camera_24"
         app:layout_constraintEnd_toStartOf="@+id/editPage_fullScreenButton1"
-        app:layout_constraintHorizontal_bias="0.887"
+        app:layout_constraintHorizontal_bias="0.964"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editPage_editLyric" />
 
