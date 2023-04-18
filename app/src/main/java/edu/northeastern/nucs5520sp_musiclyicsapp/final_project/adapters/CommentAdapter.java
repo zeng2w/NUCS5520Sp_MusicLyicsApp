@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
@@ -37,6 +39,55 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
     public void clear(){
         commentModelList.clear();
         notifyDataSetChanged();
+    }
+
+    // Sorting method
+    public void sortItemsByLikes() {
+        // Sort the itemList based on your desired criteria
+        Collections.sort(commentModelList, new Comparator<CommentModel>() {
+            @Override
+            public int compare(CommentModel comment1, CommentModel comment2) {
+                // sorting by descending of likes number
+                return comment2.getNum_like()-comment1.getNum_like();
+            }
+        });
+        notifyDataSetChanged(); // Notify the adapter that data has changed
+    }
+
+    public void sortItemsByNewest() {
+        // Sort the itemList based on your desired criteria
+        Collections.sort(commentModelList, new Comparator<CommentModel>() {
+            @Override
+            public int compare(CommentModel comment1, CommentModel comment2) {
+                // sorting by now -> before
+                return comment2.getCurrentDate().compareToIgnoreCase(comment1.getCurrentDate());
+            }
+        });
+        notifyDataSetChanged(); // Notify the adapter that data has changed
+    }
+
+    public void sortItemsByOldest() {
+        // Sort the itemList based on your desired criteria
+        Collections.sort(commentModelList, new Comparator<CommentModel>() {
+            @Override
+            public int compare(CommentModel comment1, CommentModel comment2) {
+                // sorting before -> now
+                return comment1.getCurrentDate().compareToIgnoreCase(comment2.getCurrentDate());
+            }
+        });
+        notifyDataSetChanged(); // Notify the adapter that data has changed
+    }
+
+    public void sortItemsByDislikes() {
+        // Sort the itemList based on your desired criteria
+        Collections.sort(commentModelList, new Comparator<CommentModel>() {
+            @Override
+            public int compare(CommentModel comment1, CommentModel comment2) {
+                // sorting by descending of dislikes number
+                return comment2.getNum_dislike()-comment1.getNum_dislike();
+            }
+        });
+        notifyDataSetChanged(); // Notify the adapter that data has changed
     }
 
     public List<CommentModel> getCommentModelList(){

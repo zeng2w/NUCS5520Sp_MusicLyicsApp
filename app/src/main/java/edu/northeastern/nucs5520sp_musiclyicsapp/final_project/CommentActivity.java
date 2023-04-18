@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -100,6 +101,35 @@ public class CommentActivity extends AppCompatActivity {
                 backCurrentSongIntent.putExtra("lyric_creator", lyricCreator);
 
                 startActivity(backCurrentSongIntent);
+            }
+        });
+
+        // sort spinner select action
+        binding.sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item from the Spinner
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                if(selectedItem.equals("Sort by Newest")){
+                    Log.d("-------nothing selected", "Newest");
+                    commentAdapter.sortItemsByNewest();
+                }else if(selectedItem.equals("Sort by Popularity")){
+                    Log.d("-------selected", "Popularity");
+                    commentAdapter.sortItemsByLikes();
+                } else if(selectedItem.equals("Sort By Dislike")){
+                    commentAdapter.sortItemsByDislikes();
+                } else if(selectedItem.equals("Sort By Earliest")){
+                    commentAdapter.sortItemsByOldest();
+                }
+
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.d("-------nothing selected", "nothing selected of spinner");
+
             }
         });
 
