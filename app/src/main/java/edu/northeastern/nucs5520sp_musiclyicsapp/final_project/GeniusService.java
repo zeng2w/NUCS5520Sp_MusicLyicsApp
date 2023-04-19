@@ -104,17 +104,22 @@ public class GeniusService {
         Document doc = connection.get();
 
         Element lyricsContainer = doc.selectFirst("div[data-lyrics-container='true']");
-        assert lyricsContainer != null;
-        Elements aElements = lyricsContainer.select("a");
-        StringBuilder lyricsBuilder = new StringBuilder();
-        for (Element aElement: aElements) {
-            Element spanElement = aElement.selectFirst("span");
-            assert spanElement != null;
-            lyricsBuilder.append(spanElement.text().trim()).append("\n");
+        if (lyricsContainer != null) {
+            Elements aElements = lyricsContainer.select("a");
+            StringBuilder lyricsBuilder = new StringBuilder();
+            for (Element aElement: aElements) {
+                Element spanElement = aElement.selectFirst("span");
+                if (spanElement != null) {
+                    // Replace all the <br> tags in html with line breaks, and remove all other tags like <i>.
+                    String lyricsHtml = spanElement.html().replaceAll("(?i)<br[^>]*>", "\n").replaceAll("<.*?>", "");
+                    lyricsBuilder.append(lyricsHtml).append("\n");
+                }
+
+            }
+            // Some lines have two line breaks. Replace them with one line break.
+            return lyricsBuilder.toString().replaceAll("\n\n", "\n");
         }
-        String lyrics = lyricsBuilder.toString();
-        lyrics = lyrics.replaceAll("\\s(?=[A-Z])", "\n");
-        return lyrics;
+        return "";
     }
 
     public static void main(String[] args) throws IOException {
