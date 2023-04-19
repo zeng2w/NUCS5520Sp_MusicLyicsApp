@@ -114,16 +114,16 @@ public class CommentActivity extends AppCompatActivity {
                 if(selectedItem.equals("Sort by Newest")){
                     Log.d("-------nothing selected", "Newest");
                     commentAdapter.sortItemsByNewest();
-                }else if(selectedItem.equals("Sort by Popularity")){
-                    Log.d("-------selected", "Popularity");
-                    commentAdapter.sortItemsByLikes();
-                } else if(selectedItem.equals("Sort By Dislike")){
-                    commentAdapter.sortItemsByDislikes();
                 } else if(selectedItem.equals("Sort By Earliest")){
                     commentAdapter.sortItemsByOldest();
                 }
-
-
+//                else if(selectedItem.equals("Sort by Popularity")){
+//                    Log.d("-------selected", "Popularity");
+//                    commentAdapter.sortItemsByLikes();
+//                }
+//                else if(selectedItem.equals("Sort By Dislike")){
+//                    commentAdapter.sortItemsByDislikes();
+//                }
 
             }
 
@@ -169,12 +169,12 @@ public class CommentActivity extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     String commentId = dataSnapshot.child("commentId").getValue().toString();
                     String username = dataSnapshot.child("username").getValue().toString();
-                    String userId = dataSnapshot.child("userId").getValue().toString();
+                    String commentUserId = dataSnapshot.child("userId").getValue().toString();
                     String commentContext = dataSnapshot.child("context").getValue().toString();
                     String currentDateTime = dataSnapshot.child("currentDate").getValue().toString();
                     String numLike = dataSnapshot.child("num_like").getValue().toString();
                     String numDislike = dataSnapshot.child("num_dislike").getValue().toString();
-                    CommentModel comment = new CommentModel(s, commentId,username, userId,commentContext, Integer.parseInt(numDislike),Integer.parseInt(numLike),currentDateTime);
+                    CommentModel comment = new CommentModel(s, commentId,username, commentUserId,commentContext, Integer.parseInt(numDislike),Integer.parseInt(numLike),currentDateTime);
                     Log.d("-----in show adapter", username);
                     commentAdapter.add(comment);
                 }

@@ -49,17 +49,17 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
     }
 
     // Sorting method
-    public void sortItemsByLikes() {
-        // Sort the itemList based on your desired criteria
-        Collections.sort(commentModelList, new Comparator<CommentModel>() {
-            @Override
-            public int compare(CommentModel comment1, CommentModel comment2) {
-                // sorting by descending of likes number
-                return comment2.getNum_like()-comment1.getNum_like();
-            }
-        });
-        notifyDataSetChanged(); // Notify the adapter that data has changed
-    }
+//    public void sortItemsByLikes() {
+//        // Sort the itemList based on your desired criteria
+//        Collections.sort(commentModelList, new Comparator<CommentModel>() {
+//            @Override
+//            public int compare(CommentModel comment1, CommentModel comment2) {
+//                // sorting by descending of likes number
+//                return comment2.getNum_like()-comment1.getNum_like();
+//            }
+//        });
+//        notifyDataSetChanged(); // Notify the adapter that data has changed
+//    }
 
     public void sortItemsByNewest() {
         // Sort the itemList based on your desired criteria
@@ -85,17 +85,17 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         notifyDataSetChanged(); // Notify the adapter that data has changed
     }
 
-    public void sortItemsByDislikes() {
-        // Sort the itemList based on your desired criteria
-        Collections.sort(commentModelList, new Comparator<CommentModel>() {
-            @Override
-            public int compare(CommentModel comment1, CommentModel comment2) {
-                // sorting by descending of dislikes number
-                return comment2.getNum_dislike()-comment1.getNum_dislike();
-            }
-        });
-        notifyDataSetChanged(); // Notify the adapter that data has changed
-    }
+//    public void sortItemsByDislikes() {
+//        // Sort the itemList based on your desired criteria
+//        Collections.sort(commentModelList, new Comparator<CommentModel>() {
+//            @Override
+//            public int compare(CommentModel comment1, CommentModel comment2) {
+//                // sorting by descending of dislikes number
+//                return comment2.getNum_dislike()-comment1.getNum_dislike();
+//            }
+//        });
+//        notifyDataSetChanged(); // Notify the adapter that data has changed
+//    }
 
     public List<CommentModel> getCommentModelList(){
         return commentModelList;
@@ -120,7 +120,7 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.likeButton.setImageResource(R.drawable.baseline_thumb_up_24_red);
+                holder.likeButton.setImageResource(R.drawable.baseline_thumb_up_24_green);
                 int likes = commet.getNum_like()+1;
                 commet.setNum_like(likes);
                 String songId = commet.getSongId();

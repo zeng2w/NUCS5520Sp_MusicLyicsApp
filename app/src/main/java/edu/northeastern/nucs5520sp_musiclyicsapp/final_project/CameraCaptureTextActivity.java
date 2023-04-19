@@ -48,7 +48,8 @@ public class CameraCaptureTextActivity extends AppCompatActivity {
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
         //Reference: https://www.youtube.com/watch?v=sjkDbxyoNW0
-
+        // https://developers.google.com/ml-kit/vision/text-recognition/android?hl=zh-cn#java
+        // https://www.youtube.com/watch?v=hY7EyOtgtiQ
         if(ContextCompat.checkSelfPermission(CameraCaptureTextActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(CameraCaptureTextActivity.this, new String[]{
                     Manifest.permission.CAMERA

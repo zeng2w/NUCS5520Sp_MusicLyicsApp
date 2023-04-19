@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +47,7 @@ public class CurrentSongPageActivity extends AppCompatActivity {
     ActivityCurrentSongPageBinding binding;
     String songName, songArtist, lyricCreator, lyric, translation, lyricCreatorId;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
+    DatabaseReference databaseReferenceReport;
     StorageReference storageReference;
     // this string is assigned as the node key of each song in db library
     String songName_artist_node;
@@ -81,6 +83,9 @@ public class CurrentSongPageActivity extends AppCompatActivity {
 
         // edit Intent: when edit a song lyric, it will send all of information to edit page
         Intent editIntent = new Intent(CurrentSongPageActivity.this, CreateEditPageActivity.class);
+
+        // make lyric scrolling
+        binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());
 
         Log.d("------song name: ", songName);
         binding.currentSongTitle.setText(songName);
@@ -244,6 +249,19 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             }
         });
 
+        // report button
+        binding.currentSongButtonReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReferenceReport = FirebaseDatabase.getInstance().getReference("reports");
+                String fileName = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "") + lyricCreatorId;
+                databaseReferenceReport.child(fileName).child(currentUid).setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.current_song_activity), "Thank you! We received your report.", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+            }
+        });
+
         // navigation bar on click action
         binding.navBarView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -257,8 +275,8 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             return true;
         });
 
-        // make lyric scrolling
-        binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());
+
+
     }
 
     private void showSharedLyric() {
@@ -327,7 +345,7 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 if(isLiked[0]){
                     Drawable drawable = ResourcesCompat.getDrawable(
                             getResources(),
-                            R.drawable.baseline_thumb_up_24_red,
+                            R.drawable.baseline_thumb_up_24_green,
                             getTheme()
 
                     );

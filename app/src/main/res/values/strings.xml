@@ -55,8 +55,6 @@
     <array name="sort_options">
         <item>Sort by Newest</item>
         <item>Sort By Earliest</item>
-        <item>Sort By Dislike</item>
-        <item>Sort by Popularity</item>
     </array>
 
 </resources>

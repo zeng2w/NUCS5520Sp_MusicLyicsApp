@@ -70,6 +70,8 @@ public class SearchActivity extends AppCompatActivity {
                     onlineSearchToggle.setChecked(false);
                 } else {
                     // The toggle button is off
+                    localSearchToggle.setChecked(false);
+                    onlineSearchToggle.setChecked(true);
                 }
             }
         });
@@ -79,6 +81,9 @@ public class SearchActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     localSearchToggle.setChecked(false);
+                } else {
+                    localSearchToggle.setChecked(true);
+                    onlineSearchToggle.setChecked(false);
                 }
             }
         });
