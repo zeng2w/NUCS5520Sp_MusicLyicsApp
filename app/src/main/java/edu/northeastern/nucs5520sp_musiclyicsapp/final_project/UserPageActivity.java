@@ -146,7 +146,19 @@ public class UserPageActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(this, "Avatar not Changed", Toast.LENGTH_SHORT).show();
-            binding.userPageUserProfile.setImageResource(R.drawable.person_image);
+            //binding.userPageUserProfile.setImageResource(R.drawable.person_image);
+            storageReferenceAvatar.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    String image = uri.toString();
+                    Picasso.get().load(image).into(binding.userPageUserProfile);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    binding.userPageUserProfile.setImageResource(R.drawable.person_image);
+                }
+            });
 
         }
 
