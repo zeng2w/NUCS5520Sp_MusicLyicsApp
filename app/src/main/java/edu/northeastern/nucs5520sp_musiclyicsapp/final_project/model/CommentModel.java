@@ -1,27 +1,49 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class CommentModel {
     String songId;
     String commentId;
 
     String username;
+    String userId;
     String context;
-    int num_thumb_up;
-    int getNum_thumb_down;
-    LocalDate currentDate; // can support only 3 input parameter year/month/day
+    int num_dislike;
+    int num_like;
+    String currentDate; // can support only 3 input parameter year/month/day
+
     public CommentModel(){
+
     }
 
-    public CommentModel(String username, String context) {
+    public CommentModel(String songId,String commentId, String username, String userId, String context, int num_dislike, int num_like, String currentDate) {
+        this.songId = songId;
+        this.commentId = commentId;
         this.username = username;
+        this.userId = userId;
         this.context = context;
-        currentDate = LocalDate.now(); // generate current day
+        this.num_dislike = num_dislike;
+        this.num_like = num_like;
+        this.currentDate = currentDate;
+    }
 
+    public CommentModel(String songId,String commentId, String username, String userId, String context) {
+        this.songId = songId;
+        this.commentId = commentId;
+        this.username = username;
+        this.userId = userId;
+        this.context = context;
+        num_dislike = 0;
+        num_like = 0;
+        currentDate = getCurrentDateTime();
+    }
 
+    private String getCurrentDateTime() {
+        DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dft.format(now);
     }
 
     public String getCommentId(){
@@ -56,40 +78,36 @@ public class CommentModel {
         this.context = context;
     }
 
-    public String getNum_thumb_up() {
-        return String.valueOf(num_thumb_up);
+
+    public int getNum_dislike() {
+        return num_dislike;
     }
 
-    public void setNum_thumb_up(int num_thumb_up) {
-        this.num_thumb_up = num_thumb_up;
+    public void setNum_dislike(int num_dislike) {
+        this.num_dislike = num_dislike;
     }
 
-    public String getGetNum_thumb_down() {
-        return String.valueOf(getNum_thumb_down);
+    public int getNum_like() {
+        return num_like;
     }
 
-    public void setGetNum_thumb_down(int getNum_thumb_down) {
-        this.getNum_thumb_down = getNum_thumb_down;
+    public void setNum_like(int num_like) {
+        this.num_like = num_like;
     }
 
     public String getCurrentDate() {
-        // concert the date into string formation
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-        String formattedDate = currentDate.format(formatter);
-        //  test, print it for watch
-//        System.out.println("Formatted date: " + formattedDate);
-        return formattedDate;
+        return currentDate;
     }
 
-    public void setCurrentDate(LocalDate currentDate) {
+    public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
     }
 
-    public void addThumbUp(){
-        this.num_thumb_up++;
+    public String getUserId() {
+        return userId;
     }
 
-    public void addThumDown(){
-        this.num_thumb_up++;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -74,7 +74,7 @@ public class CreateEditPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         songName = intent.getStringExtra("song_name");
         songArtist= intent.getStringExtra("song_artist");
-        lyricCreator = intent.getStringExtra("lyric_creator");
+        lyricCreator = intent.getStringExtra("lyricCreator");
         lyric = intent.getStringExtra("song_lyric");
         translation = intent.getStringExtra("song_translation");
         imageFromIntent = intent.getStringExtra("image_url");
@@ -92,6 +92,15 @@ public class CreateEditPageActivity extends AppCompatActivity {
             Log.d("----edit action", "false");
 
         }
+
+        // button camera
+        binding.editPageButtonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CreateEditPageActivity.this, CameraCaptureTextActivity.class));
+                finish();
+            }
+        });
 
 
         // when click 'Save' button, if user select "Accessible to other users",

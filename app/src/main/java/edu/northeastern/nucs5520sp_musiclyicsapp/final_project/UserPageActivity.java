@@ -1,16 +1,23 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationBarItemView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,6 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityUserPageBinding;
@@ -42,6 +53,9 @@ public class UserPageActivity extends AppCompatActivity {
 
     ActivityUserPageBinding binding;
     DatabaseReference databaseReference;
+    StorageReference storageReferenceAvatar;
+    String currentUid;
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +66,7 @@ public class UserPageActivity extends AppCompatActivity {
 //        navBarView = findViewById(R.id.navBarView);
 
         //databaseReference = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
+        currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         binding.navBarView.setSelectedItemId(R.id.navBar_user);
         // show current username on User Page
@@ -61,8 +76,34 @@ public class UserPageActivity extends AppCompatActivity {
             binding.userPageUsername.setText(current_username);
             //Log.d("----username:", current_username);
         }
-        // show current username on User Page
 
+        // load user avatar
+        storageReferenceAvatar = FirebaseStorage.getInstance().getReference("avatar/" + currentUid).child(currentUid);
+        storageReferenceAvatar.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                String image = uri.toString();
+                Picasso.get().load(image).into(binding.userPageUserProfile);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                binding.userPageUserProfile.setImageResource(R.drawable.person_image);
+            }
+        });
+
+        // change avatar button
+        binding.floatingActionButtonChangeAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //CropImage.activity().setGuidelines(CropImageView.Guidelines.On).start
+                ImagePicker.with(UserPageActivity.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
+            }
+        });
 
         binding.userPageLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,4 +128,59 @@ public class UserPageActivity extends AppCompatActivity {
             return true;
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("--------request code", String.valueOf(requestCode));
+        Log.d("--------result code", String.valueOf(resultCode));
+        Log.d("-------Ok code", String.valueOf(Activity.RESULT_OK));
+
+        if(resultCode == Activity.RESULT_OK){
+            if(data != null){
+                imageUri = data.getData();
+                Toast.makeText(this, "Avatar changed", Toast.LENGTH_SHORT).show();
+                // save avatar to db
+                Picasso.get().load(imageUri).into(binding.userPageUserProfile);
+                uploadAvatar();
+            }
+        } else {
+            Toast.makeText(this, "Avatar not Changed", Toast.LENGTH_SHORT).show();
+            //binding.userPageUserProfile.setImageResource(R.drawable.person_image);
+            storageReferenceAvatar.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    String image = uri.toString();
+                    Picasso.get().load(image).into(binding.userPageUserProfile);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    binding.userPageUserProfile.setImageResource(R.drawable.person_image);
+                }
+            });
+
+        }
+
+    }
+
+    private void uploadAvatar() {
+        if(imageUri != null) {
+            storageReferenceAvatar.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //binding.imageButton.setImageURI(null);
+                    //Toast.makeText()
+                    Log.d("------upload Avatar", "successful");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("------upload Avatar", "fail");
+
+                }
+            });
+        }
+    }
+
 }

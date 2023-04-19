@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
@@ -42,14 +45,19 @@ the nav bar to transit to other page
 public class CurrentSongPageActivity extends AppCompatActivity {
 
     ActivityCurrentSongPageBinding binding;
-    String songName, songArtist, lyricCreator, lyric, translation;
+    String songName, songArtist, lyricCreator, lyric, translation, lyricCreatorId;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
+    DatabaseReference databaseReferenceReport;
     StorageReference storageReference;
     // this string is assigned as the node key of each song in db library
     String songName_artist_node;
     // check if Add Button is checked
     Boolean isAdded;
     String imageUrl;
+
+    DatabaseReference databaseReferenceSongLikes;
+    DatabaseReference databaseReferenceSharedLyrics;
+    DatabaseReference databaseReferenceUser;
 
     Button currentSong_buttonComment;
 
@@ -61,13 +69,6 @@ public class CurrentSongPageActivity extends AppCompatActivity {
 
         // set the button click jump to comment page
         currentSong_buttonComment = findViewById(R.id.currentSong_buttonComment);
-        currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);
-                startActivity(intent);
-            }
-        });
 
         // get the song's name/artist/creator infor from the library when user choose a song
         Intent intent = getIntent();
@@ -78,9 +79,13 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         // this string is assigned as the node key of each song in db library
         songName_artist_node = songName.replaceAll("[^a-zA-Z0-9]", "")+songArtist.replaceAll("[^a-zA-Z0-9]", "");
         databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library").child(FirebaseAuth.getInstance().getUid());
+        databaseReferenceSharedLyrics = FirebaseDatabase.getInstance().getReference("shared_Lyrics");
 
         // edit Intent: when edit a song lyric, it will send all of information to edit page
         Intent editIntent = new Intent(CurrentSongPageActivity.this, CreateEditPageActivity.class);
+
+        // make lyric scrolling
+        binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());
 
         Log.d("------song name: ", songName);
         binding.currentSongTitle.setText(songName);
@@ -88,18 +93,28 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         binding.currentSongTitle.setSelected(true);
         binding.currentSongArtist.setText("Artist: " + songArtist);
         binding.currentSongArtist.setSelected(true);
-        binding.currentSongLyricEditor.setText("Lyric Creator" + lyricCreator);
+        binding.currentSongLyricEditor.setText("Lyric Creator: " + lyricCreator);
         binding.currentSongLyricEditor.setSelected(true);
         // load image from firebase storage
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String fileName = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "") + currentUid;
-        storageReference = FirebaseStorage.getInstance().getReference("images/" +currentUid).child(fileName);
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/" + currentUid).child(fileName);
+
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 imageUrl = uri.toString();
+
                 Picasso.get().load(imageUrl).into(binding.currentSongAlbumImage);
 
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("-----fail to load image", "do not find image");
+                binding.currentSongAlbumImage.setImageResource(R.drawable.edit_image_pic);
             }
         });
 
@@ -126,6 +141,9 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 } else {
                     Log.d("----- exists in database", "false");
                     changeToAddIcon();
+                    // if not exist in user's library, then will show the lyrics from shared_Lyrics
+                    showSharedLyric();
+
                 }
             }
 
@@ -135,7 +153,43 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             }
         });
 
+        // find lyric Creator id
+        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
+        databaseReferenceUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    if (dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
+                        lyricCreatorId = dataSnapshot.getKey().toString();
+                        Log.d("-------lyric creator id", lyricCreatorId);
+                        saveSongLikeOnDB(dataSnapshot.getKey().toString());
+                        //showSharedLyric(lyricCreatorId);
+                    }
+                }
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        Intent commentIntent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);
+        currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentIntent.putExtra("song_name",songName);
+                commentIntent.putExtra("song_artist", songArtist);
+                commentIntent.putExtra("lyricCreator", lyricCreator);
+                commentIntent.putExtra("song_lyric", lyric);
+                commentIntent.putExtra("song_translation", translation);
+                commentIntent.putExtra("image_url", imageUrl);
+                commentIntent.putExtra("lyricCreatorId", lyricCreatorId);
+                startActivity(commentIntent);
+            }
+        });
 
         // edit button in lyric details page will open the Create/Edit page to edit the lyric
         binding.currentSongButtonEdit.setOnClickListener(new View.OnClickListener() {
@@ -195,6 +249,19 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             }
         });
 
+        // report button
+        binding.currentSongButtonReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReferenceReport = FirebaseDatabase.getInstance().getReference("reports");
+                String fileName = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "") + lyricCreatorId;
+                databaseReferenceReport.child(fileName).child(currentUid).setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.current_song_activity), "Thank you! We received your report.", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+            }
+        });
+
         // navigation bar on click action
         binding.navBarView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -208,8 +275,125 @@ public class CurrentSongPageActivity extends AppCompatActivity {
             return true;
         });
 
-        // make lyric scrolling
-        binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());
+
+
+    }
+
+    private void showSharedLyric() {
+        databaseReferenceUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    if (dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
+                        lyricCreatorId = dataSnapshot.getKey().toString();
+                        Log.d("-------lyric creator id", lyricCreatorId);
+                        //saveSongLikeOnDB(dataSnapshot.getKey().toString());
+                        //showSharedLyric(lyricCreatorId);
+                        String path = songName.replaceAll("[^a-zA-Z0-9]","")+ songArtist.replaceAll("[^a-zA-Z0-9]","")+dataSnapshot.getKey().toString();
+                        databaseReferenceSharedLyrics.child(path).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    Log.d("------exist in shared lyric", "Object exists: " + snapshot.getValue());
+                                    lyric = snapshot.child("song_lyric").getValue().toString();
+                                    translation = snapshot.child("song_translation").getValue().toString();
+                                    binding.currentSongTextLyric.setText(lyric);
+                                } else {
+                                    Log.d("------not exist in shared lyric", "Object not exists");
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void showUserLibraryLyric() {
+
+    }
+
+    private void saveSongLikeOnDB(String lyricCreatorId) {
+        // db like path for song
+        String path = songName.replaceAll("[^a-zA-Z0-9]","")+ songArtist.replaceAll("[^a-zA-Z0-9]","")+lyricCreatorId;
+        //check if current user liked this song lyric
+        databaseReferenceSongLikes = FirebaseDatabase.getInstance().getReference("likes").child(path);
+        String currentUserId = FirebaseAuth.getInstance().getUid();
+
+        // check if user already liked this song
+        final Boolean[] isLiked = {false};
+        databaseReferenceSongLikes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    if(dataSnapshot.getKey().equals(currentUserId)){
+                         isLiked[0] = true;
+                    }
+                }
+                if(isLiked[0]){
+                    Drawable drawable = ResourcesCompat.getDrawable(
+                            getResources(),
+                            R.drawable.baseline_thumb_up_24_green,
+                            getTheme()
+
+                    );
+                    binding.editPageFullScreenButton1.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
+                } else {
+                    Drawable drawable = ResourcesCompat.getDrawable(
+                            getResources(),
+                            R.drawable.like,
+                            getTheme()
+
+                    );
+                    binding.editPageFullScreenButton1.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
+                }
+
+                // when click the like button
+                binding.editPageFullScreenButton1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(isLiked[0]){
+                            Drawable drawable = ResourcesCompat.getDrawable(
+                                    getResources(),
+                                    R.drawable.like,
+                                    getTheme()
+
+                            );
+                            binding.editPageFullScreenButton1.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+                            databaseReferenceSongLikes.child(currentUserId).removeValue();
+                            isLiked[0] = false;
+                        } else {
+                            Drawable drawable = ResourcesCompat.getDrawable(
+                                    getResources(),
+                                    R.drawable.baseline_thumb_up_24_red,
+                                    getTheme()
+
+                            );
+                            binding.editPageFullScreenButton1.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+                            databaseReferenceSongLikes.child(currentUserId).setValue(currentUserId);
+                            isLiked[0] = true;
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void changeToAddIcon() {
