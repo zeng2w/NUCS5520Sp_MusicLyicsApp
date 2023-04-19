@@ -3,7 +3,7 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model;
 import java.util.ArrayList;
 
 /**
- * Model for a song object obtained from Genius.
+ * Model a song created from the response back from Genius API's call.
  */
 public class GeniusSong {
 
@@ -11,7 +11,7 @@ public class GeniusSong {
     private ArrayList<String> artistsList;
     private String lyrics;
 
-    public GeniusSong(String songName, ArrayList<String> artistsList, String lyrics) {
+    public GeniusSong(String songName, ArrayList<String> artistsList,  String lyrics) {
         this.songName = songName;
         this.artistsList = artistsList;
         this.lyrics = lyrics;
