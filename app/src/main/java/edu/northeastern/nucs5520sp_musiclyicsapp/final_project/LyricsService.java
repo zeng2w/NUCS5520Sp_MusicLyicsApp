@@ -131,10 +131,109 @@ public class LyricsService {
                 return headers;
             }
         };
+        queue.add(jsonObjectRequest);
+    }
+
+    public void getLyricsForSearch(String searchTerm, VolleyCallback callback) {
+
+        String cleanedSearchTerm = searchTerm.replaceAll("[^a-zA-Z\\s]", "");
+
+        // Build the API link. Remove white spaces at then ends of endpoint and replace white
+        // spaces with %20.
+        String endpoint = "https://api.genius.com/search?q=" + cleanedSearchTerm;
+        endpoint = endpoint.trim();
+        endpoint = endpoint.replace(" ", "%20");
+
+        Log.d("LYRICS URL", endpoint);
+
+        // Create the request.
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+//                    JSONArray songsJsonArray = response.optJSONObject("response").optJSONArray("hits");
+                    JSONArray songsJsonArray = response.optJSONObject("response").optJSONArray("hits");
+                    // Logging
+                    for(int i = 0; i < songsJsonArray.length(); i++) {
+                        try {
+                            Log.d("GENIUS JSONARRAY HITS", songsJsonArray.get(i).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // We choose the first song among all songs returned from the search, if
+                    // the search result is not empty.
+                    String lyrics = "";
+                    Log.d("INSIDE GENIUS REQUEST", "inside genius request");
+                    if (songsJsonArray != null) {
+                        Log.d("INSIDE songJsonArray", "inside songJsonArray");
+                        // Url is buried inside the first JSONObject (i.e., first search result),
+                        // inside its "result" key, whose value is also a JSONObject. Inside this
+                        // JSONObject there is a "url" key.
+                        JSONObject topSong = songsJsonArray.optJSONObject(0);
+                        JSONObject topSongDetails = topSong.optJSONObject("result");
+                        assert topSongDetails != null;
+                        String lyricsUrl = topSongDetails.optString("url");
+                        String songName = topSongDetails.optString("full_title");
+                        String artistNames = topSongDetails.optString("artist_names");
+                        ArrayList<String> artistsList = new ArrayList<>();
+                        artistsList.add(artistNames);
+                        Log.d("TOPSONGDETAILS JSONOBJECT", topSongDetails.toString());
+                        Log.d("LYRICSURL FROM JSON", lyricsUrl);
+                        GetLyricsRunnable getLyricsRunnable = new GetLyricsRunnable(songName, artistsList, lyricsUrl);
+                        Thread t = new Thread(getLyricsRunnable);
+                        t.start();
+                        // Wait until the new thread has run the GetLyricsRunnable.
+                        try {
+                            t.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        // After the GetLyricsRunnable finished running, we can finally get the final
+                        // output with lyrics (if result found on Genius.com).
+                        GeniusSong outputGeniusSong = getLyricsRunnable.getGeniusSong();
+                        // Send the output out with callback function.
+                        callback.onLyricsSuccess(outputGeniusSong);
+                        Log.d("genius song after thread run", outputGeniusSong.getSongName());
+                        Log.d("genius song lyrics after thread run", outputGeniusSong.getLyrics());
+
+
+                        // This will lead us into the new Runnable thread to scrape lyrics from Genius.
+                    }
+                }, error -> {
+                    Log.e("ERROR", "Error when trying to get lyrics from Genius.");
+                    if (error instanceof ServerError && error.networkResponse != null) {
+                        int statusCode = error.networkResponse.statusCode;
+                        if (statusCode == 401) {
+                            Log.e("ERROR", "Genius Unauthorized");
+                        }
+                        else if (statusCode == 403) {
+                            Log.e("ERROR", "Genius request has been refused");
+                        }
+                        else if (statusCode == 404) {
+                            Log.e("ERROR", "Genius request not found");
+                        }
+                        else if (statusCode == 429) {
+                            Log.e("ERROR", "Genius request rate limit reached");
+                        }
+                        else if (statusCode == 500) {
+                            Log.e("ERROR", "Genius API side error");
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                String token = GENIUS_ACCESS_TOKEN;
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
 
         queue.add(jsonObjectRequest);
 
     }
+
+
 
     /**
      * Scrape the lyrics from the genius.com link to the lyrics page of a song.
