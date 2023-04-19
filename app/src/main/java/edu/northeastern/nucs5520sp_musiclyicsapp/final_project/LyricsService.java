@@ -174,6 +174,13 @@ public class LyricsService {
                         String lyricsUrl = topSongDetails.optString("url");
                         String songName = topSongDetails.optString("full_title");
                         String artistNames = topSongDetails.optString("artist_names");
+                        // Clean up song name to remove "by xxx" at the end, i.e. artist_names.
+                        if (songName.endsWith(artistNames)) {
+                            String actualSongNameBy = songName.substring(0, songName.length() - artistNames.length()).trim();
+                            if (actualSongNameBy.endsWith("by")) {
+                                songName = actualSongNameBy.substring(0, actualSongNameBy.length() - 2).trim();
+                            }
+                        }
                         ArrayList<String> artistsList = new ArrayList<>();
                         artistsList.add(artistNames);
                         Log.d("TOPSONGDETAILS JSONOBJECT", topSongDetails.toString());
