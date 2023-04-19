@@ -5,14 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.GeniusSong;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifyArtist;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifySong;
 
 public class ActivitySpotify extends AppCompatActivity {
 
-    private ArrayList<SpotifySong> songsList;
-    private SongService songService;
+    private ArrayList<SpotifySong> spotifySongsList;
+    private SpotifyService spotifyService;
+    private LyricsService lyricsService;
+    private ArrayList<GeniusSong> outputList;
 
     // Credit: https://towardsdatascience.com/using-the-spotify-api-with-your-android-application-the-essentials-1a3c1bc36b9e
     @Override
@@ -20,12 +28,16 @@ public class ActivitySpotify extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spotify);
 
-        songService = new SongService(getApplicationContext());
+        spotifyService = new SpotifyService(getApplicationContext());
+        lyricsService = new LyricsService(getApplicationContext());
+
+        outputList = new ArrayList<>();
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-
-        // If sharedPreferences doesn't have anything, then user authorization is needed.
+        // If sharedPreferences is empty, user hasn't authorized this app to access their spotify account.
+        // Go to ActivitySpotifyAuth.
         if (sharedPreferences.getAll().isEmpty()) {
+            Toast.makeText(this, "Need authorization with your Spotify account to read your playlist information", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ActivitySpotify.this, ActivitySpotifyAuth.class));
         }
 
@@ -35,26 +47,51 @@ public class ActivitySpotify extends AppCompatActivity {
     // Whatever needs to be done with the songs obtained need to happen right below
     // songsList = songService.getSongs(); (because of asynchronous nature of the request)
     private void getTracks() {
-        songService.getSongsFromPlaylist("3gKA8ik8CVKljJsbIrem0b", 100, 0, new VolleyCallback() {
+        spotifyService.getSongsFromPlaylist("3IKJxSf21hxk8C3MbHIlQC", 100, 0, new VolleyCallback() {
             @Override
             public void onSuccess(boolean finished) {
-                songsList = songService.getSongs();
+                spotifySongsList = spotifyService.getSongs();
                 // Songs in songsList can be used as input to the Genius API.
                 if (finished) {
-                    // These commented-out lines are used to test if songsList has all elements we want.
+                    // Loop through the songs in songsList and extract lyrics for each song.
+                    for (SpotifySong spotifySong: spotifySongsList) {
+                        // Song info setup.
+                        String songName = spotifySong.getSongName();
+                        ArrayList<String> artistsList = new ArrayList<>();
+                        for (SpotifyArtist spotifyArtist: spotifySong.getArtists()) {
+                            artistsList.add(spotifyArtist.getArtistName());
+                        }
+                        // Get the GeniusSong with lyrics inside.
+                        lyricsService.getLyricsForSong(songName, artistsList, new VolleyCallback() {
+                            @Override
+                            public void onSuccess(boolean finished) {
 
-//                    System.out.println("There are " + songsList.size() + " songs in the test playlist");
-//                    System.out.println("songList size is: " + songsList.size());
-//                    int count = 1;
-//                    for (Song song: songsList) {
-//                        System.out.println(count + " ==== " + "Song Title: " + song.getSongName());
-//                        count += 1;
-//                    }
+                            }
+
+                            @Override
+                            public void onLyricsSuccess(GeniusSong outputGeniusSong) {
+                                Log.d("output received in ActivitySpotify's callback", outputGeniusSong.getLyrics());
+                                outputList.add(outputGeniusSong);
+                                Log.d("outputList size", String.valueOf(outputList.size()));
+
+                            }
+                        });
+                        // Cope with Genius API's rate limit for search, which is 1 per second.
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
 
                 }
             }
+
+            @Override
+            public void onLyricsSuccess(GeniusSong geniusSong) {
+
+            }
         });
     }
-
-
 }

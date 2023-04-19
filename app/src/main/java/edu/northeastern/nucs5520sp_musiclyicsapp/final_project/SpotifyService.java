@@ -20,8 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifyArtist;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifySong;
+
 // Credit: https://towardsdatascience.com/using-the-spotify-api-with-your-android-application-the-essentials-1a3c1bc36b9e
-public class SongService {
+public class SpotifyService {
 
     private final ArrayList<SpotifySong> songs;
     // See it as a persistent storage of info related to Spotify, e.g., the access token when user
@@ -30,7 +33,7 @@ public class SongService {
     // For making requests to the Spotify API.
     private final RequestQueue queue;
 
-    public SongService(Context context) {
+    public SpotifyService(Context context) {
         songs = new ArrayList<>();
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
