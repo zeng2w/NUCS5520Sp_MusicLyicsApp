@@ -76,7 +76,7 @@ public class CommentActivity extends AppCompatActivity {
                 context = binding.commentContext.getText().toString();
                 // if user comment a lyric which created by genius
                 String s;
-                if(lyricCreator.toLowerCase().equals("genius")){
+                if(lyricCreator.toLowerCase().equals("Genius")){
                     s = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "")+ "genius";
                 } else {
                     s = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "")+ lyricCreatorId;
@@ -156,7 +156,7 @@ public class CommentActivity extends AppCompatActivity {
 
     private void showSongComments(String creatorId) {
         String s;
-        if(lyricCreator.toLowerCase().equals("genius")){
+        if(lyricCreator.toLowerCase().equals("Genius")){
             s = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "")+ "genius";
         } else {
             s = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "")+ creatorId;

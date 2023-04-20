@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivitySearchBinding;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters.LibraryAdapter;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.GeniusSong;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SongModel;
 
 public class SearchActivity extends AppCompatActivity {
@@ -33,6 +34,8 @@ public class SearchActivity extends AppCompatActivity {
     LibraryAdapter libraryAdapter;
     DatabaseReference databaseReferenceUserLibrary;
     DatabaseReference databaseReferenceSharedLibrary;
+    LyricsService lyricsService;
+
 
 
     // set the local and online togglebutton
@@ -44,6 +47,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        lyricsService = new LyricsService(getApplicationContext());
 
         // set adapter for showing the search result in recycler view
         libraryAdapter = new LibraryAdapter(this);
@@ -95,7 +100,7 @@ public class SearchActivity extends AppCompatActivity {
         binding.floatingActionButtonSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String search_inputText = binding.searchEdittext.getText().toString();
+                String search_inputText = binding.searchEdittext.getText().toString().trim();
                 if(search_inputText.isEmpty()){
                     Toast.makeText(SearchActivity.this, "Search Empty", Toast.LENGTH_SHORT).show();
                 } else{
@@ -125,6 +130,9 @@ public class SearchActivity extends AppCompatActivity {
 
                             }
                         });
+                        if (libraryAdapter.getSize() == 0){
+                            Toast.makeText(SearchActivity.this, "No result found in your library", Toast.LENGTH_LONG).show();
+                        }
                     } else if(binding.onlineSearchToggle.isChecked()){
                         Log.d("--------online search", String.valueOf(binding.onlineSearchToggle.isChecked()));
                         // search from shared lyric in firebase realtime db
@@ -152,6 +160,27 @@ public class SearchActivity extends AppCompatActivity {
                         });
 
                         // search from API
+                        lyricsService.getLyricsForSearch(search_inputText, new VolleyCallback() {
+                            @Override
+                            public void onSuccess(boolean finished) {
+
+                            }
+
+                            @Override
+                            public void onLyricsSuccess(GeniusSong outputGeniusSong) {
+                                    SongModel song = new SongModel(outputGeniusSong.getSongName(), outputGeniusSong.getArtistsList().get(0), outputGeniusSong.getLyrics(),"", "Genius");
+                                    if (!song.getSong_lyric().equals("")) {
+                                        libraryAdapter.add(song);
+                                    }
+
+
+                            }
+                        });
+
+                        if(libraryAdapter.getSize() == 0){
+                            Toast.makeText(SearchActivity.this, "No result found in shared lyrics or outside resource", Toast.LENGTH_LONG).show();
+                        }
+
                     }
                 }
             }

@@ -37,6 +37,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyViewHo
         notifyDataSetChanged();
     }
 
+    public int getSize(){
+        return songList.size();
+    }
+
     public List<SongModel> getSongList(){
         return songList;
     }
@@ -59,6 +63,8 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyViewHo
         intent.putExtra("song_name", song.getSong_name());
         intent.putExtra("song_artist", song.getSong_artist());
         intent.putExtra("lyric_creator", song.getLyric_creator());
+        intent.putExtra("song_translation", song.getSong_translation());
+        intent.putExtra("lyric", song.getSong_lyric());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
