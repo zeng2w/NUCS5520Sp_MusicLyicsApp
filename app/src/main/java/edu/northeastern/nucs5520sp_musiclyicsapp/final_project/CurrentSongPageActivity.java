@@ -75,6 +75,8 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         songName = intent.getStringExtra("song_name");
         songArtist= intent.getStringExtra("song_artist");
         lyricCreator = intent.getStringExtra("lyric_creator");
+        lyric = intent.getStringExtra("lyric");
+        translation = intent.getStringExtra("song_translation");
 
         // this string is assigned as the node key of each song in db library
         songName_artist_node = songName.replaceAll("[^a-zA-Z0-9]", "")+songArtist.replaceAll("[^a-zA-Z0-9]", "");
@@ -95,6 +97,9 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         binding.currentSongArtist.setSelected(true);
         binding.currentSongLyricEditor.setText("Lyric Creator: " + lyricCreator);
         binding.currentSongLyricEditor.setSelected(true);
+
+        //Log.d("-----------lyric:", lyric);
+        binding.currentSongTextLyric.setText(lyric);
         // load image from firebase storage
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String fileName = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "") + currentUid;
@@ -134,10 +139,10 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                     Log.d("----- exists in database", "true");
                     changeIconIfAlreadyExists();
                     // get lyric of this song and update UI
-                    lyric = snapshot.child("song_lyric").getValue().toString();
+                    //lyric = snapshot.child("song_lyric").getValue().toString();
                     translation = snapshot.child("song_translation").getValue().toString();
-                    //Log.d("-----------lyric:", lyric);
-                    binding.currentSongTextLyric.setText(lyric);
+//                    //Log.d("-----------lyric:", lyric);
+//                    binding.currentSongTextLyric.setText(lyric);
                 } else {
                     Log.d("----- exists in database", "false");
                     changeToAddIcon();

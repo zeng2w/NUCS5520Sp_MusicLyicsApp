@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -178,6 +179,7 @@ public class LyricsService {
                         if (songName.length() - artistNames.length() - 3 >= 0) {
                             songName = songName.substring(0, songName.length() - artistNames.length() - 3);
                         }
+                        Log.d("song name from search", songName);
                         ArrayList<String> artistsList = new ArrayList<>();
                         artistsList.add(artistNames);
                         Log.d("TOPSONGDETAILS JSONOBJECT", topSongDetails.toString());
