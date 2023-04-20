@@ -172,14 +172,11 @@ public class LyricsService {
                         JSONObject topSongDetails = topSong.optJSONObject("result");
                         assert topSongDetails != null;
                         String lyricsUrl = topSongDetails.optString("url");
-                        String songName = topSongDetails.optString("full_title");
-                        String artistNames = topSongDetails.optString("artist_names");
+                        String songName = topSongDetails.optString("full_title").trim();
+                        String artistNames = topSongDetails.optString("artist_names").trim();
                         // Clean up song name to remove "by xxx" at the end, i.e. artist_names.
-                        if (songName.endsWith(artistNames)) {
-                            String actualSongNameBy = songName.substring(0, songName.length() - artistNames.length()).trim();
-                            if (actualSongNameBy.endsWith("by")) {
-                                songName = actualSongNameBy.substring(0, actualSongNameBy.length() - 2).trim();
-                            }
+                        if (songName.length() - artistNames.length() - 3 >= 0) {
+                            songName = songName.substring(0, songName.length() - artistNames.length() - 3);
                         }
                         ArrayList<String> artistsList = new ArrayList<>();
                         artistsList.add(artistNames);
