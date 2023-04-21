@@ -14,6 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +42,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profile_image_view"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 
@@ -51,7 +51,9 @@
         android:id="@+id/comment_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
         android:text="Comment text goes here"
         android:textColor="#090909"
         android:textSize="20sp"
@@ -63,7 +65,9 @@
         android:id="@+id/comment_date_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
         android:text="03/28/2023"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +79,7 @@
         android:id="@+id/thumb_comment_row"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="220dp"
         android:orientation="horizontal"
@@ -127,25 +132,15 @@
             app:layout_constraintStart_toEndOf="@+id/thumb_up_button"
             tools:layout_editor_absoluteY="129dp" />
 
-        <ImageButton
-            android:id="@+id/comment_button"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@null"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_comment"
-            app:layout_constraintStart_toEndOf="@+id/textView_num_like"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="123dp" />
     </LinearLayout>
 
     <EditText
         android:id="@+id/replyTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="40dp"
         android:ems="10"
-        android:hint="Comments here..."
+        android:hint="reply here..."
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/button_post_replies"
         app:layout_constraintHorizontal_bias="0.5"
@@ -156,8 +151,8 @@
     <ImageButton
         android:id="@+id/button_post_replies"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/white"
         android:src="@drawable/baseline_send_24_green"
         app:layout_constraintBottom_toBottomOf="@+id/replyTextView"
@@ -170,7 +165,7 @@
         android:id="@+id/replyRecyclerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="40dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -100,6 +100,8 @@ public class CommentActivity extends AppCompatActivity {
                 backCurrentSongIntent.putExtra("song_name",songName);
                 backCurrentSongIntent.putExtra("song_artist", songArtist);
                 backCurrentSongIntent.putExtra("lyric_creator", lyricCreator);
+                backCurrentSongIntent.putExtra("lyric", lyric);
+                backCurrentSongIntent.putExtra("song_translation",translation);
 
                 startActivity(backCurrentSongIntent);
             }

@@ -176,6 +176,7 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         DatabaseReference databaseReferenceReplies = FirebaseDatabase.getInstance()
                 .getReference("replies").child(commet.getCommentId());
 
+        // reply
         holder.postReplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,7 +189,11 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
                     databaseReferenceReplies.child(replyId).setValue(newReply);
                 }
 
+                holder.replyEditText.setText("");
+
             }
+
+
         });
 
         // set reply adapter
@@ -223,25 +228,6 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
 
             }
         });
-
-
-//        holder.num_like.setText(commet.getNum_like());
-//        holder.num_dislike.setText(commet.getNum_dislike());
-//        holder.thumbUpNum.setText(commet.getNum_thumb_up());
-//        holder.thumbDownNum.setText(commet.getGetNum_thumb_down());
-
-//        Intent intent = new Intent(context, CommentActivity.class);
-//        intent.putExtra("username", commet.getUsername());
-//        intent.putExtra("commentContext", commet.getContext());
-//        intent.putExtra("date", commet.getCurrentDate());
-//        intent.putExtra("thumbUpNum", commet.getNum_thumb_up());
-//        intent.putExtra("thumbDownNum", commet.getGetNum_thumb_down());
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                context.startActivities(new Intent[]{intent});
-//            }
-//        });
     }
 
     @Override
