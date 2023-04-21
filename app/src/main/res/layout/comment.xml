@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/user_name_text_view"
+            android:id="@+id/reply_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -41,7 +41,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profile_image_view"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
     </LinearLayout>
 
@@ -137,5 +138,46 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="123dp" />
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/replyTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:ems="10"
+        android:hint="Comments here..."
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/button_post_replies"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thumb_comment_row" />
+
+    <ImageButton
+        android:id="@+id/button_post_replies"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/baseline_send_24_green"
+        app:layout_constraintBottom_toBottomOf="@+id/replyTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/replyTextView"
+        app:layout_constraintTop_toTopOf="@+id/replyTextView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/replyRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/replyTextView"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/reply_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
