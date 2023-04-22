@@ -4,15 +4,18 @@ import static edu.northeastern.nucs5520sp_musiclyicsapp.final_project.App.CHANNE
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -51,7 +54,9 @@ public class ImportService extends Service {
         // Go to ActivitySpotifyAuth.
         if (sharedPreferences.getAll().isEmpty()) {
             Toast.makeText(this, "Need authorization with your Spotify account to read your playlist information", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ImportService.this, ActivitySpotifyAuth.class));
+            Intent intentAuth = new Intent(ImportService.this, ActivitySpotifyAuth.class);
+            intentAuth.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intentAuth);
         }
 
         getTracks(sharedPlaylistLink);
@@ -87,11 +92,11 @@ public class ImportService extends Service {
                 if (finished) {
 
                     // Loop through the songs in songsList and extract lyrics for each song.
-                    for (SpotifySong spotifySong: spotifySongsList) {
+                    for (SpotifySong spotifySong : spotifySongsList) {
                         // Song info setup.
                         String songName = spotifySong.getSongName();
                         ArrayList<String> artistsList = new ArrayList<>();
-                        for (SpotifyArtist spotifyArtist: spotifySong.getArtists()) {
+                        for (SpotifyArtist spotifyArtist : spotifySong.getArtists()) {
                             artistsList.add(spotifyArtist.getArtistName());
                         }
                         // Get the GeniusSong with lyrics inside.
@@ -110,7 +115,17 @@ public class ImportService extends Service {
 
                                 // Change the notification to show progress in extracting song lyrics with Genius API and scraping Genius.com.
                                 notificationBuilder.setContentTitle("Getting Lyrics")
-                                                .setContentText(String.format("Lyrics extraction progress: %d / %d", outputList.size(), spotifySongsList.size()));
+                                        .setContentText(String.format("Lyrics extraction progress: %d / %d", outputList.size(), spotifySongsList.size()));
+                                if (ActivityCompat.checkSelfPermission(ImportService.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                                    // TODO: Consider calling
+                                    //    ActivityCompat#requestPermissions
+                                    // here to request the missing permissions, and then overriding
+                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                    //                                          int[] grantResults)
+                                    // to handle the case where the user grants the permission. See the documentation
+                                    // for ActivityCompat#requestPermissions for more details.
+                                    return;
+                                }
                                 NotificationManagerCompat.from(ImportService.this).notify(1, notificationBuilder.build());
                                 Log.d("outputList size", String.valueOf(outputList.size()));
 
