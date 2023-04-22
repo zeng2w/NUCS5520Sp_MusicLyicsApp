@@ -191,6 +191,8 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
 
                 holder.replyEditText.setText("");
 
+                // send a notification to original comments holder that some had comment to their comments
+
             }
 
 

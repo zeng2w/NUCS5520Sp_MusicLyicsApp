@@ -3,10 +3,20 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +41,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityUserPageBinding;
 
@@ -54,6 +68,8 @@ public class UserPageActivity extends AppCompatActivity {
     ActivityUserPageBinding binding;
     DatabaseReference databaseReference;
     StorageReference storageReferenceAvatar;
+    DatabaseReference databaseReferenceCommentReplies;
+    DatabaseReference databaseReferenceComments;
     String currentUid;
     Uri imageUri;
 
@@ -127,6 +143,91 @@ public class UserPageActivity extends AppCompatActivity {
             }
             return true;
         });
+
+
+        // check replies
+        // listening the replies of the comments which current user had posted
+        databaseReferenceComments = FirebaseDatabase.getInstance().getReference("comments");
+        databaseReferenceCommentReplies = FirebaseDatabase.getInstance().getReference("replies");
+        databaseReferenceComments.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    for(DataSnapshot commentDataSnapshot: dataSnapshot.getChildren()) {
+                        Log.d("----------listen comments database", commentDataSnapshot.child("userId").getValue().toString());
+                        if (commentDataSnapshot.child("userId").getValue().toString().equals(currentUid)) {
+                            Log.d("-----------comment find", "");
+                            Log.d("--------commentId", commentDataSnapshot.getKey());
+                            databaseReferenceCommentReplies.child(Objects.requireNonNull(commentDataSnapshot.getKey())).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for(DataSnapshot repliesDataSnapshot: snapshot.getChildren()) {
+                                        Log.d("------username", snapshot.getValue().toString());
+                                        String username = repliesDataSnapshot.child("username").getValue().toString();
+                                        String receiveDateTime = repliesDataSnapshot.child("currentDate").getValue().toString();
+                                        DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                                        LocalDateTime now = LocalDateTime.now();
+                                        LocalDateTime lower = now.minusSeconds(5);
+                                        LocalDateTime dateTime = LocalDateTime.parse(receiveDateTime,dft);
+                                        if(dateTime.isAfter(lower)) {
+                                            sendNotification(username, receiveDateTime);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+                        }
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void sendNotification(String username, String receiveDate) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("n", "n", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+//            Bitmap myBitmap = BitmapFactory.decodeResource(getResources(),
+//                    Integer.parseInt(imageName));
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "n")
+                    .setSmallIcon(R.drawable.notification_image).setAutoCancel(true)
+                    .setContentText(username + " replied you on " + receiveDate);
+
+            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.notify(999, builder.build());
+
+//            Notification notification = builder.build();
+//            managerCompat.notify(999, builder.build());
+        }
+
     }
 
     @Override
