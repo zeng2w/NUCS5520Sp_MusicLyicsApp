@@ -201,4 +201,11 @@ public class SearchActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(SearchActivity.this,LibraryPageActivity.class));
+        finish();
+    }
 }

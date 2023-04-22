@@ -140,6 +140,9 @@ public class UserPageActivity extends AppCompatActivity {
                 case R.id.navBar_library:
                     startActivity(new Intent(UserPageActivity.this, LibraryPageActivity.class));
                     break;
+                case R.id.navBar_currentSong:
+                    startActivity(new Intent(UserPageActivity.this, CurrentSongPageActivity.class));
+                    break;
             }
             return true;
         });
