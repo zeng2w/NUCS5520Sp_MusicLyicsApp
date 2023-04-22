@@ -28,8 +28,7 @@
 
         <activity
             android:name=".final_project.CameraCaptureTextActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".final_project.SearchActivity"
             android:exported="false">

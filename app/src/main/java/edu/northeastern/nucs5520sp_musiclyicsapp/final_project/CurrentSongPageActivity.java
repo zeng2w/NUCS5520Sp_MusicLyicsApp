@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +31,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.Properties;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityCurrentSongPageBinding;
@@ -263,6 +266,16 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 databaseReferenceReport.child(fileName).child(currentUid).setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.current_song_activity), "Thank you! We received your report.", Snackbar.LENGTH_LONG);
                 snackbar.show();
+
+                // send email
+                final String username = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                final String password ="";
+                String messageToSend = "";
+                Properties props = new Properties();
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.port", "true");
 
             }
         });

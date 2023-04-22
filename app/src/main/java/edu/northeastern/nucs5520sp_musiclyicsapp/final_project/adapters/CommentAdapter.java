@@ -6,18 +6,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -26,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.CommentModel;
@@ -166,24 +172,64 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
             }
         });
 
+        // click post reply button, store the replies of this comment into firebase realtime db
+        DatabaseReference databaseReferenceReplies = FirebaseDatabase.getInstance()
+                .getReference("replies").child(commet.getCommentId());
 
-//        holder.num_like.setText(commet.getNum_like());
-//        holder.num_dislike.setText(commet.getNum_dislike());
-//        holder.thumbUpNum.setText(commet.getNum_thumb_up());
-//        holder.thumbDownNum.setText(commet.getGetNum_thumb_down());
+        // reply
+        holder.postReplyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String replyId = UUID.randomUUID().toString();
+                String replyContext = holder.replyEditText.getText().toString();
+                if(!replyContext.isEmpty()){
+                    CommentModel newReply = new CommentModel(commet.getSongId(),replyId,
+                            FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                            FirebaseAuth.getInstance().getUid(),replyContext);
+                    databaseReferenceReplies.child(replyId).setValue(newReply);
+                }
 
-//        Intent intent = new Intent(context, CommentActivity.class);
-//        intent.putExtra("username", commet.getUsername());
-//        intent.putExtra("commentContext", commet.getContext());
-//        intent.putExtra("date", commet.getCurrentDate());
-//        intent.putExtra("thumbUpNum", commet.getNum_thumb_up());
-//        intent.putExtra("thumbDownNum", commet.getGetNum_thumb_down());
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                context.startActivities(new Intent[]{intent});
-//            }
-//        });
+                holder.replyEditText.setText("");
+
+                // send a notification to original comments holder that some had comment to their comments
+
+            }
+
+
+        });
+
+        // set reply adapter
+        ReplyAdapter replyAdapter = new ReplyAdapter(context);
+        holder.replyRecyclerView.setAdapter(replyAdapter);
+        holder.replyRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        databaseReferenceReplies.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                replyAdapter.clear();
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    String songId = dataSnapshot.child("songId").getValue().toString();
+                    String replyId = dataSnapshot.child("commentId").getValue().toString();
+                    String username = dataSnapshot.child("username").getValue().toString();
+                    String commentUserId = dataSnapshot.child("userId").getValue().toString();
+                    String commentContext = dataSnapshot.child("context").getValue().toString();
+                    String currentDateTime = dataSnapshot.child("currentDate").getValue().toString();
+                    String numLike = dataSnapshot.child("num_like").getValue().toString();
+                    String numDislike = dataSnapshot.child("num_dislike").getValue().toString();
+                    Log.d("------reply id", username);
+                    CommentModel reply = new CommentModel(songId, replyId,username, commentUserId,commentContext, Integer.parseInt(numDislike),Integer.parseInt(numLike),currentDateTime);
+                    Log.d("-----in show adapter", username);
+                    replyAdapter.add(reply);
+                    Log.d("---------replay adapter size", String.valueOf(replyAdapter.getItemCount()));
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -200,10 +246,13 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
         private ImageButton likeButton;
         private ImageButton dislikeButton;
         private ImageView avatar_image;
+        private ImageButton postReplyButton;
+        private EditText replyEditText;
+        private RecyclerView replyRecyclerView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.user_name_text_view);
+            username = itemView.findViewById(R.id.reply_username);
             commentContext = itemView.findViewById(R.id.comment_text_view);
             date = itemView.findViewById(R.id.comment_date_text_view);
             num_dislike = itemView.findViewById(R.id.textView_num_dislike);
@@ -211,6 +260,9 @@ public class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs55
             likeButton = itemView.findViewById(R.id.thumb_up_button);
             dislikeButton = itemView.findViewById(R.id.thumb_down_button);
             avatar_image = itemView.findViewById(R.id.profile_image_view);
+            replyEditText = itemView.findViewById(R.id.replyTextView);
+            replyRecyclerView = itemView.findViewById(R.id.replyRecyclerView);
+            postReplyButton = itemView.findViewById(R.id.button_post_replies);
         }
     }
 }

@@ -59,25 +59,6 @@
             android:textColor="@color/black"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/userPage_following"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Following 23"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/userPage_follower"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Follower 23"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
 
     </LinearLayout>
 

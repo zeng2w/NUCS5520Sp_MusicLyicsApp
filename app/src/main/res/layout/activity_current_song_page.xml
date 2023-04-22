@@ -12,8 +12,10 @@
     <LinearLayout
         android:id="@+id/linearLayout7"
         android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +24,7 @@
         <ImageView
             android:id="@+id/currentSong_albumImage"
             android:layout_width="250dp"
-            android:layout_height="match_parent"
+            android:layout_height="125dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:contextClickable="false"
@@ -32,7 +34,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -92,10 +94,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
 
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,8 +107,8 @@
             android:id="@+id/currentSong_textLyric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="5dp"
             android:scrollbars="vertical"
             android:text=""
             android:textColor="@color/white"
@@ -121,15 +121,17 @@
         android:id="@+id/linearLayout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/navBarView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
@@ -137,6 +139,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableEnd="@drawable/like" />
 
@@ -145,6 +148,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableEnd="@drawable/comment" />
 
@@ -153,14 +157,16 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableEnd="@drawable/report" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
@@ -168,6 +174,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableEnd="@drawable/edit"
                 tools:layout_editor_absoluteX="263dp"
@@ -178,6 +185,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableEnd="@drawable/translate"
                 tools:layout_editor_absoluteX="313dp"
@@ -188,20 +196,10 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableEnd="@drawable/addtofav"
                 android:visibility="visible"
-                tools:layout_editor_absoluteX="363dp"
-                tools:layout_editor_absoluteY="269dp" />
-
-            <Button
-                android:id="@+id/currentSong_buttonExistInYourLibrary"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:drawableEnd="@drawable/baseline_playlist_add_check_24"
-                android:visibility="invisible"
                 tools:layout_editor_absoluteX="363dp"
                 tools:layout_editor_absoluteY="269dp" />
         </LinearLayout>
