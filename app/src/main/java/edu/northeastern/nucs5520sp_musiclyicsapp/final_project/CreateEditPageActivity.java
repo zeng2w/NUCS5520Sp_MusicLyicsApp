@@ -217,4 +217,11 @@ public class CreateEditPageActivity extends AppCompatActivity {
             binding.imageButton.setImageURI(imageUploadUri);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
+        finish();
+    }
 }

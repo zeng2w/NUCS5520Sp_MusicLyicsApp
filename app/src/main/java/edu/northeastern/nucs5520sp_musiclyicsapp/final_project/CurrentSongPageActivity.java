@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -46,7 +48,6 @@ the nav bar to transit to other page
  */
 
 public class CurrentSongPageActivity extends AppCompatActivity {
-
     ActivityCurrentSongPageBinding binding;
     String songName, songArtist, lyricCreator, lyric, translation, lyricCreatorId;
     DatabaseReference databaseReferenceUsersLyricsLibrary;
@@ -73,13 +74,12 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         // set the button click jump to comment page
         currentSong_buttonComment = findViewById(R.id.currentSong_buttonComment);
 
-        // get the song's name/artist/creator infor from the library when user choose a song
-        Intent intent = getIntent();
-        songName = intent.getStringExtra("song_name");
-        songArtist= intent.getStringExtra("song_artist");
-        lyricCreator = intent.getStringExtra("lyric_creator");
-        lyric = intent.getStringExtra("lyric");
-        translation = intent.getStringExtra("song_translation");
+        SharedPreferences sharedPreferencesCurrentSong = CurrentSongPageActivity.this.getSharedPreferences("CURRENT_SONG", 0);
+        songName = sharedPreferencesCurrentSong.getString("song_name", "");
+        songArtist = sharedPreferencesCurrentSong.getString("song_artist", "");
+        lyricCreator = sharedPreferencesCurrentSong.getString("lyric_creator", "");
+        lyric = sharedPreferencesCurrentSong.getString("lyric", "");
+        translation = sharedPreferencesCurrentSong.getString("song_translation", "");
 
         // this string is assigned as the node key of each song in db library
         songName_artist_node = songName.replaceAll("[^a-zA-Z0-9]", "")+songArtist.replaceAll("[^a-zA-Z0-9]", "");
@@ -143,8 +143,9 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                     changeIconIfAlreadyExists();
                     // get lyric of this song and update UI
                     //lyric = snapshot.child("song_lyric").getValue().toString();
-                    translation = snapshot.child("song_translation").getValue().toString();
-//                    //Log.d("-----------lyric:", lyric);
+//                    translation = snapshot.child("song_translation").getValue().toString();
+//                    Log.d("-----translation", snapshot.child("song_translation").getValue().toString());
+                    //Log.d("-----------lyric:", lyric);
 //                    binding.currentSongTextLyric.setText(lyric);
                 } else {
                     Log.d("----- exists in database", "false");
