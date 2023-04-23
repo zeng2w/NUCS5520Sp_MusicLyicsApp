@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Log.d("CREATION", "Hi");
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
     }
 
     @Override

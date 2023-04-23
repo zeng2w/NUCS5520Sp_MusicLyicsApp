@@ -6,6 +6,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 // Credit: https://youtu.be/FbpD5RZtbCc
 // For notification channel for the foreground service to import songs from a Spotify playlist and
 // obtain lyrics for these songs from Genius.com.
@@ -18,6 +20,7 @@ public class App extends Application {
         super.onCreate();
 
         createNotificationChannel();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
     }
 
