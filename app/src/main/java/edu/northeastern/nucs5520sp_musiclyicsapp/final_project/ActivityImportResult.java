@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -29,16 +31,17 @@ public class ActivityImportResult extends AppCompatActivity {
 
         outputList = new ArrayList<>();
 
-        // Obtain the outputList that contains GeniusSongs object
-        int outputListSize = getIntent().getIntExtra("outputList size", 0);
-//        if (outputListSize > 0) {
-//            for (int i = 0; i < outputListSize; i++) {
-//                @SuppressLint("DefaultLocale") GeniusSong song = getIntent().getParcelableExtra(String.format("outputList song %d", i+1));
-//                outputList.add(song);
-//            }
-//        }
-        // Obtain the outputList that contains GeniusSongs object
-//        outputList = getIntent().getExtras().getParcelableArrayList("outputList");
+        // Read GeniusSong objects from SQLite database and add to outputList.
+        ImportSongDatabaseHelper dbHelper = new ImportSongDatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("genius_songs", null, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            String songName = cursor.getString(cursor.getColumnIndexOrThrow("song_name"));
+            String artistsString = cursor.getString(cursor.getColumnIndexOrThrow("artists_string"));
+            String songLyrics = cursor.getString(cursor.getColumnIndexOrThrow("song_lyrics"));
+            GeniusSong song = new GeniusSong(songName, artistsString, songLyrics);
+            outputList.add(song);
+        }
 
         Log.d("outputList second song name received", outputList.get(1).getSongName());
         Log.d("outputList size received", String.valueOf(outputList.size()));
@@ -60,7 +63,10 @@ public class ActivityImportResult extends AppCompatActivity {
         stopService(serviceIntent);
     }
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(ActivityImportResult.this, LibraryPageActivity.class));
+        finish();
+    }
 }

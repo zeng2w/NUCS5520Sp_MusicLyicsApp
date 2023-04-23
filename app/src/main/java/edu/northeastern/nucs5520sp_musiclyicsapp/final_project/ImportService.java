@@ -13,13 +13,18 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -144,12 +149,19 @@ public class ImportService extends Service {
                                     Intent intent = new Intent(ImportService.this, ActivityImportResult.class);
                                     Log.d("outputList size before putting in intent", String.valueOf(outputList.size()));
 
-                                    // Put each GeniusSong in outputList into intent's bundle;
-                                    intent.putExtra("outputList size", outputList.size());
-//                                    for (int i = 0; i < outputList.size(); i++) {
-//                                        intent.putExtra(String.format("outputList song %d", i + 1), outputList.get(i));
-//                                    }
+                                    // Put each GeniusSong in outputList in SQLite database.
+                                    ImportSongDatabaseHelper dbHelper = new ImportSongDatabaseHelper(ImportService.this);
+                                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                                    db.delete("genius_songs", null, null);
+                                    for (GeniusSong song: outputList) {
+                                        ContentValues values = new ContentValues();
+                                        values.put("song_name", song.getSongName());
+                                        values.put("artists_string", song.getArtistsString());
+                                        values.put("song_lyrics", song.getLyrics());
+                                        db.insert("genius_songs", null, values);
+                                    }
 
+                                    // Go to ActivityImportResult to check out results.
                                     PendingIntent pendingIntent = PendingIntent.getActivity(ImportService.this, 0, intent, 0);
                                     NotificationCompat.Builder notificationBuilderComplete = new NotificationCompat.Builder(ImportService.this, CHANNEL_ID)
                                             .setContentTitle("Import and Lyrics Extraction Complete")
