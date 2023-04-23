@@ -33,6 +33,7 @@ public class ActivityImportResult extends AppCompatActivity {
     private ArrayList<GeniusSong> outputList;
 
     private Button importToLibraryButton;
+    private Button importCancelButton;
     DatabaseReference databaseReferenceUserLibrary;
 
     @Override
@@ -41,6 +42,7 @@ public class ActivityImportResult extends AppCompatActivity {
         setContentView(R.layout.activity_import_result);
 
         importToLibraryButton = findViewById(R.id.buttonImportResultImport);
+        importCancelButton = findViewById(R.id.buttonImportResultCancel);
         databaseReferenceUserLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library");
 
         outputList = new ArrayList<>();
@@ -89,6 +91,13 @@ public class ActivityImportResult extends AppCompatActivity {
             }
         });
 
+        importCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ActivityImportResult.this, LibraryPageActivity.class));
+            }
+        });
+
     }
 
     // Credit: https://youtu.be/FbpD5RZtbCc
@@ -101,6 +110,5 @@ public class ActivityImportResult extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(ActivityImportResult.this, LibraryPageActivity.class));
-        finish();
     }
 }
