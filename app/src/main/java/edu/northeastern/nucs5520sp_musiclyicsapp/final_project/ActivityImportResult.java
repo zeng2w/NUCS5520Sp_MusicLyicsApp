@@ -81,7 +81,7 @@ public class ActivityImportResult extends AppCompatActivity {
                     String songCreator = "Genius";
                     String songTranslation = "";
                     SongModel song = new SongModel(songName, songArtist,songLyric,songTranslation,songCreator);
-                    String path = songName.replaceAll("[^a-zA-Z0-9]", "") + songCreator.replaceAll("[^a-zA-Z0-9]", "");
+                    String path = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "");
                     databaseReferenceUserLibrary.child(FirebaseAuth.getInstance().getUid()).child(path).setValue(song);
                 }
                 Toast.makeText(ActivityImportResult.this, "Import to Library Successful", Toast.LENGTH_SHORT);
