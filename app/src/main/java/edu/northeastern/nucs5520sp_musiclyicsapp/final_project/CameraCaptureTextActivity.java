@@ -1,144 +1,130 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore;
+import android.util.SparseArray;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.Manifest;
 import android.widget.Toast;
 
-import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.text.Text;
-import com.google.mlkit.vision.text.TextRecognition;
-import com.google.mlkit.vision.text.TextRecognizer;
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.TextBlock;
+import com.google.android.gms.vision.text.TextRecognizer;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
-import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityCameraCaptureTextBinding;
+
 
 public class CameraCaptureTextActivity extends AppCompatActivity {
-
-    ActivityCameraCaptureTextBinding binding;
+    Button button_capture, button_copy, button_back;
+    TextView textview_data;
+    Bitmap bitmap;
     private static final int REQUEST_CAMERA_CODE = 100;
-    Uri imageUri;
-    TextRecognizer textRecognizer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCameraCaptureTextBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_camera_capture_text);
 
-        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        button_capture = findViewById(R.id.button_capture);
+        button_copy = findViewById(R.id.button_copy);
+        button_back = findViewById(R.id.button_back);
+        textview_data = findViewById(R.id.text_data);
 
-        //Reference: https://www.youtube.com/watch?v=sjkDbxyoNW0
-        // https://developers.google.com/ml-kit/vision/text-recognition/android?hl=zh-cn#java
-        // https://www.youtube.com/watch?v=hY7EyOtgtiQ
-        if(ContextCompat.checkSelfPermission(CameraCaptureTextActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+
+        if(ContextCompat.checkSelfPermission(CameraCaptureTextActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)
+        {
             ActivityCompat.requestPermissions(CameraCaptureTextActivity.this, new String[]{
                     Manifest.permission.CAMERA
-            }, REQUEST_CAMERA_CODE);
+            },REQUEST_CAMERA_CODE);
         }
 
-        binding.buttonCapture.setOnClickListener(new View.OnClickListener() {
+        button_capture.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //CropImage.activity().setGuidelines(CropImageView.Guidelines.On).start
-                ImagePicker.with(CameraCaptureTextActivity.this)
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
+            public void onClick(View view) {
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(CameraCaptureTextActivity.this);
+
             }
         });
 
-        binding.buttonCopy.setOnClickListener(new View.OnClickListener() {
+        button_copy.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                String text = binding.textViewData.getText().toString();
-                if(text.isEmpty()){
-                    Toast.makeText(CameraCaptureTextActivity.this, "there is no text to copy", Toast.LENGTH_SHORT).show();
-                } else {
-                    ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CameraCaptureTextActivity.this.CLIPBOARD_SERVICE);
-                    ClipData clipData = ClipData.newPlainText("Data", binding.textViewData.getText().toString());
-                    clipboardManager.setPrimaryClip(clipData);
-
-                    Toast.makeText(CameraCaptureTextActivity.this, "Text copy to Clioboard", Toast.LENGTH_SHORT).show();
-                    Intent editIntent = new Intent(CameraCaptureTextActivity.this, CreateEditPageActivity.class);
-                    editIntent.putExtra("song_lyric", binding.textViewData.getText().toString());
-                    startActivity(editIntent);
-                    finish();
-                }
+            public void onClick(View view) {
+                String scanned_text = textview_data.getText().toString();
+                copyTOClipBoard(scanned_text);
             }
         });
 
-
-
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CameraCaptureTextActivity.this, CreateEditPageActivity.class));
+                finish();
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("--------request code", String.valueOf(requestCode));
-        Log.d("--------result code", String.valueOf(resultCode));
-        Log.d("-------Ok code", String.valueOf(Activity.RESULT_OK));
-
-        if(resultCode == Activity.RESULT_OK){
-            if(data != null){
-                imageUri = data.getData();
-                Toast.makeText(this, "image selected", Toast.LENGTH_SHORT).show();
-                recognizeText();
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if(resultCode == RESULT_OK){
+                Uri resultUrl = result.getUri();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUrl);
+                    getTextFromImage(bitmap);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        } else {
-            Toast.makeText(this, "image not selected", Toast.LENGTH_SHORT).show();
         }
-
     }
 
-    private void recognizeText() {
-
-        if(imageUri != null){
-            Log.d("-------uri image", String.valueOf(imageUri));
-            try {
-                InputImage inputImage = InputImage.fromFilePath(CameraCaptureTextActivity.this, imageUri);
-
-                Task<Text> result = textRecognizer.process(inputImage).addOnSuccessListener(new OnSuccessListener<Text>() {
-                    @Override
-                    public void onSuccess(Text text) {
-                        String recognizeText = text.getText();
-                        binding.textViewData.setText(recognizeText);
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CameraCaptureTextActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("--------recog error", e.getMessage());
-                    }
-                });
-
-            } catch (IOException exception){
-                exception.printStackTrace();
-            }
+    private void getTextFromImage(Bitmap bitmap){
+        com.google.android.gms.vision.text.TextRecognizer recognizer = new TextRecognizer.Builder(this).build();
+        if(!recognizer.isOperational()){
+            Toast.makeText(CameraCaptureTextActivity.this, "Error Occurred!!", Toast.LENGTH_SHORT).show();
         }
+        else{
+            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+            SparseArray<TextBlock> textBlockSparseArray = recognizer.detect(frame);
+            StringBuilder stringBuilder = new StringBuilder();
+            for(int i = 0; i< textBlockSparseArray.size(); i ++)
+            {
+                TextBlock textBlock = textBlockSparseArray.valueAt(i);
+                stringBuilder.append(textBlock.getValue());
+                stringBuilder.append("\n");
+            }
+            textview_data.setText(stringBuilder.toString());
+            button_capture.setText("Retake");
+            button_copy.setVisibility(View.VISIBLE);
+            button_back.setVisibility(View.VISIBLE);
+        }
+    }
 
-
+    private void copyTOClipBoard(String text)
+    {
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("Copied Data", text);
+        clipboardManager.setPrimaryClip(clipData);
+        Toast.makeText(CameraCaptureTextActivity.this, "Copied to Clipboard", Toast.LENGTH_SHORT).show();
     }
 }
