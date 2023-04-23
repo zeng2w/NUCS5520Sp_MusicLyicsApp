@@ -82,16 +82,6 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         Log.d("--------shared preference contains key", String.valueOf(sharedPreferencesCurrentSong.contains("song_name")));
         // check if the shared preference is empty when user first login, the current song will not available to show
         if(!sharedPreferencesCurrentSong.contains("song_name")) {
-//            Snackbar snackbar = Snackbar.make(binding.getRoot().getRootView(), "You have not choose a song lyric yet", Snackbar.LENGTH_LONG);
-//            snackbar.setAction("OK", new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    startActivity(new Intent(CurrentSongPageActivity.this, LibraryPageActivity.class));
-//                    finish();
-//                }
-//            });
-//            snackbar.show();
-
             AlertDialog.Builder builder = new AlertDialog.Builder(CurrentSongPageActivity.this);
             builder.setTitle("Please Choose a Song Lyric")
                     .setMessage("You have not choose a song lyric yet, Please go to your Library.")

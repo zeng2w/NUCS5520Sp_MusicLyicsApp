@@ -47,7 +47,7 @@ public class ActivitySpotifyAuth extends AppCompatActivity {
 
     // Set up Spotify credentials.
     // Client ID is found in your dashboard at developer.spotify.com.
-    private static final String CLIENT_ID = "ab70ca7aa15e44d7b2650148832ae585";
+    private static final String CLIENT_ID = "c233e9cd9d6f47b48066547309fbc6b0";
     private static final String REDIRECT_URI = "edu.northeastern.nucs5520spmusiclyicsapp://callback";
     private static final int REQUEST_CODE = 1337;
     // Credit: https://developer.spotify.com/documentation/web-api/concepts/scopes

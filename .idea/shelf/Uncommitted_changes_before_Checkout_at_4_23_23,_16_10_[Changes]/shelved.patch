@@ -1,0 +1,102 @@
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\n    <uses-permission android:name=\"android.permission.CAMERA\" />\n    <uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />\n\n    <application\n        android:name=\".final_project.App\"\n        android:allowBackup=\"true\"\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\n        android:fullBackupContent=\"@xml/backup_rules\"\n        android:icon=\"@mipmap/ic_launcher_music\"\n        android:label=\"@string/app_name\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/Theme.NUCS5520Sp_MusicLyicsApp\"\n        android:usesCleartextTraffic=\"true\"\n        tools:targetApi=\"31\">\n        <activity\n            android:name=\".final_project.ActivityImportResult\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <meta-data\n            android:name=\"com.google.android.gms.version\"\n            android:value=\"@integer/google_play_services_version\" />\n        <meta-data\n            android:name=\"com.google.firebase.ml.vision.DEPENDENCIES\"\n            android:value=\"ocr\" />\n\n        <activity\n            android:name=\".final_project.CameraCaptureTextActivity\"\n            android:exported=\"false\"></activity>\n        <activity\n            android:name=\".final_project.SearchActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.ActivityImport\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.ImportService\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.ActivitySpotifyAuth\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.CreateEditPageActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.CommentActivity\"\n            android:exported=\"true\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n            <!-- <intent-filter> -->\n            <!-- <action android:name=\"android.intent.action.MAIN\" /> -->\n\n\n            <!-- <category android:name=\"android.intent.category.LAUNCHER\" /> -->\n            <!-- </intent-filter> -->\n        </activity>\n        <activity\n            android:name=\".final_project.LibraryPageActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.CurrentSongPageActivity\"\n            android:exported=\"false\"\n            android:screenOrientation=\"portrait\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.UserPageActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.LogInActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n            <!-- <intent-filter> -->\n            <!-- <action android:name=\"android.intent.action.MAIN\" /> -->\n\n\n            <!-- <category android:name=\"android.intent.category.LAUNCHER\" /> -->\n            <!-- </intent-filter> -->\n        </activity>\n        <activity\n            android:name=\".a8.CheckSentStickersDetailsActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.StickersListActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.CheckStickerHistoryActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.SendStickerActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.HomeActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.StickItToEm\"\n            android:exported=\"true\"\n            android:windowSoftInputMode=\"adjustResize\" />\n        <activity\n            android:name=\".GroupInformationActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a6.ActivityConversionHistory\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".a6.AtYourService\"\n            android:configChanges=\"orientation|screenSize|keyboardHidden\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".MainActivity\"\n            android:exported=\"true\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n        <service android:name=\".final_project.ImportService\" />\n    </application>\n\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision d0db20bc566be2b5432e3c4f2df62ce206e29c08)
++++ b/app/src/main/AndroidManifest.xml	(date 1682279217430)
+@@ -27,6 +27,7 @@
+                 android:name="android.app.lib_name"
+                 android:value="" />
+         </activity>
++
+         <meta-data
+             android:name="com.google.android.gms.version"
+             android:value="@integer/google_play_services_version" />
+@@ -36,10 +37,12 @@
+ 
+         <activity
+             android:name=".final_project.CameraCaptureTextActivity"
+-            android:exported="false"></activity>
++            android:exported="false"
++            android:screenOrientation="portrait"></activity>
+         <activity
+             android:name=".final_project.SearchActivity"
+-            android:exported="false">
++            android:exported="false"
++            android:screenOrientation="portrait">
+             <meta-data
+                 android:name="android.app.lib_name"
+                 android:value="" />
+@@ -60,21 +63,24 @@
+         </activity>
+         <activity
+             android:name=".final_project.ActivitySpotifyAuth"
+-            android:exported="false">
++            android:exported="false"
++            android:screenOrientation="portrait">
+             <meta-data
+                 android:name="android.app.lib_name"
+                 android:value="" />
+         </activity>
+         <activity
+             android:name=".final_project.CreateEditPageActivity"
+-            android:exported="false">
++            android:exported="false"
++            android:screenOrientation="portrait">
+             <meta-data
+                 android:name="android.app.lib_name"
+                 android:value="" />
+         </activity>
+         <activity
+             android:name=".final_project.CommentActivity"
+-            android:exported="true">
++            android:exported="true"
++            android:screenOrientation="portrait">
+             <meta-data
+                 android:name="android.app.lib_name"
+                 android:value="" />
+@@ -87,7 +93,8 @@
+         </activity>
+         <activity
+             android:name=".final_project.LibraryPageActivity"
+-            android:exported="false">
++            android:exported="false"
++            android:screenOrientation="portrait">
+             <meta-data
+                 android:name="android.app.lib_name"
+                 android:value="" />
+@@ -102,14 +109,16 @@
+         </activity>
+         <activity
+             android:name=".final_project.UserPageActivity"
+-            android:exported="false">
++            android:exported="false"
++            android:screenOrientation="portrait">
+             <meta-data
+                 android:name="android.app.lib_name"
+                 android:value="" />
+         </activity>
+         <activity
+             android:name=".final_project.LogInActivity"
+-            android:exported="false">
++            android:exported="false"
++            android:screenOrientation="portrait">
+             <meta-data
+                 android:name="android.app.lib_name"
+                 android:value="" />
+@@ -162,7 +171,9 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+-        <service android:name=".final_project.ImportService" />
++        <activity
++            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
++            android:theme="@style/Base.Theme.AppCompat" />
+     </application>
+ 
+ </manifest>
+\ No newline at end of file

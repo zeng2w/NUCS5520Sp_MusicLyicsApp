@@ -19,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -82,7 +81,8 @@ public class LyricsService {
                         String lyricsUrl = topSongDetails.optString("url");
                         Log.d("TOPSONGDETAILS JSONOBJECT", topSongDetails.toString());
                         Log.d("LYRICSURL FROM JSON", lyricsUrl);
-                        GetLyricsRunnable getLyricsRunnable = new GetLyricsRunnable(songName, artistsList, lyricsUrl);
+                        String artistsString = String.join(", ", artistsList);
+                        GetLyricsRunnable getLyricsRunnable = new GetLyricsRunnable(songName, artistsString, lyricsUrl);
                         Thread t = new Thread(getLyricsRunnable);
                         t.start();
                         // Wait until the new thread has run the GetLyricsRunnable.
@@ -180,11 +180,9 @@ public class LyricsService {
                             songName = songName.substring(0, songName.length() - artistNames.length() - 3);
                         }
                         Log.d("song name from search", songName);
-                        ArrayList<String> artistsList = new ArrayList<>();
-                        artistsList.add(artistNames);
                         Log.d("TOPSONGDETAILS JSONOBJECT", topSongDetails.toString());
                         Log.d("LYRICSURL FROM JSON", lyricsUrl);
-                        GetLyricsRunnable getLyricsRunnable = new GetLyricsRunnable(songName, artistsList, lyricsUrl);
+                        GetLyricsRunnable getLyricsRunnable = new GetLyricsRunnable(songName, artistNames, lyricsUrl);
                         Thread t = new Thread(getLyricsRunnable);
                         t.start();
                         // Wait until the new thread has run the GetLyricsRunnable.
@@ -298,13 +296,13 @@ public class LyricsService {
 
     class GetLyricsRunnable implements Runnable {
         private String songName;
-        private ArrayList<String> artistsList;
+        private String artistsString;
         private String lyricsUrl;
         private GeniusSong geniusSong;
 
-        public GetLyricsRunnable(String songName, ArrayList<String> artistsList, String lyricsUrl) {
+        public GetLyricsRunnable(String songName, String artistsString, String lyricsUrl) {
             this.songName = songName;
-            this.artistsList = artistsList;
+            this.artistsString = artistsString;
             this.lyricsUrl = lyricsUrl;
         }
 
@@ -319,7 +317,7 @@ public class LyricsService {
         @Override
         public void run() {
             try {
-                GeniusSong songWithLyrics = new GeniusSong(this.songName, this.artistsList, getLyricsFromUrl(this.lyricsUrl));
+                GeniusSong songWithLyrics = new GeniusSong(this.songName, this.artistsString, getLyricsFromUrl(this.lyricsUrl));
                 setGeniusSong(songWithLyrics);
                 Log.d("LYRICS IN THREAD'S RUN METHOD", geniusSong.getLyrics());
             } catch (IOException e) {
@@ -328,4 +326,3 @@ public class LyricsService {
         }
     }
 }
-

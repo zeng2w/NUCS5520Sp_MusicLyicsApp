@@ -121,7 +121,7 @@ public class LogInActivity extends AppCompatActivity {
                         databaseReference.child(FirebaseAuth.getInstance().getUid()).setValue(user);
                         Toast.makeText(LogInActivity.this, "SignUp successful!", Toast.LENGTH_SHORT).show();
 
-                        startActivity(new Intent(LogInActivity.this, UserPageActivity.class));
+                        startActivity(new Intent(LogInActivity.this, LibraryPageActivity.class));
                         finish();
                     }
                 }).addOnFailureListener(er -> {

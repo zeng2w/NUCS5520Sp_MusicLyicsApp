@@ -1,6 +1,9 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model;
 
-import java.util.ArrayList;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 /**
  * Model a song created from the response back from Genius API's call.
@@ -8,12 +11,12 @@ import java.util.ArrayList;
 public class GeniusSong {
 
     private String songName;
-    private ArrayList<String> artistsList;
+    private String artistsString;
     private String lyrics;
 
-    public GeniusSong(String songName, ArrayList<String> artistsList,  String lyrics) {
+    public GeniusSong(String songName, String artistsString, String lyrics) {
         this.songName = songName;
-        this.artistsList = artistsList;
+        this.artistsString = artistsString;
         this.lyrics = lyrics;
     }
 
@@ -25,12 +28,12 @@ public class GeniusSong {
         this.songName = songName;
     }
 
-    public ArrayList<String> getArtistsList() {
-        return artistsList;
+    public String getArtistsString() {
+        return artistsString;
     }
 
-    public void setArtistsList(ArrayList<String> artistsList) {
-        this.artistsList = artistsList;
+    public void setArtistsString(String artistsString) {
+        this.artistsString = artistsString;
     }
 
     public String getLyrics() {
