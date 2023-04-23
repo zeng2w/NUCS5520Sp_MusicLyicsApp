@@ -5,26 +5,24 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-
 /**
  * Model a song created from the response back from Genius API's call.
  */
 public class GeniusSong implements Parcelable {
 
     private String songName;
-    private ArrayList<String> artistsList;
+    private String artistsString;
     private String lyrics;
 
-    public GeniusSong(String songName, ArrayList<String> artistsList,  String lyrics) {
+    public GeniusSong(String songName, String artistsString, String lyrics) {
         this.songName = songName;
-        this.artistsList = artistsList;
+        this.artistsString = artistsString;
         this.lyrics = lyrics;
     }
 
     protected GeniusSong(Parcel in) {
         songName = in.readString();
-        artistsList = in.createStringArrayList();
+        artistsString = in.readString();
         lyrics = in.readString();
     }
 
@@ -48,12 +46,12 @@ public class GeniusSong implements Parcelable {
         this.songName = songName;
     }
 
-    public ArrayList<String> getArtistsList() {
-        return artistsList;
+    public String getArtistsString() {
+        return artistsString;
     }
 
-    public void setArtistsList(ArrayList<String> artistsList) {
-        this.artistsList = artistsList;
+    public void setArtistsString(String artistsString) {
+        this.artistsString = artistsString;
     }
 
     public String getLyrics() {
@@ -70,9 +68,9 @@ public class GeniusSong implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(songName);
-        dest.writeStringList(artistsList);
-        dest.writeString(lyrics);
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(songName);
+        parcel.writeString(artistsString);
+        parcel.writeString(lyrics);
     }
 }

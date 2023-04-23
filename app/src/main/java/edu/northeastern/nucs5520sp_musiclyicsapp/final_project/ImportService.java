@@ -143,10 +143,13 @@ public class ImportService extends Service {
                                     // If user clicks on the notification, lead to the new Activity displaying import results.
                                     Intent intent = new Intent(ImportService.this, ActivityImportResult.class);
                                     Log.d("outputList size before putting in intent", String.valueOf(outputList.size()));
-                                    Bundle bundle = new Bundle();
-                                    bundle.putParcelableArrayList("outputList", outputList);
-                                    
-                                    intent.putExtras(bundle);
+
+                                    // Put each GeniusSong in outputList into intent's bundle;
+                                    intent.putExtra("outputList size", outputList.size());
+//                                    for (int i = 0; i < outputList.size(); i++) {
+//                                        intent.putExtra(String.format("outputList song %d", i + 1), outputList.get(i));
+//                                    }
+
                                     PendingIntent pendingIntent = PendingIntent.getActivity(ImportService.this, 0, intent, 0);
                                     NotificationCompat.Builder notificationBuilderComplete = new NotificationCompat.Builder(ImportService.this, CHANNEL_ID)
                                             .setContentTitle("Import and Lyrics Extraction Complete")

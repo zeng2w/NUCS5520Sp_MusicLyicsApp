@@ -1,6 +1,7 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,22 +36,15 @@ public class ImportResultAdapter extends RecyclerView.Adapter<ImportResultAdapte
     @Override
     public void onBindViewHolder(@NonNull ImportResultAdapter.ImportResultViewHolder holder, int position) {
         holder.tvSongName.setText(outputList.get(position).getSongName());
-        ArrayList<String> artistsList = outputList.get(position).getArtistsList();
-        // Convert artists ArrayList into a long string.
-        StringBuilder artistsStringBuilder = new StringBuilder();
-        if (!artistsList.isEmpty()) {
-            if (artistsList.size() == 1) {
-                artistsStringBuilder = new StringBuilder(artistsList.get(0));
-            }
-            else {
-                for (String artist: artistsList) {
-                    artistsStringBuilder.append(artist).append(", ");
-                }
-            }
+        holder.tvArtist.setText(outputList.get(position).getArtistsString());
+        if (outputList.get(position).getLyrics().equals("")) {
+            holder.tvLyricsEditor.setText("LYRICS NOT FOUND");
+            holder.tvLyricsEditor.setTextColor(Color.RED);
         }
-        String artists = artistsStringBuilder.toString();
-        holder.tvArtist.setText(artists);
-        holder.tvLyricsEditor.setText("Genius");
+        else {
+            holder.tvLyricsEditor.setText("Genius");
+        }
+
     }
 
     @Override

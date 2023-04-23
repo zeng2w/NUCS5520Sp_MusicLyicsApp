@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
@@ -24,11 +27,18 @@ public class ActivityImportResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_result);
 
-        Bundle bundle = getIntent().getExtras();
-        outputList = bundle.getParcelableArrayList("outputList");
+        outputList = new ArrayList<>();
+
+        // Obtain the outputList that contains GeniusSongs object
+        int outputListSize = getIntent().getIntExtra("outputList size", 0);
+//        if (outputListSize > 0) {
+//            for (int i = 0; i < outputListSize; i++) {
+//                @SuppressLint("DefaultLocale") GeniusSong song = getIntent().getParcelableExtra(String.format("outputList song %d", i+1));
+//                outputList.add(song);
+//            }
+//        }
         // Obtain the outputList that contains GeniusSongs object
 //        outputList = getIntent().getExtras().getParcelableArrayList("outputList");
-
 
         Log.d("outputList second song name received", outputList.get(1).getSongName());
         Log.d("outputList size received", String.valueOf(outputList.size()));
