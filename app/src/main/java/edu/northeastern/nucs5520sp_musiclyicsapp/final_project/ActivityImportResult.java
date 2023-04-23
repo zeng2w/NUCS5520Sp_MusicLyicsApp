@@ -11,6 +11,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.checkerframework.checker.units.qual.A;
 
@@ -19,15 +26,22 @@ import java.util.ArrayList;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.GeniusSong;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters.ImportResultAdapter;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SongModel;
 
 public class ActivityImportResult extends AppCompatActivity {
 
     private ArrayList<GeniusSong> outputList;
 
+    private Button importToLibraryButton;
+    DatabaseReference databaseReferenceUserLibrary;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_result);
+
+        importToLibraryButton = findViewById(R.id.buttonImportResultImport);
+        databaseReferenceUserLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library");
 
         outputList = new ArrayList<>();
 
@@ -54,6 +68,26 @@ public class ActivityImportResult extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // import the result to library
+        importToLibraryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i = 0; i < outputList.size(); i ++){
+                    GeniusSong gSong = outputList.get(i);
+                    String songName = gSong.getSongName();
+                    String songArtist = gSong.getArtistsString();
+                    String songLyric = gSong.getLyrics();
+                    String songCreator = "Genius";
+                    String songTranslation = "";
+                    SongModel song = new SongModel(songName, songArtist,songLyric,songTranslation,songCreator);
+                    String path = songName.replaceAll("[^a-zA-Z0-9]", "") + songCreator.replaceAll("[^a-zA-Z0-9]", "");
+                    databaseReferenceUserLibrary.child(FirebaseAuth.getInstance().getUid()).child(path).setValue(song);
+                }
+                Toast.makeText(ActivityImportResult.this, "Import to Library Successful", Toast.LENGTH_SHORT);
+                startActivity(new Intent(ActivityImportResult.this, LibraryPageActivity.class));
+            }
+        });
 
     }
 
