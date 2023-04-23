@@ -18,7 +18,7 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="User name"
-            android:textColor="#595151"
+            android:textColor="#191919"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,9 +1,11 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -12,7 +14,9 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,6 +79,40 @@ public class CurrentSongPageActivity extends AppCompatActivity {
         currentSong_buttonComment = findViewById(R.id.currentSong_buttonComment);
 
         SharedPreferences sharedPreferencesCurrentSong = CurrentSongPageActivity.this.getSharedPreferences("CURRENT_SONG", 0);
+        Log.d("--------shared preference contains key", String.valueOf(sharedPreferencesCurrentSong.contains("song_name")));
+        // check if the shared preference is empty when user first login, the current song will not available to show
+        if(!sharedPreferencesCurrentSong.contains("song_name")) {
+//            Snackbar snackbar = Snackbar.make(binding.getRoot().getRootView(), "You have not choose a song lyric yet", Snackbar.LENGTH_LONG);
+//            snackbar.setAction("OK", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    startActivity(new Intent(CurrentSongPageActivity.this, LibraryPageActivity.class));
+//                    finish();
+//                }
+//            });
+//            snackbar.show();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(CurrentSongPageActivity.this);
+            builder.setTitle("Please Choose a Song Lyric")
+                    .setMessage("You have not choose a song lyric yet, Please go to your Library.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Click listener for the "OK" button on the dialog
+                            // Navigate to library activity
+                            Intent intent = new Intent(CurrentSongPageActivity.this, LibraryPageActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            // Set the dialog's gravity to center
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.gravity = Gravity.CENTER;
+            dialog.getWindow().setAttributes(lp);
+        }
+
         songName = sharedPreferencesCurrentSong.getString("song_name", "");
         songArtist = sharedPreferencesCurrentSong.getString("song_artist", "");
         lyricCreator = sharedPreferencesCurrentSong.getString("lyric_creator", "");
@@ -211,7 +249,6 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 editIntent.putExtra("song_translation", translation);
                 editIntent.putExtra("image_url", imageUrl);
                 startActivity(new Intent(editIntent));
-                finish();
             }
         });
 
@@ -267,16 +304,6 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                 databaseReferenceReport.child(fileName).child(currentUid).setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.current_song_activity), "Thank you! We received your report.", Snackbar.LENGTH_LONG);
                 snackbar.show();
-
-                // send email
-                final String username = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                final String password ="";
-                String messageToSend = "";
-                Properties props = new Properties();
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.port", "true");
 
             }
         });
@@ -340,8 +367,11 @@ public class CurrentSongPageActivity extends AppCompatActivity {
 
     }
 
-    private void showUserLibraryLyric() {
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.navBarView.setSelectedItemId(R.id.navBar_currentSong);
     }
 
     private void saveSongLikeOnDB(String lyricCreatorId) {

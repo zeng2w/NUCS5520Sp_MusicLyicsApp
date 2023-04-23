@@ -135,7 +135,6 @@ public class UserPageActivity extends AppCompatActivity {
             switch (item.getItemId()){
 //                case R.id.navBar_currentSong:
 //                    startActivity(new Intent(UserPageActivity.this, CurrentSongPageActivity.class));
-//                    finish();
 //                    break;
                 case R.id.navBar_library:
                     startActivity(new Intent(UserPageActivity.this, LibraryPageActivity.class));
@@ -197,6 +196,12 @@ public class UserPageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.navBarView.setSelectedItemId(R.id.navBar_user);
     }
 
     private void sendNotification(String username, String receiveDate) {

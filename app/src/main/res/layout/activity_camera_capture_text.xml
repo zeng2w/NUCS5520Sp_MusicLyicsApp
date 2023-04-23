@@ -1,54 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".final_project.CameraCaptureTextActivity">
+    tools:context=".MainActivity">
 
     <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_capture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-
+        android:layout_above="@id/linear_holder"
+        android:layout_alignParentTop="true"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <TextView
-            android:id="@+id/textView_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello! Capture or choose an image from gallery to perform OCR"
-            android:textColor = "@color/black"
+            android:id="@+id/text_data"
             android:textSize="22sp"
-            />
-
+            android:textColor="@color/black"
+            android:text="Capture lyrics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </ScrollView>
 
-    <Button
-        android:id="@+id/button_copy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Copy Text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.672"
-        app:layout_constraintStart_toEndOf="@+id/button_capture" />
+    <LinearLayout
+        android:id="@+id/linear_holder"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/button_capture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Capture"
+            android:layout_margin="8dp"/>
 
-    <Button
-        android:id="@+id/button_capture"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:text="Capture"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_copy"
-        app:layout_constraintVertical_bias="0.0" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/button_copy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Copy"
+            android:layout_margin="8dp"/>
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/button_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Back"
+            android:layout_margin="8dp"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

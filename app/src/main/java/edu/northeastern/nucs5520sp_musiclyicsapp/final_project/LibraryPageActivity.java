@@ -2,6 +2,7 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,15 +11,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
+import java.util.Objects;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityLibraryPageBinding;
@@ -51,7 +63,7 @@ public class LibraryPageActivity extends AppCompatActivity {
          */
         binding.libraryRecyclerView.setLayoutManager(new LinearLayoutManager(LibraryPageActivity.this));
 
-        databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library").child(FirebaseAuth.getInstance().getUid());
+        databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
 
         databaseReferenceUsersLyricsLibrary.addValueEventListener(new ValueEventListener() {
             @Override
@@ -147,7 +159,8 @@ public class LibraryPageActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    protected void onResume() {
+        super.onResume();
+        binding.navBarView.setSelectedItemId(R.id.navBar_library);
     }
 }

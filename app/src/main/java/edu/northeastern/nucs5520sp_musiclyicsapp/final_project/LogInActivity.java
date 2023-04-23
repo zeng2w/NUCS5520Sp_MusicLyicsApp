@@ -3,6 +3,7 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,6 +50,8 @@ public class LogInActivity extends AppCompatActivity {
        binding.buttonSubmit.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               SharedPreferences sharedPreferencesCurrentSong = LogInActivity.this.getSharedPreferences("CURRENT_SONG",0);
+               sharedPreferencesCurrentSong.edit().clear().commit();
                emailString = binding.emailAddress.getText().toString();
                passwordString = binding.password.getText().toString();
                if(TextUtils.isEmpty(emailString) || TextUtils.isEmpty(passwordString)){
