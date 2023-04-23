@@ -1,0 +1,169 @@
+Index: app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CommentActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;\n\nimport androidx.appcompat.app.AppCompatActivity;\n\nimport android.os.Bundle;\n\nimport edu.northeastern.nucs5520sp_musiclyicsapp.R;\n\npublic class CommentActivity extends AppCompatActivity {\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_comment);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CommentActivity.java b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CommentActivity.java
+--- a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CommentActivity.java	
++++ b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CommentActivity.java	
+@@ -1,16 +1,77 @@
+ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
+ 
++import androidx.annotation.NonNull;
+ import androidx.appcompat.app.AppCompatActivity;
+ 
++import android.content.Intent;
+ import android.os.Bundle;
++import android.util.Log;
++
++import com.google.android.gms.tasks.OnCompleteListener;
++import com.google.android.gms.tasks.Task;
++import com.google.firebase.auth.FirebaseAuth;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
++import com.google.firebase.database.ValueEventListener;
++
++import java.util.UUID;
+ 
+ import edu.northeastern.nucs5520sp_musiclyicsapp.R;
++import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityCommentBinding;
++import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.CommentModel;
+ 
+ public class CommentActivity extends AppCompatActivity {
+ 
++    ActivityCommentBinding binding;
++    DatabaseReference databaseReferenceSongComment;
++    DatabaseReference databaseReferenceUser;
++    String songName;
++    String songArtist;
++    String lyricCreator;
++    String lyricCreatorId;
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_comment);
++        binding = ActivityCommentBinding.inflate(getLayoutInflater());
++        setContentView(binding.getRoot());
++
++        Intent intent = getIntent();
++        songName = intent.getStringExtra("song_name");
++        songArtist= intent.getStringExtra("song_artist");
++        lyricCreator = intent.getStringExtra("lyricCreator");
++        Log.d("----lyric_creator", lyricCreator);
++
++        // get creator Id
++        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
++        databaseReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull DataSnapshot snapshot) {
++                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
++                    Log.d("------find id", dataSnapshot.child("username").getValue().toString());
++                    if(dataSnapshot.child("username").getValue().toString().equals(lyricCreator)){
++                        lyricCreatorId = dataSnapshot.getKey().toString();
++                        Log.d("------creator id", lyricCreatorId);
++                        String songArtistCreator = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "") + lyricCreatorId;
++                        databaseReferenceSongComment = FirebaseDatabase.getInstance().getReference("comments").child(songArtistCreator);
++                        String commentId = UUID.randomUUID().toString();
++                        String username = FirebaseAuth.getInstance().getCurrentUser().getEmail();
++                        String context = "test first comment to db";
++                        CommentModel newComment = new CommentModel(commentId,username,context);
++                        databaseReferenceSongComment.child(commentId).setValue(newComment);
++                    }
++                }
++            }
++
++            @Override
++            public void onCancelled(@NonNull DatabaseError error) {
++
++            }
++        });
++
++
++
++
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/UserModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model;\n\npublic class UserModel {\n    private String userId;\n    private String username;\n    private String email;\n    private String password;\n\n    public UserModel() {\n    }\n\n    public UserModel(String userId, String username, String email, String password) {\n        this.userId = userId;\n        this.username = username;\n        this.email = email;\n        this.password = password;\n    }\n\n    public String getUserId() {\n        return userId;\n    }\n\n    public void setUserId(String userId) {\n        this.userId = userId;\n    }\n\n    public String getUsername() {\n        return username;\n    }\n\n    public void setUsername(String username) {\n        this.username = username;\n    }\n\n    public String getEmail() {\n        return email;\n    }\n\n    public void setEmail(String email) {\n        this.email = email;\n    }\n\n    public String getPassword() {\n        return password;\n    }\n\n    public void setPassword(String password) {\n        this.password = password;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/UserModel.java b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/UserModel.java
+--- a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/UserModel.java	
++++ b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/UserModel.java	
+@@ -11,8 +11,8 @@
+ 
+     public UserModel(String userId, String username, String email, String password) {
+         this.userId = userId;
+-        this.username = username;
+-        this.email = email;
++        this.username = username.toLowerCase();
++        this.email = email.toLowerCase();
+         this.password = password;
+     }
+ 
+Index: app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CurrentSongPageActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;\n\nimport androidx.annotation.NonNull;\nimport androidx.appcompat.app.AppCompatActivity;\nimport androidx.core.content.res.ResourcesCompat;\n\nimport android.content.Intent;\nimport android.graphics.drawable.Drawable;\nimport android.net.Uri;\nimport android.os.Bundle;\nimport android.text.method.ScrollingMovementMethod;\nimport android.util.Log;\nimport android.view.View;\nimport android.widget.Button;\nimport android.widget.ImageView;\nimport android.widget.TextView;\n\n\nimport com.google.android.gms.tasks.OnSuccessListener;\nimport com.google.firebase.auth.FirebaseAuth;\nimport com.google.firebase.auth.FirebaseUser;\nimport com.google.firebase.database.DataSnapshot;\nimport com.google.firebase.database.DatabaseError;\nimport com.google.firebase.database.DatabaseReference;\nimport com.google.firebase.database.FirebaseDatabase;\nimport com.google.firebase.database.ValueEventListener;\nimport com.google.firebase.storage.FirebaseStorage;\nimport com.google.firebase.storage.StorageReference;\nimport com.squareup.picasso.Picasso;\n\nimport edu.northeastern.nucs5520sp_musiclyicsapp.R;\nimport edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityCurrentSongPageBinding;\nimport edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SongModel;\n\n/*\nCurrent Song Page: display the current song page which include album image, song title, artist,\nlyric editor, text area where contains lyric of the song, button to like, button to comment, button\nto report, button to translate, button to edit the lyric, button to add to user database, and lastly\nthe nav bar to transit to other page\n */\n\npublic class CurrentSongPageActivity extends AppCompatActivity {\n\n    ActivityCurrentSongPageBinding binding;\n    String songName, songArtist, lyricCreator, lyric, translation;\n    DatabaseReference databaseReferenceUsersLyricsLibrary;\n    StorageReference storageReference;\n    // this string is assigned as the node key of each song in db library\n    String songName_artist_node;\n    // check if Add Button is checked\n    Boolean isAdded;\n    String imageUrl;\n\n    Button currentSong_buttonComment;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        binding = ActivityCurrentSongPageBinding.inflate(getLayoutInflater());\n        setContentView(binding.getRoot());\n\n        // set the button click jump to comment page\n        currentSong_buttonComment = findViewById(R.id.currentSong_buttonComment);\n        currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                Intent intent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);\n                startActivity(intent);\n            }\n        });\n\n        // get the song's name/artist/creator infor from the library when user choose a song\n        Intent intent = getIntent();\n        songName = intent.getStringExtra(\"song_name\");\n        songArtist= intent.getStringExtra(\"song_artist\");\n        lyricCreator = intent.getStringExtra(\"lyric_creator\");\n\n        // this string is assigned as the node key of each song in db library\n        songName_artist_node = songName.replaceAll(\"[^a-zA-Z0-9]\", \"\")+songArtist.replaceAll(\"[^a-zA-Z0-9]\", \"\");\n        databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference(\"users_Lyrics_Library\").child(FirebaseAuth.getInstance().getUid());\n\n        // edit Intent: when edit a song lyric, it will send all of information to edit page\n        Intent editIntent = new Intent(CurrentSongPageActivity.this, CreateEditPageActivity.class);\n\n        Log.d(\"------song name: \", songName);\n        binding.currentSongTitle.setText(songName);\n        // auto scrollable\n        binding.currentSongTitle.setSelected(true);\n        binding.currentSongArtist.setText(\"Artist: \" + songArtist);\n        binding.currentSongArtist.setSelected(true);\n        binding.currentSongLyricEditor.setText(\"Lyric Creator\" + lyricCreator);\n        binding.currentSongLyricEditor.setSelected(true);\n        // load image from firebase storage\n        String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();\n        String fileName = songName.replaceAll(\"[^a-zA-Z0-9]\", \"\") + songArtist.replaceAll(\"[^a-zA-Z0-9]\", \"\") + currentUid;\n        storageReference = FirebaseStorage.getInstance().getReference(\"images/\" +currentUid).child(fileName);\n        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {\n            @Override\n            public void onSuccess(Uri uri) {\n                imageUrl = uri.toString();\n                Picasso.get().load(imageUrl).into(binding.currentSongAlbumImage);\n\n            }\n        });\n\n        // set navbar\n        binding.navBarView.setSelectedItemId(R.id.navBar_currentSong);\n\n        // check if song already in user's library\n        // if already in, then the \"add\" icon will change to \"check\" icon\n        // else, show \"add\" icon\n        // if user enter current page is from library, then need to get song lyrics\n        // if user enter this from search page, then lyrics will get from api\n        databaseReferenceUsersLyricsLibrary.child(songName_artist_node).addValueEventListener(new ValueEventListener() {\n            @Override\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\n                // if exists\n                if(snapshot.exists()){\n                    Log.d(\"----- exists in database\", \"true\");\n                    changeIconIfAlreadyExists();\n                    // get lyric of this song and update UI\n                    lyric = snapshot.child(\"song_lyric\").getValue().toString();\n                    translation = snapshot.child(\"song_translation\").getValue().toString();\n                    //Log.d(\"-----------lyric:\", lyric);\n                    binding.currentSongTextLyric.setText(lyric);\n                } else {\n                    Log.d(\"----- exists in database\", \"false\");\n                    changeToAddIcon();\n                }\n            }\n\n            @Override\n            public void onCancelled(@NonNull DatabaseError error) {\n\n            }\n        });\n\n\n\n        // edit button in lyric details page will open the Create/Edit page to edit the lyric\n        binding.currentSongButtonEdit.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                editIntent.putExtra(\"song_name\", songName);\n                editIntent.putExtra(\"song_artist\", songArtist);\n                editIntent.putExtra(\"lyricCreator\", lyricCreator);\n                editIntent.putExtra(\"song_lyric\", lyric);\n                editIntent.putExtra(\"song_translation\", translation);\n                editIntent.putExtra(\"image_url\", imageUrl);\n                startActivity(new Intent(editIntent));\n                finish();\n            }\n        });\n\n        // translation Button\n        binding.currentSongButtonTranslate.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                if(binding.currentSongTextLyric.getText().toString().equals(lyric)){\n                    binding.currentSongTextLyric.setText(translation);\n                    Drawable drawable = ResourcesCompat.getDrawable(\n                            getResources(),\n                            R.drawable.baseline_translate_24_green,\n                            getTheme()\n                    );\n                    binding.currentSongButtonTranslate.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);\n                } else if (binding.currentSongTextLyric.getText().toString().equals(translation)){\n                    binding.currentSongTextLyric.setText(lyric);\n                    Drawable drawable = ResourcesCompat.getDrawable(\n                            getResources(),\n                            R.drawable.translate,\n                            getTheme()\n                    );\n                    binding.currentSongButtonTranslate.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);\n                }\n\n            }\n        });\n\n        // add button action\n        binding.currentSongButtonAddToFav.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                if(isAdded){\n                    databaseReferenceUsersLyricsLibrary.child(songName_artist_node).removeValue();\n                    Log.d(\"----button action\", \"removed from library\");\n                    changeToAddIcon();\n                } else {\n                    SongModel song = new SongModel(songName, songArtist,lyric,translation,lyricCreator);\n                    //Log.d(\"-----want added song\", songName + \" \" + songArtist + \" \" + lyric + \" \" + translation + \" \" + lyricCreator);\n                    databaseReferenceUsersLyricsLibrary.child(songName_artist_node).setValue(song);\n                    changeIconIfAlreadyExists();\n                    Log.d(\"-----button action\", \"added to library\");\n                }\n            }\n        });\n\n        // navigation bar on click action\n        binding.navBarView.setOnItemSelectedListener(item -> {\n            switch (item.getItemId()){\n                case R.id.navBar_library:\n                    startActivity(new Intent(CurrentSongPageActivity.this, LibraryPageActivity.class));\n                    break;\n                case R.id.navBar_user:\n                    startActivity(new Intent(CurrentSongPageActivity.this, UserPageActivity.class));\n                   break;\n            }\n            return true;\n        });\n\n        // make lyric scrolling\n        binding.currentSongTextLyric.setMovementMethod(new ScrollingMovementMethod());\n    }\n\n    private void changeToAddIcon() {\n        // android:drawableEnd=\"@drawable/addtofav\"\n        //Button search = (Button) findViewById(R.id.yoursearchbutton);\n        //search.setCompoundDrawablesWithIntrinsicBounds('your_drawable',null,null,null);\n        Drawable drawable = ResourcesCompat.getDrawable(\n                getResources(),\n                R.drawable.addtofav,\n                getTheme()\n        );\n        binding.currentSongButtonAddToFav.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);\n        isAdded = false;\n    }\n\n    private void changeIconIfAlreadyExists() {\n        // android:drawableEnd=\"@drawable/baseline_playlist_add_check_24\"\n        //Button search = (Button) findViewById(R.id.yoursearchbutton);\n        //search.setCompoundDrawablesWithIntrinsicBounds('your_drawable',null,null,null);\n        Drawable drawable = ResourcesCompat.getDrawable(\n                getResources(),\n                R.drawable.baseline_check_circle_outline_24,\n                getTheme()\n        );\n        binding.currentSongButtonAddToFav.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);\n        isAdded = true;\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CurrentSongPageActivity.java b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CurrentSongPageActivity.java
+--- a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CurrentSongPageActivity.java	
++++ b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/CurrentSongPageActivity.java	
+@@ -61,13 +61,6 @@
+ 
+         // set the button click jump to comment page
+         currentSong_buttonComment = findViewById(R.id.currentSong_buttonComment);
+-        currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View v) {
+-                Intent intent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);
+-                startActivity(intent);
+-            }
+-        });
+ 
+         // get the song's name/artist/creator infor from the library when user choose a song
+         Intent intent = getIntent();
+@@ -81,6 +74,8 @@
+ 
+         // edit Intent: when edit a song lyric, it will send all of information to edit page
+         Intent editIntent = new Intent(CurrentSongPageActivity.this, CreateEditPageActivity.class);
++        // comment Intent
++        Intent commentIntent = new Intent(CurrentSongPageActivity.this, CommentActivity.class);
+ 
+         Log.d("------song name: ", songName);
+         binding.currentSongTitle.setText(songName);
+@@ -88,7 +83,7 @@
+         binding.currentSongTitle.setSelected(true);
+         binding.currentSongArtist.setText("Artist: " + songArtist);
+         binding.currentSongArtist.setSelected(true);
+-        binding.currentSongLyricEditor.setText("Lyric Creator" + lyricCreator);
++        binding.currentSongLyricEditor.setText("Lyric Creator: " + lyricCreator);
+         binding.currentSongLyricEditor.setSelected(true);
+         // load image from firebase storage
+         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+@@ -136,6 +131,15 @@
+         });
+ 
+ 
++        currentSong_buttonComment.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                commentIntent.putExtra("song_name", songName);
++                commentIntent.putExtra("song_artist", songArtist);
++                commentIntent.putExtra("lyricCreator", lyricCreator);
++                startActivity(commentIntent);
++            }
++        });
+ 
+         // edit button in lyric details page will open the Create/Edit page to edit the lyric
+         binding.currentSongButtonEdit.setOnClickListener(new View.OnClickListener() {

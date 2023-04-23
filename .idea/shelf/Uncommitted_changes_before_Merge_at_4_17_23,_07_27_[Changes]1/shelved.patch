@@ -1,0 +1,151 @@
+Index: app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/adapters/CommentAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters;\n\nimport android.content.Context;\nimport android.content.Intent;\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.TextView;\n\nimport androidx.annotation.NonNull;\nimport androidx.recyclerview.widget.RecyclerView;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nimport edu.northeastern.nucs5520sp_musiclyicsapp.R;\nimport edu.northeastern.nucs5520sp_musiclyicsapp.final_project.CommentActivity;\nimport edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.CommentModel;\n\npublic class CommentAdapter extends RecyclerView.Adapter<edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters.CommentAdapter.MyViewHolder>{\n    private Context context;\n    private List<CommentModel> commentModelList;\n\n    public CommentAdapter(Context context) {\n        this.context = context;\n        commentModelList = new ArrayList<>();\n    }\n    public void add(CommentModel comment) {\n        commentModelList.add(comment);\n        notifyDataSetChanged();\n    }\n\n    public void clear(){\n        commentModelList.clear();\n        notifyDataSetChanged();\n    }\n\n    public List<CommentModel> getCommentModelList(){return commentModelList;}\n\n    @NonNull\n    @Override\n    public CommentAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\n        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment, parent, false);\n        return new MyViewHolder(view);\n    }\n\n    @Override\n    public void onBindViewHolder(@NonNull CommentAdapter.MyViewHolder holder, int position) {\n        CommentModel commet = commentModelList.get(position);\n        holder.username.setText(commet.getUsername());\n        holder.commentContext.setText(commet.getContext());\n        holder.date.setText(commet.getCurrentDate());\n        holder.thumbUpNum.setText(commet.getNum_thumb_up());\n        holder.thumbDownNum.setText(commet.getGetNum_thumb_down());\n\n        Intent intent = new Intent(context, CommentActivity.class);\n        intent.putExtra(\"username\", commet.getUsername());\n        intent.putExtra(\"commentContext\", commet.getContext());\n        intent.putExtra(\"date\", commet.getCurrentDate());\n        intent.putExtra(\"thumbUpNum\", commet.getNum_thumb_up());\n        intent.putExtra(\"thumbDownNum\", commet.getGetNum_thumb_down());\n        holder.itemView.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                context.startActivities(new Intent[]{intent});\n            }\n        });\n    }\n\n    @Override\n    public int getItemCount() {\n        return commentModelList.size();\n    }\n\n    public class MyViewHolder extends RecyclerView.ViewHolder {\n        private TextView username;\n        private TextView commentContext;\n        private TextView date;\n        private TextView thumbUpNum;\n        private TextView thumbDownNum;\n\n        public MyViewHolder(@NonNull View itemView) {\n            super(itemView);\n            username = itemView.findViewById(R.id.user_name_text_view);\n            commentContext = itemView.findViewById(R.id.comment_text_view);\n            date = itemView.findViewById(R.id.comment_date_text_view);\n            thumbUpNum = itemView.findViewById(R.id.thumb_up_button);\n            thumbDownNum = itemView.findViewById(R.id.thumb_down_button);\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/adapters/CommentAdapter.java b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/adapters/CommentAdapter.java
+--- a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/adapters/CommentAdapter.java	
++++ b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/adapters/CommentAdapter.java	
+@@ -50,15 +50,15 @@
+         holder.username.setText(commet.getUsername());
+         holder.commentContext.setText(commet.getContext());
+         holder.date.setText(commet.getCurrentDate());
+-        holder.thumbUpNum.setText(commet.getNum_thumb_up());
+-        holder.thumbDownNum.setText(commet.getGetNum_thumb_down());
++//        holder.thumbUpNum.setText(commet.getNum_thumb_up());
++//        holder.thumbDownNum.setText(commet.getGetNum_thumb_down());
+ 
+         Intent intent = new Intent(context, CommentActivity.class);
+         intent.putExtra("username", commet.getUsername());
+         intent.putExtra("commentContext", commet.getContext());
+         intent.putExtra("date", commet.getCurrentDate());
+-        intent.putExtra("thumbUpNum", commet.getNum_thumb_up());
+-        intent.putExtra("thumbDownNum", commet.getGetNum_thumb_down());
++//        intent.putExtra("thumbUpNum", commet.getNum_thumb_up());
++//        intent.putExtra("thumbDownNum", commet.getGetNum_thumb_down());
+         holder.itemView.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+Index: app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/CommentModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model;\n\nimport java.time.LocalDate;\nimport java.time.format.DateTimeFormatter;\nimport java.util.Date;\n\npublic class CommentModel {\n    String songId;\n    String commentId;\n\n    String username;\n    String context;\n    int num_thumb_up;\n    int getNum_thumb_down;\n    LocalDate currentDate; // can support only 3 input parameter year/month/day\n    public CommentModel(){\n    }\n\n    public CommentModel(String username, String context) {\n        this.username = username;\n        this.context = context;\n        currentDate = LocalDate.now(); // generate current day\n\n\n    }\n\n    public String getCommentId(){\n        return commentId;\n    }\n\n    public String getSongId() {\n        return songId;\n    }\n\n    public void setSongId(String songId) {\n        this.songId = songId;\n    }\n\n    public void setCommentId(String commentId) {\n        this.commentId = commentId;\n    }\n\n    public String getUsername() {\n        return username;\n    }\n\n    public void setUsername(String username) {\n        this.username = username;\n    }\n\n    public String getContext() {\n        return context;\n    }\n\n    public void setContext(String context) {\n        this.context = context;\n    }\n\n    public String getNum_thumb_up() {\n        return String.valueOf(num_thumb_up);\n    }\n\n    public void setNum_thumb_up(int num_thumb_up) {\n        this.num_thumb_up = num_thumb_up;\n    }\n\n    public String getGetNum_thumb_down() {\n        return String.valueOf(getNum_thumb_down);\n    }\n\n    public void setGetNum_thumb_down(int getNum_thumb_down) {\n        this.getNum_thumb_down = getNum_thumb_down;\n    }\n\n    public String getCurrentDate() {\n        // concert the date into string formation\n        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"M/d/yyyy\");\n        String formattedDate = currentDate.format(formatter);\n        //  test, print it for watch\n//        System.out.println(\"Formatted date: \" + formattedDate);\n        return formattedDate;\n    }\n\n    public void setCurrentDate(LocalDate currentDate) {\n        this.currentDate = currentDate;\n    }\n\n    public void addThumbUp(){\n        this.num_thumb_up++;\n    }\n\n    public void addThumDown(){\n        this.num_thumb_up++;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/CommentModel.java b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/CommentModel.java
+--- a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/CommentModel.java	
++++ b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/CommentModel.java	
+@@ -1,41 +1,40 @@
+ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model;
+ 
+ import java.time.LocalDate;
++import java.time.LocalDateTime;
+ import java.time.format.DateTimeFormatter;
+ import java.util.Date;
+ 
+ public class CommentModel {
+-    String songId;
+     String commentId;
+ 
+     String username;
+     String context;
+-    int num_thumb_up;
+-    int getNum_thumb_down;
+-    LocalDate currentDate; // can support only 3 input parameter year/month/day
++    int num_like;
++    int num_dislike;
++    String currentDate; // can support only 3 input parameter year/month/day
+     public CommentModel(){
+     }
+ 
+-    public CommentModel(String username, String context) {
++    public CommentModel(String commentId, String username, String context) {
++        this.commentId = commentId;
+         this.username = username;
+         this.context = context;
+-        currentDate = LocalDate.now(); // generate current day
++        this.num_like = 0;
++        this.num_dislike = 0;
++        this.currentDate = getCurrentDateTime();
++    }
+ 
+-
++    private String getCurrentDateTime(){
++        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
++        LocalDateTime now = LocalDateTime.now();
++        return dtf.format(now);
+     }
+ 
+     public String getCommentId(){
+         return commentId;
+     }
+ 
+-    public String getSongId() {
+-        return songId;
+-    }
+-
+-    public void setSongId(String songId) {
+-        this.songId = songId;
+-    }
+-
+     public void setCommentId(String commentId) {
+         this.commentId = commentId;
+     }
+@@ -56,40 +55,27 @@
+         this.context = context;
+     }
+ 
+-    public String getNum_thumb_up() {
+-        return String.valueOf(num_thumb_up);
+-    }
+-
+-    public void setNum_thumb_up(int num_thumb_up) {
+-        this.num_thumb_up = num_thumb_up;
+-    }
+-
+-    public String getGetNum_thumb_down() {
+-        return String.valueOf(getNum_thumb_down);
+-    }
+-
+-    public void setGetNum_thumb_down(int getNum_thumb_down) {
+-        this.getNum_thumb_down = getNum_thumb_down;
+-    }
+-
+     public String getCurrentDate() {
+-        // concert the date into string formation
+-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+-        String formattedDate = currentDate.format(formatter);
+-        //  test, print it for watch
+-//        System.out.println("Formatted date: " + formattedDate);
+-        return formattedDate;
++        return currentDate;
+     }
+ 
+-    public void setCurrentDate(LocalDate currentDate) {
++    public void setCurrentDate(String currentDate) {
+         this.currentDate = currentDate;
+     }
+ 
+-    public void addThumbUp(){
+-        this.num_thumb_up++;
++    public int getNum_like() {
++        return num_like;
++    }
++
++    public void setNum_like(int num_like) {
++        this.num_like = num_like;
++    }
++
++    public int getNum_dislike() {
++        return num_dislike;
+     }
+ 
+-    public void addThumDown(){
+-        this.num_thumb_up++;
++    public void setNum_dislike(int num_dislike) {
++        this.num_dislike = num_dislike;
+     }
+ }

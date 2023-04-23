@@ -1,0 +1,65 @@
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\n    <uses-permission android:name=\"android.permission.CAMERA\" />\n    <uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />\n\n    <application\n        android:name=\".final_project.App\"\n        android:allowBackup=\"true\"\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\n        android:fullBackupContent=\"@xml/backup_rules\"\n        android:icon=\"@mipmap/ic_launcher_music\"\n        android:label=\"@string/app_name\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/Theme.NUCS5520Sp_MusicLyicsApp\"\n        android:usesCleartextTraffic=\"true\"\n        tools:targetApi=\"31\">\n        <activity\n            android:name=\".final_project.ActivityImportResult\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <meta-data\n            android:name=\"com.google.android.gms.version\"\n            android:value=\"@integer/google_play_services_version\" />\n        <meta-data\n            android:name=\"com.google.firebase.ml.vision.DEPENDENCIES\"\n            android:value=\"ocr\" />\n\n        <activity\n            android:name=\".final_project.CameraCaptureTextActivity\"\n            android:exported=\"false\"></activity>\n        <activity\n            android:name=\".final_project.SearchActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.ActivityImport\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.ImportService\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.ActivitySpotifyAuth\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.CreateEditPageActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.CommentActivity\"\n            android:exported=\"true\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n            <!-- <intent-filter> -->\n            <!-- <action android:name=\"android.intent.action.MAIN\" /> -->\n\n\n            <!-- <category android:name=\"android.intent.category.LAUNCHER\" /> -->\n            <!-- </intent-filter> -->\n        </activity>\n        <activity\n            android:name=\".final_project.LibraryPageActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.CurrentSongPageActivity\"\n            android:exported=\"false\"\n            android:screenOrientation=\"portrait\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.UserPageActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".final_project.LogInActivity\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n            <!-- <intent-filter> -->\n            <!-- <action android:name=\"android.intent.action.MAIN\" /> -->\n\n\n            <!-- <category android:name=\"android.intent.category.LAUNCHER\" /> -->\n            <!-- </intent-filter> -->\n        </activity>\n        <activity\n            android:name=\".a8.CheckSentStickersDetailsActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.StickersListActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.CheckStickerHistoryActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.SendStickerActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.HomeActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a8.StickItToEm\"\n            android:exported=\"true\"\n            android:windowSoftInputMode=\"adjustResize\" />\n        <activity\n            android:name=\".GroupInformationActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".a6.ActivityConversionHistory\"\n            android:exported=\"false\">\n            <meta-data\n                android:name=\"android.app.lib_name\"\n                android:value=\"\" />\n        </activity>\n        <activity\n            android:name=\".a6.AtYourService\"\n            android:configChanges=\"orientation|screenSize|keyboardHidden\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".MainActivity\"\n            android:exported=\"true\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n        <service android:name=\".final_project.ImportService\" />\n    </application>\n\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	
++++ b/app/src/main/AndroidManifest.xml	
+@@ -19,6 +19,8 @@
+         android:supportsRtl="true"
+         android:theme="@style/Theme.NUCS5520Sp_MusicLyicsApp"
+         android:usesCleartextTraffic="true"
++        android:largeHeap="true"
++        android:hardwareAccelerated="false"
+         tools:targetApi="31">
+         <activity
+             android:name=".final_project.ActivityImportResult"
+Index: app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/GeniusSong.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model;\n\nimport android.os.Parcel;\nimport android.os.Parcelable;\n\nimport androidx.annotation.NonNull;\n\nimport java.util.ArrayList;\n\n/**\n * Model a song created from the response back from Genius API's call.\n */\npublic class GeniusSong implements Parcelable {\n\n    private String songName;\n    private ArrayList<String> artistsList;\n    private String lyrics;\n\n    public GeniusSong(String songName, ArrayList<String> artistsList,  String lyrics) {\n        this.songName = songName;\n        this.artistsList = artistsList;\n        this.lyrics = lyrics;\n    }\n\n    protected GeniusSong(Parcel in) {\n        songName = in.readString();\n        artistsList = in.createStringArrayList();\n        lyrics = in.readString();\n    }\n\n    public static final Creator<GeniusSong> CREATOR = new Creator<GeniusSong>() {\n        @Override\n        public GeniusSong createFromParcel(Parcel in) {\n            return new GeniusSong(in);\n        }\n\n        @Override\n        public GeniusSong[] newArray(int size) {\n            return new GeniusSong[size];\n        }\n    };\n\n    public String getSongName() {\n        return songName;\n    }\n\n    public void setSongName(String songName) {\n        this.songName = songName;\n    }\n\n    public ArrayList<String> getArtistsList() {\n        return artistsList;\n    }\n\n    public void setArtistsList(ArrayList<String> artistsList) {\n        this.artistsList = artistsList;\n    }\n\n    public String getLyrics() {\n        return lyrics;\n    }\n\n    public void setLyrics(String lyrics) {\n        this.lyrics = lyrics;\n    }\n\n    @Override\n    public int describeContents() {\n        return 0;\n    }\n\n    @Override\n    public void writeToParcel(@NonNull Parcel dest, int flags) {\n        dest.writeString(songName);\n        dest.writeStringList(artistsList);\n        dest.writeString(lyrics);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/GeniusSong.java b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/GeniusSong.java
+--- a/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/GeniusSong.java	
++++ b/app/src/main/java/edu/northeastern/nucs5520sp_musiclyicsapp/final_project/model/GeniusSong.java	
+@@ -75,4 +75,10 @@
+         dest.writeStringList(artistsList);
+         dest.writeString(lyrics);
+     }
++
++    @NonNull
++    @Override
++    public String toString() {
++        return getSongName() + " " + getArtistsList() + " " + getLyrics();
++    }
+ }
+Index: .idea/deploymentTargetDropDown.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"deploymentTargetDropDown\">\n    <targetSelectedWithDropDown>\n      <Target>\n        <type value=\"QUICK_BOOT_TARGET\" />\n        <deviceKey>\n          <Key>\n            <type value=\"VIRTUAL_DEVICE_PATH\" />\n            <value value=\"$USER_HOME$/.android/avd/Pixel_6_API_26.avd\" />\n          </Key>\n        </deviceKey>\n      </Target>\n    </targetSelectedWithDropDown>\n    <timeTargetWasSelectedWithDropDown value=\"2023-04-23T04:06:52.344007Z\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+--- a/.idea/deploymentTargetDropDown.xml	
++++ b/.idea/deploymentTargetDropDown.xml	
+@@ -7,11 +7,11 @@
+         <deviceKey>
+           <Key>
+             <type value="VIRTUAL_DEVICE_PATH" />
+-            <value value="$USER_HOME$/.android/avd/Pixel_6_API_26.avd" />
++            <value value="$USER_HOME$/.android/avd/Pixel_4_API_29.avd" />
+           </Key>
+         </deviceKey>
+       </Target>
+     </targetSelectedWithDropDown>
+-    <timeTargetWasSelectedWithDropDown value="2023-04-23T04:06:52.344007Z" />
++    <timeTargetWasSelectedWithDropDown value="2023-04-23T16:55:22.192218Z" />
+   </component>
+ </project>
+\ No newline at end of file
