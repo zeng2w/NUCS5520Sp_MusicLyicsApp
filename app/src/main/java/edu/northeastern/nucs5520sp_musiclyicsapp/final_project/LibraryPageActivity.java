@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 import java.util.Objects;
 
+import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityLibraryPageBinding;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters.LibraryAdapter;
@@ -158,5 +159,12 @@ public class LibraryPageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         binding.navBarView.setSelectedItemId(R.id.navBar_library);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }
