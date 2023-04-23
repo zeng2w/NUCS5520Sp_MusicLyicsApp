@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Objects;
 
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityLibraryPageBinding;
@@ -62,7 +63,7 @@ public class LibraryPageActivity extends AppCompatActivity {
          */
         binding.libraryRecyclerView.setLayoutManager(new LinearLayoutManager(LibraryPageActivity.this));
 
-        databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library").child(FirebaseAuth.getInstance().getUid());
+        databaseReferenceUsersLyricsLibrary = FirebaseDatabase.getInstance().getReference("users_Lyrics_Library").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
 
         databaseReferenceUsersLyricsLibrary.addValueEventListener(new ValueEventListener() {
             @Override
