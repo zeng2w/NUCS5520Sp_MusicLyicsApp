@@ -52,12 +52,19 @@ public class ImportService extends Service {
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         // If sharedPreferences is empty, user hasn't authorized this app to access their spotify account.
         // Go to ActivitySpotifyAuth.
-        if (sharedPreferences.getAll().isEmpty()) {
-            Toast.makeText(this, "Need authorization with your Spotify account to read your playlist information", Toast.LENGTH_SHORT).show();
-            Intent intentAuth = new Intent(ImportService.this, ActivitySpotifyAuth.class);
-            intentAuth.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intentAuth);
-        }
+        Log.d("Spotify token", sharedPreferences.getString("token",""));
+//        if (sharedPreferences.getString("token","").equals("")) {
+//            Log.d("Inside If", "Inside the if clause in ImportService when no Spotify token");
+//            Toast.makeText(this, "Need authorization with your Spotify account to read your playlist information", Toast.LENGTH_SHORT).show();
+//            Intent intentAuth = new Intent(ImportService.this, ActivitySpotifyAuth.class);
+//            intentAuth.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intentAuth);
+//        }
+
+        Toast.makeText(this, "Need authorization with your Spotify account to read your playlist information", Toast.LENGTH_SHORT).show();
+        Intent intentAuth = new Intent(ImportService.this, ActivitySpotifyAuth.class);
+        intentAuth.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intentAuth);
 
         getTracks(sharedPlaylistLink);
 
@@ -130,18 +137,21 @@ public class ImportService extends Service {
                                 Log.d("outputList size", String.valueOf(outputList.size()));
 
                                 // If the size of the outputList is the same as the size of the spotifySongList, we know lyrics extraction is complete.
-                                // Cancel the old notification displaying the import progress and create a new one that is clickable.
-                                NotificationManagerCompat.from(ImportService.this).cancel(1);
-                                // If user clicks on the notification, lead to the new Activity displaying import results.
-                                Intent intent = new Intent(ImportService.this, ActivityImportResult.class);
-                                intent.putExtra("outputList", outputList);
-                                PendingIntent pendingIntent = PendingIntent.getActivity(ImportService.this, 0, intent, 0);
-                                NotificationCompat.Builder notificationBuilderComplete = new NotificationCompat.Builder(ImportService.this, CHANNEL_ID)
-                                        .setContentTitle("Import and Lyrics Extraction Complete")
-                                        .setContentText("Click this to check out the results")
-                                        .setSmallIcon(R.mipmap.ic_launcher_music)
-                                        .setContentIntent(pendingIntent);
-                                NotificationManagerCompat.from(ImportService.this).notify(2, notificationBuilderComplete.build());
+                                if (outputList.size() == spotifySongsList.size()) {
+                                    // Cancel the old notification displaying the import progress and create a new one that is clickable.
+                                    NotificationManagerCompat.from(ImportService.this).cancel(1);
+                                    // If user clicks on the notification, lead to the new Activity displaying import results.
+                                    Intent intent = new Intent(ImportService.this, ActivityImportResult.class);
+                                    Log.d("outputList second song name", outputList.get(1).getLyrics());
+                                    intent.putParcelableArrayListExtra("outputList", outputList);
+                                    PendingIntent pendingIntent = PendingIntent.getActivity(ImportService.this, 0, intent, 0);
+                                    NotificationCompat.Builder notificationBuilderComplete = new NotificationCompat.Builder(ImportService.this, CHANNEL_ID)
+                                            .setContentTitle("Import and Lyrics Extraction Complete")
+                                            .setContentText("Click this to check out the results")
+                                            .setSmallIcon(R.mipmap.ic_launcher_music)
+                                            .setContentIntent(pendingIntent);
+                                    NotificationManagerCompat.from(ImportService.this).notify(2, notificationBuilderComplete.build());
+                                }
                             }
                         });
 

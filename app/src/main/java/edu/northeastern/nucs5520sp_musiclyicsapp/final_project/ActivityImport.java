@@ -43,24 +43,18 @@ public class ActivityImport extends AppCompatActivity {
         buttonImport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startService(view);
+                startService();
             }
         });
     }
 
     // Credit: https://youtu.be/FbpD5RZtbCc
-    public void startService(View v) {
+    public void startService() {
         String sharedPlaylistLink = editTextLink.getText().toString().trim();
 
         Intent serviceIntent = new Intent(this, ImportService.class);
         serviceIntent.putExtra("Shared Playlist Link", sharedPlaylistLink);
 
         startService(serviceIntent);
-    }
-
-    // Credit: https://youtu.be/FbpD5RZtbCc
-    public void stopService(View v) {
-        Intent serviceIntent = new Intent(this, ImportService.class);
-        stopService(serviceIntent);
     }
 }

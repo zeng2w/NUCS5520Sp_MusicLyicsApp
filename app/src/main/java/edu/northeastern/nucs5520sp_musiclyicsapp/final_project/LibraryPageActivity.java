@@ -79,7 +79,7 @@ public class LibraryPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LibraryPageActivity.this, CreateEditPageActivity.class));
-                finish();
+//                finish();
             }
         });
 
@@ -90,7 +90,7 @@ public class LibraryPageActivity extends AppCompatActivity {
                 Context context = LibraryPageActivity.this;
                 Intent intent = new Intent(context, SearchActivity.class);
                 startActivity(intent);
-                finish();
+//                finish();
             }
         });
 
@@ -98,7 +98,6 @@ public class LibraryPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LibraryPageActivity.this, ActivityImport.class));
-                finish();
             }
         });
 
@@ -111,7 +110,7 @@ public class LibraryPageActivity extends AppCompatActivity {
 //                    break;
                 case R.id.navBar_user:
                     startActivity(new Intent(LibraryPageActivity.this, UserPageActivity.class));
-                    finish();
+//                    finish();
                     break;
             }
             return true;
