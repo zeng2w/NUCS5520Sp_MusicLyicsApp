@@ -81,6 +81,14 @@ public class UserPageActivity extends AppCompatActivity {
 
 //        navBarView = findViewById(R.id.navBarView);
 
+        // Set up the click to link to spotify account.
+        binding.userPageSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserPageActivity.this, ActivitySpotifyAuth.class));
+            }
+        });
+
         //databaseReference = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
         currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
