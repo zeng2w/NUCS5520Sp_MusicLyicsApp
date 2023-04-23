@@ -91,7 +91,6 @@ public class LibraryPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LibraryPageActivity.this, CreateEditPageActivity.class));
-                finish();
             }
         });
 
@@ -102,7 +101,6 @@ public class LibraryPageActivity extends AppCompatActivity {
                 Context context = LibraryPageActivity.this;
                 Intent intent = new Intent(context, SearchActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -110,7 +108,6 @@ public class LibraryPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LibraryPageActivity.this, ImportActivity.class));
-                finish();
             }
         });
 
@@ -119,11 +116,9 @@ public class LibraryPageActivity extends AppCompatActivity {
             switch (item.getItemId()){
 //                case R.id.navBar_currentSong:
 //                    startActivity(new Intent(LibraryPageActivity.this, CurrentSongPageActivity.class));
-//                    finish();
 //                    break;
                 case R.id.navBar_user:
                     startActivity(new Intent(LibraryPageActivity.this, UserPageActivity.class));
-                    finish();
                     break;
                 case R.id.navBar_currentSong:
                     startActivity(new Intent(LibraryPageActivity.this, CurrentSongPageActivity.class));
@@ -160,7 +155,8 @@ public class LibraryPageActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    protected void onResume() {
+        super.onResume();
+        binding.navBarView.setSelectedItemId(R.id.navBar_library);
     }
 }
