@@ -34,7 +34,7 @@ public class ImportResultAdapter extends RecyclerView.Adapter<ImportResultAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ImportResultAdapter.ImportResultViewHolder holder, int position) {
-        holder.tvArtist.setText(outputList.get(position).getSongName());
+        holder.tvSongName.setText(outputList.get(position).getSongName());
         ArrayList<String> artistsList = outputList.get(position).getArtistsList();
         // Convert artists ArrayList into a long string.
         StringBuilder artistsStringBuilder = new StringBuilder();
@@ -55,7 +55,7 @@ public class ImportResultAdapter extends RecyclerView.Adapter<ImportResultAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        return outputList.size();
     }
 
     public static class ImportResultViewHolder extends RecyclerView.ViewHolder {

@@ -142,8 +142,11 @@ public class ImportService extends Service {
                                     NotificationManagerCompat.from(ImportService.this).cancel(1);
                                     // If user clicks on the notification, lead to the new Activity displaying import results.
                                     Intent intent = new Intent(ImportService.this, ActivityImportResult.class);
-                                    Log.d("outputList second song name", outputList.get(1).getLyrics());
-                                    intent.putParcelableArrayListExtra("outputList", outputList);
+                                    Log.d("outputList size before putting in intent", String.valueOf(outputList.size()));
+                                    Bundle bundle = new Bundle();
+                                    bundle.putParcelableArrayList("outputList", outputList);
+                                    
+                                    intent.putExtras(bundle);
                                     PendingIntent pendingIntent = PendingIntent.getActivity(ImportService.this, 0, intent, 0);
                                     NotificationCompat.Builder notificationBuilderComplete = new NotificationCompat.Builder(ImportService.this, CHANNEL_ID)
                                             .setContentTitle("Import and Lyrics Extraction Complete")

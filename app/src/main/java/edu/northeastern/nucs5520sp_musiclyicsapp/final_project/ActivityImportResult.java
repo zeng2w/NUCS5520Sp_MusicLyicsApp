@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -23,10 +24,14 @@ public class ActivityImportResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_result);
 
+        Bundle bundle = getIntent().getExtras();
+        outputList = bundle.getParcelableArrayList("outputList");
         // Obtain the outputList that contains GeniusSongs object
-        outputList = getIntent().getParcelableArrayListExtra("outputList");
+//        outputList = getIntent().getExtras().getParcelableArrayList("outputList");
 
-        Log.d("outputList second song lyrics received", outputList.get(1).getLyrics());
+
+        Log.d("outputList second song name received", outputList.get(1).getSongName());
+        Log.d("outputList size received", String.valueOf(outputList.size()));
         stopService();
 
         // Create the RecyclerView object and connect with the UI object.
