@@ -14,7 +14,6 @@ public class ImportSongDatabaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.delete("genius_songs", null, null);
         String createTable = "CREATE TABLE IF NOT EXISTS genius_songs (song_name TEXT, artists_string TEXT, song_lyrics TEXT)";
         sqLiteDatabase.execSQL(createTable);
     }

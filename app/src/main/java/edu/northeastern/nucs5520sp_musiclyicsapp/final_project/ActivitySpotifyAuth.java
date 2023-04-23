@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Objects;
@@ -65,6 +66,7 @@ public class ActivitySpotifyAuth extends AppCompatActivity {
         mSharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(this);
     }
+
 
     /**
      * Prompt the user to give permission to our app to connect to their Spotify account and grab
