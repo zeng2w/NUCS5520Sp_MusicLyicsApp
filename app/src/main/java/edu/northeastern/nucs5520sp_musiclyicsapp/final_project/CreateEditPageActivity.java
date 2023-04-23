@@ -98,7 +98,6 @@ public class CreateEditPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CreateEditPageActivity.this, CameraCaptureTextActivity.class));
-                finish();
             }
         });
 
@@ -138,16 +137,20 @@ public class CreateEditPageActivity extends AppCompatActivity {
                                     .child(s).setValue(new_song);
                             databaseReferenceSharedLyrics.child(s + currentUid).setValue(new_song);
                             // when save successful, go to library page, then the new added song will show on library page
-                            startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
-                            finish();
+//                            startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
+//                            finish();
+                            // back to last page
+                            onBackPressed();
                         }
 
                     } else {
                         databaseReferenceUsersLyricsLibrary.child(currentUid)
                                 .child(s).setValue(new_song);
                         // when save successful, go to library page, then the new added song will show on library page
-                        startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
-                        finish();
+//                        startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
+//                        finish();
+                        // back to last page
+                        onBackPressed();
                     }
 
                     // upload image to firebase store
@@ -170,7 +173,9 @@ public class CreateEditPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // back to library page
-                startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
+                //startActivity(new Intent(CreateEditPageActivity.this, LibraryPageActivity.class));
+                // back to last page
+                onBackPressed();
             }
         });
     }
