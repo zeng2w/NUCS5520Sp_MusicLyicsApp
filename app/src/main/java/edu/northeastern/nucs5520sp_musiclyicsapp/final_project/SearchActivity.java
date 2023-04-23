@@ -168,7 +168,7 @@ public class SearchActivity extends AppCompatActivity {
 
                             @Override
                             public void onLyricsSuccess(GeniusSong outputGeniusSong) {
-                                    SongModel song = new SongModel(outputGeniusSong.getSongName(), outputGeniusSong.getArtistsList().get(0), outputGeniusSong.getLyrics(),"", "Genius");
+                                    SongModel song = new SongModel(outputGeniusSong.getSongName(), outputGeniusSong.getArtistsString(), outputGeniusSong.getLyrics(),"", "Genius");
                                     if (!song.getSong_lyric().equals("")) {
                                         libraryAdapter.add(song);
                                     }
