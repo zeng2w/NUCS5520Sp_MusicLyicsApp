@@ -2,6 +2,7 @@ package edu.northeastern.nucs5520sp_musiclyicsapp.final_project.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,15 +60,18 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyViewHo
         holder.song_artist.setText("Artist: " + song.getSong_artist());
         holder.lyric_creator.setText("Lyric Creator: " + song.getLyric_creator());
 
-        Intent intent = new Intent(context, CurrentSongPageActivity.class);
-        intent.putExtra("song_name", song.getSong_name());
-        intent.putExtra("song_artist", song.getSong_artist());
-        intent.putExtra("lyric_creator", song.getLyric_creator());
-        intent.putExtra("song_translation", song.getSong_translation());
-        intent.putExtra("lyric", song.getSong_lyric());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(context, CurrentSongPageActivity.class);
+                SharedPreferences currentSongPreference = LibraryAdapter.this.context.getSharedPreferences("CURRENT_SONG", 0);
+                SharedPreferences.Editor editor = currentSongPreference.edit();
+                editor.putString("song_name", song.getSong_name());
+                editor.putString("song_artist", song.getSong_artist());
+                editor.putString("lyric_creator", song.getLyric_creator());
+                editor.putString("song_translation", song.getSong_translation());
+                editor.putString("lyric", song.getSong_lyric());
+                editor.apply();
                 context.startActivities(new Intent[]{intent});
             }
         });

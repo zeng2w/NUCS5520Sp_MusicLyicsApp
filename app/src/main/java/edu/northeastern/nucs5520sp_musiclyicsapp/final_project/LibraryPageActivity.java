@@ -112,6 +112,9 @@ public class LibraryPageActivity extends AppCompatActivity {
                     startActivity(new Intent(LibraryPageActivity.this, UserPageActivity.class));
 //                    finish();
                     break;
+                case R.id.navBar_currentSong:
+                    startActivity(new Intent(LibraryPageActivity.this, CurrentSongPageActivity.class));
+                    break;
             }
             return true;
         });
@@ -141,5 +144,10 @@ public class LibraryPageActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(binding.libraryRecyclerView);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
