@@ -152,7 +152,6 @@ public class ImportService extends Service {
                                     // Put each GeniusSong in outputList in SQLite database.
                                     ImportSongDatabaseHelper dbHelper = new ImportSongDatabaseHelper(ImportService.this);
                                     SQLiteDatabase db = dbHelper.getWritableDatabase();
-                                    db.delete("genius_songs", null, null);
                                     for (GeniusSong song: outputList) {
                                         ContentValues values = new ContentValues();
                                         values.put("song_name", song.getSongName());
