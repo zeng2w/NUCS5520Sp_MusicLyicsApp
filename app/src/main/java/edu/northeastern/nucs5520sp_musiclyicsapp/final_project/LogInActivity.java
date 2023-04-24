@@ -19,6 +19,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityLogInBinding;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.UserModel;
@@ -128,5 +129,12 @@ public class LogInActivity extends AppCompatActivity {
                     Toast.makeText(LogInActivity.this, "" + er.getMessage(), Toast.LENGTH_SHORT).show();
 
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

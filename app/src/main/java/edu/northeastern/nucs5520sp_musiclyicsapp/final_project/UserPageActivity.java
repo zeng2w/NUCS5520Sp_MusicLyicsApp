@@ -45,6 +45,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import edu.northeastern.nucs5520sp_musiclyicsapp.MainActivity;
 import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.databinding.ActivityUserPageBinding;
 
@@ -80,6 +81,14 @@ public class UserPageActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 //        navBarView = findViewById(R.id.navBarView);
+
+        // Set up the click to link to spotify account.
+        binding.userPageSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserPageActivity.this, ActivitySpotifyAuth.class));
+            }
+        });
 
         //databaseReference = FirebaseDatabase.getInstance().getReference("Final_Project_Users");
         currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -292,4 +301,10 @@ public class UserPageActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
 }
