@@ -48,9 +48,11 @@ public class SpotifyService {
      * @param playlistId  the id of the playlist
      * @param callback  the VolleyCallback object.
      */
-    public void getSongsFromPlaylist(String playlistId, int limit, int offset, final VolleyCallback callback) {
+    public void getSongsFromPlaylist(String spotifyToken, String playlistId, int limit, int offset, final VolleyCallback callback) {
 
         @SuppressLint("DefaultLocale")String endpoint = String.format("https://api.spotify.com/v1/playlists/%s/tracks?offset=%d&limit=%d", playlistId, offset, limit);
+
+
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
@@ -103,7 +105,7 @@ public class SpotifyService {
                     if (!next.equals("null")) {
                         // Create a handler and post a delayed callback after 1 second
                         new Handler().postDelayed(() -> {
-                            getSongsFromPlaylist(playlistId, limit, offset + limit, callback);
+                            getSongsFromPlaylist(spotifyToken, playlistId, limit, offset + limit, callback);
                             callback.onSuccess(false);
                         }, 1000);
                     }
@@ -131,8 +133,7 @@ public class SpotifyService {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("token", "");
-                String auth = "Bearer " + token;
+                String auth = "Bearer " + spotifyToken;
                 headers.put("Authorization", auth);
                 return headers;
             }

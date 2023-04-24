@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
@@ -41,9 +45,8 @@ public class ActivitySpotifyAuth extends AppCompatActivity {
 
     // Credit: https://towardsdatascience.com/using-the-spotify-api-with-your-android-application-the-essentials-1a3c1bc36b9e
     private SharedPreferences.Editor editor;
-    private SharedPreferences mSharedPreferences;
-
-    private RequestQueue queue;
+    private DatabaseReference databaseReferenceUserToken;
+    private FirebaseUser currentUser;
 
     // Set up Spotify credentials.
     // Client ID is found in your dashboard at developer.spotify.com.
@@ -52,6 +55,9 @@ public class ActivitySpotifyAuth extends AppCompatActivity {
     private static final int REQUEST_CODE = 1337;
     // Credit: https://developer.spotify.com/documentation/web-api/concepts/scopes
     private static final String SCOPES = "playlist-read-private, playlist-read-collaborative";
+
+    public ActivitySpotifyAuth() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +68,9 @@ public class ActivitySpotifyAuth extends AppCompatActivity {
 
         authenticateSpotify();
 
-        mSharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        queue = Volley.newRequestQueue(this);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReferenceUserToken = FirebaseDatabase.getInstance().getReference("user_tokens");
+
     }
 
     /**
@@ -94,6 +101,9 @@ public class ActivitySpotifyAuth extends AppCompatActivity {
             switch (response.getType()) {
                 //Response was successful and contains auth token.
                 case TOKEN:
+                    // Write the auth token for this specific user to firebase.
+                    databaseReferenceUserToken.child(currentUser.getUid()).child("spotify_token").setValue(response.getAccessToken());
+
                     editor = getSharedPreferences("SPOTIFY", 0).edit();
                     editor.putString("token", response.getAccessToken());
                     Log.d("STARTING", "GOT AUTH TOKEN");
