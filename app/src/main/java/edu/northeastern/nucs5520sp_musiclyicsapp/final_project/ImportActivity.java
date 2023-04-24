@@ -85,7 +85,10 @@ public class ImportActivity extends AppCompatActivity {
             buttonImport.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startService();
+//                    startService();
+                    ImportActivityRunnable runnable = new ImportActivityRunnable();
+                    Thread t = new Thread(runnable);
+                    t.start();
                 }
             });
         }
@@ -98,8 +101,8 @@ public class ImportActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, ImportService.class);
         serviceIntent.putExtra("Shared Playlist Link", sharedPlaylistLink);
 
-        startForegroundService(serviceIntent);
-        startActivity(new Intent(this, LibraryPageActivity.class));
+        startService(serviceIntent);
+//        startActivity(new Intent(this, LibraryPageActivity.class));
     }
 
     @Override
@@ -111,14 +114,37 @@ public class ImportActivity extends AppCompatActivity {
                 buttonImport.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startService();
+//                        startService();
+                        ImportActivityRunnable runnable = new ImportActivityRunnable();
+                        Thread t = new Thread(runnable);
+                        t.start();
                     }
+
                 });
             } else {
                 // Permission denied, notify the user and/or disable the feature that requires the permission
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                 finish();
             }
+        }
+    }
+
+    class ImportActivityRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            startMyService();
+        }
+
+        // Credit: https://youtu.be/FbpD5RZtbCc
+        public void startMyService() {
+            String sharedPlaylistLink = editTextLink.getText().toString().trim();
+
+            Intent serviceIntent = new Intent(ImportActivity.this, ImportService.class);
+            serviceIntent.putExtra("Shared Playlist Link", sharedPlaylistLink);
+
+            startService(serviceIntent);
+//        startActivity(new Intent(this, LibraryPageActivity.class));
         }
     }
 }
