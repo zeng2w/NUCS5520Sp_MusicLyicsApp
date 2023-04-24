@@ -139,6 +139,9 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void setLyricsLikeNumIntoUI(String creatorId) {
+        if(creatorId == null){
+            creatorId = "genius";
+        }
         String path = songName.replaceAll("[^a-zA-Z0-9]", "") + songArtist.replaceAll("[^a-zA-Z0-9]", "")+ creatorId;
         DatabaseReference databaseReferenceSongLike = FirebaseDatabase.getInstance().getReference("likes").child(path);
         databaseReferenceSongLike.addValueEventListener(new ValueEventListener() {
