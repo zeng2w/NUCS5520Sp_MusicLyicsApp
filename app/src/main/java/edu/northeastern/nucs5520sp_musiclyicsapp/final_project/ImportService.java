@@ -261,7 +261,8 @@ public class ImportService extends Service {
                                         .setContentText("Reading the songs in your shared Spotify playlist...")
                                         .setSmallIcon(R.mipmap.ic_launcher_music);
 
-                                startForeground(1, notificationBuilder.build());
+                                NotificationManagerCompat.from(ImportService.this).notify(1, notificationBuilder.build());
+//                                startForeground(1, notificationBuilder.build());
 
                                 // Songs in songsList can be used as input to the Genius API.
                                 if (finished) {
