@@ -201,6 +201,11 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                         Log.d("-------lyric creator id", lyricCreatorId);
                         saveSongLikeOnDB(dataSnapshot.getKey().toString());
                         //showSharedLyric(lyricCreatorId);
+                    } else if(lyricCreator.toLowerCase().equals("genius")){
+                        Log.d("---creator genius", lyricCreator);
+                        //lyricCreatorId = "genius";
+                        //Log.d("-------lyric creator id", lyricCreatorId);
+                        saveSongLikeOnDB("genius");
                     }
                 }
 
@@ -416,7 +421,7 @@ public class CurrentSongPageActivity extends AppCompatActivity {
                         } else {
                             Drawable drawable = ResourcesCompat.getDrawable(
                                     getResources(),
-                                    R.drawable.baseline_thumb_up_24_red,
+                                    R.drawable.baseline_thumb_up_24_green,
                                     getTheme()
 
                             );
