@@ -3,61 +3,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/pic2"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView_team_name"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="wrap_content"
         android:text="@string/string_team_name"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_50percent_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/buttonAtYourService"
+        app:layout_constraintEnd_toEndOf="@+id/buttonAtYourService"
+        app:layout_constraintStart_toStartOf="@+id/buttonAtYourService"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <Button
         android:id="@+id/buttonAtYourService"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
         android:onClick="onClick"
         android:text="@string/string_button_at_your_service"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_50percent_horizontal" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_50percent_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5"
- />
+        app:layout_constraintBottom_toTopOf="@+id/buttonAbout"
+        app:layout_constraintEnd_toEndOf="@+id/buttonAbout"
+        app:layout_constraintStart_toStartOf="@+id/buttonAbout"
+        app:layout_constraintTop_toBottomOf="@+id/textView_team_name"
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/buttonAbout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/string_button_about"
         android:onClick="onClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/string_button_about"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStickIt"
+        app:layout_constraintEnd_toEndOf="@+id/buttonStickIt"
+        app:layout_constraintStart_toStartOf="@+id/buttonStickIt"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAtYourService"
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/buttonStickIt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/string_stickIt"
         android:onClick="onClick"
+        android:text="@string/string_stickIt"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLyricsApp"
+        app:layout_constraintEnd_toEndOf="@+id/buttonLyricsApp"
+        app:layout_constraintStart_toStartOf="@+id/buttonLyricsApp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAbout"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/buttonLyricsApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="Lyrics App"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_50percent_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonStickIt"
+        app:layout_constraintVertical_bias="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

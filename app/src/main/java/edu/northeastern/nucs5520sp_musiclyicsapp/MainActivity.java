@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import edu.northeastern.nucs5520sp_musiclyicsapp.a6.AtYourService;
 import edu.northeastern.nucs5520sp_musiclyicsapp.a8.StickItToEm;
+import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.LogInActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d("CREATION", "Hi");
+
     }
 
     @Override
@@ -33,6 +37,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (viewId == R.id.buttonStickIt){
             Intent intentStickIt = new Intent(MainActivity.this, StickItToEm.class);
             startActivity(intentStickIt);
+        } else if (viewId == R.id.buttonLyricsApp) {
+            Intent intentLyricsApp = new Intent(MainActivity.this, LogInActivity.class);
+            startActivity(intentLyricsApp);
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (this.getClass().getSimpleName().equals("MainActivity")) {
+            // This is the main activity, so exit the app
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            // This is not the main activity, so go back to the previous activity
+            super.onBackPressed();
         }
     }
 }

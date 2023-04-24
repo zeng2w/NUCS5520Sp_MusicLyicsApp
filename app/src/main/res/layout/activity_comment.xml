@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".final_project.CommentActivity">
+
+    <!-- Sort button -->
+    <!-- Like button -->
+    <!-- Likes count text view -->
+    <!-- Sort by dropdown menu -->
+    <!-- Comment list -->
+
+    <ImageButton
+        android:id="@+id/sort_button"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:background="@null"
+        android:contentDescription="sorting images"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_sort"
+        app:layout_constraintBottom_toBottomOf="@+id/sort_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/sort_spinner"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sort_spinner" />
+
+    <TextView
+        android:id="@+id/likes_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center_vertical"
+        android:text="(100)"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_likes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView_likes"
+        app:layout_constraintTop_toTopOf="@+id/textView_likes" />
+
+    <Spinner
+        android:id="@+id/sort_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:entries="@array/sort_options"
+        android:minHeight="48dp"
+        android:padding="8dp"
+        android:spinnerMode="dropdown"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView_likes"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sort_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comment_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/button_post_comment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sort_spinner"
+        tools:listitem="@layout/comment" />
+
+    <TextView
+        android:id="@+id/textView_likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:inputType="textMultiLine"
+        android:text="Likes:"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/sort_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/likes_count"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sort_spinner"
+        app:layout_constraintTop_toTopOf="@+id/sort_spinner" />
+
+    <EditText
+        android:id="@+id/comment_context"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/gray"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="input your comment here..."
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_post_comment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_post_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/baseline_send_24_green"
+        app:layout_constraintBottom_toBottomOf="@+id/comment_context"
+        app:layout_constraintEnd_toStartOf="@+id/button_comment_back"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/comment_context"
+        app:layout_constraintTop_toTopOf="@+id/comment_context" />
+
+    <ImageButton
+        android:id="@+id/button_comment_back"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/baseline_cancel_schedule_send_24_black"
+        app:layout_constraintBottom_toBottomOf="@+id/button_post_comment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_post_comment"
+        app:layout_constraintTop_toTopOf="@+id/button_post_comment" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

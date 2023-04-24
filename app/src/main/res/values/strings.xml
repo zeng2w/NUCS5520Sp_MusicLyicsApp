@@ -9,6 +9,9 @@
     <string name="string_currency_to">To:</string>
     <string name="string_currency_from">From:</string>
     <string name="string_button_convert">Convert</string>
+    <string name="string_import_result">Import Result</string>
+    <string name="string_import">Import</string>
+    <string name="string_cancel">Cancel</string>
     <string name="string_result_null">-</string>
     <string name="string_spinner_from_currency">Select the currency you want to convert from</string>
     <string name="string_spinner_to_currency">Select the currency you want to convert to</string>
@@ -50,4 +53,11 @@
         <item>THB</item>
         <item>MYR</item>
     </string-array>
+
+
+    <array name="sort_options">
+        <item>Sort by Newest</item>
+        <item>Sort By Earliest</item>
+    </array>
+
 </resources>
