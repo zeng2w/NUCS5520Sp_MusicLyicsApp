@@ -346,13 +346,13 @@ public class ImportService extends Service {
                     }
                     // Case 2: No token found for this currently logged in user. Post a toast reminding to authorize.
                     else {
-                        Toast.makeText(ImportService.this, "Spotify Authorization required. Go to User page", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Spotify Authorization required. Go to User page", Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(ImportService.this, "Database Error; please try to authorize later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Database Error; please try to authorize later", Toast.LENGTH_SHORT).show();
                 }
             });
 
