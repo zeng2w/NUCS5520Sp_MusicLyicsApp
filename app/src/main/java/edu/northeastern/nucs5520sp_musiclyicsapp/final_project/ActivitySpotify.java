@@ -47,7 +47,7 @@ public class ActivitySpotify extends AppCompatActivity {
     // Whatever needs to be done with the songs obtained need to happen right below
     // songsList = songService.getSongs(); (because of asynchronous nature of the request)
     private void getTracks() {
-        spotifyService.getSongsFromPlaylist("3IKJxSf21hxk8C3MbHIlQC", 100, 0, new VolleyCallback() {
+        spotifyService.getSongsFromPlaylist("token placeholder","3IKJxSf21hxk8C3MbHIlQC", 100, 0, new VolleyCallback() {
             @Override
             public void onSuccess(boolean finished) {
                 spotifySongsList = spotifyService.getSongs();
