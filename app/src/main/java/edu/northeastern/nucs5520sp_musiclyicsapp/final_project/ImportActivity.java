@@ -98,7 +98,8 @@ public class ImportActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, ImportService.class);
         serviceIntent.putExtra("Shared Playlist Link", sharedPlaylistLink);
 
-        startService(serviceIntent);
+        startForegroundService(serviceIntent);
+        startActivity(new Intent(this, LibraryPageActivity.class));
     }
 
     @Override
