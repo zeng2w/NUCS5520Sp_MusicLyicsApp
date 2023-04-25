@@ -108,7 +108,6 @@ public class ActivityImportResult extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         startActivity(new Intent(ActivityImportResult.this, LibraryPageActivity.class));
     }
 }

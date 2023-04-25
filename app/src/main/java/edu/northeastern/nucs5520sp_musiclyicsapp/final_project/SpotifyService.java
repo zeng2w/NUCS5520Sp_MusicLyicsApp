@@ -1,10 +1,14 @@
 package edu.northeastern.nucs5520sp_musiclyicsapp.final_project;
 
+import static edu.northeastern.nucs5520sp_musiclyicsapp.final_project.App.CHANNEL_ID;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.northeastern.nucs5520sp_musiclyicsapp.R;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifyArtist;
 import edu.northeastern.nucs5520sp_musiclyicsapp.final_project.model.SpotifySong;
 
@@ -29,14 +34,15 @@ public class SpotifyService {
     private final ArrayList<SpotifySong> songs;
     // See it as a persistent storage of info related to Spotify, e.g., the access token when user
     // logged into Spotify and granted our app permissions.
-    private final SharedPreferences sharedPreferences;
     // For making requests to the Spotify API.
     private final RequestQueue queue;
+    private Context context;
 
     public SpotifyService(Context context) {
         songs = new ArrayList<>();
-        sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
+        this.context = context;
+
     }
 
     public ArrayList<SpotifySong> getSongs() {
@@ -127,6 +133,22 @@ public class SpotifyService {
                                 Log.e("ERROR", "Need to retry after seconds: " + retryAfterSeconds);
                                 System.out.println("Need to retry after seconds: " + retryAfterSeconds);
                             }
+                        }
+                        else if (statusCode == 401) {
+                            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                                    .setContentTitle("Need Spotify Authorization")
+                                    .setContentText("Please go to Users page to authorize your Spotify account with our app")
+                                    .setSmallIcon(R.mipmap.ic_launcher_music);
+
+                            NotificationManagerCompat.from(context).notify(1, notificationBuilder.build());
+                        }
+                        else if (statusCode == 404) {
+                            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                                    .setContentTitle("Invalid playlist link")
+                                    .setContentText("Please double check your shared playlist link")
+                                    .setSmallIcon(R.mipmap.ic_launcher_music);
+
+                            NotificationManagerCompat.from(context).notify(1, notificationBuilder.build());
                         }
                     }
                 }) {

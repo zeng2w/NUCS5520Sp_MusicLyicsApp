@@ -22,6 +22,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -60,8 +61,8 @@ public class ImportService extends Service {
 
         String sharedPlaylistLink = intent.getStringExtra("Shared Playlist Link");
 
-        spotifyService = new SpotifyService(getApplicationContext());
-        lyricsService = new LyricsService(getApplicationContext());
+        spotifyService = new SpotifyService(this);
+        lyricsService = new LyricsService(this);
 
         outputList = new ArrayList<>();
 
@@ -209,7 +210,6 @@ public class ImportService extends Service {
 //
 //    }
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -328,13 +328,8 @@ public class ImportService extends Service {
                                         });
 
                                         // Cope with Genius API's rate limit for search, which is 1 per second.
-                                        try {
-                                            Thread.sleep(1000);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
+                                        SystemClock.sleep(1000);
                                     }
-
                                 }
                             }
 
@@ -346,13 +341,23 @@ public class ImportService extends Service {
                     }
                     // Case 2: No token found for this currently logged in user. Post a toast reminding to authorize.
                     else {
-                        Toast.makeText(getApplicationContext(), "Spotify Authorization required. Go to User page", Toast.LENGTH_LONG).show();
+                        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(ImportService.this, CHANNEL_ID)
+                                .setContentTitle("Need Spotify Authorization")
+                                .setContentText("Please go to User page to authorize our app with your Spotify account")
+                                .setSmallIcon(R.mipmap.ic_launcher_music);
+
+                        NotificationManagerCompat.from(ImportService.this).notify(1, notificationBuilder.build());
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getApplicationContext(), "Database Error; please try to authorize later", Toast.LENGTH_SHORT).show();
+                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(ImportService.this, CHANNEL_ID)
+                            .setContentTitle("Database Error")
+                            .setContentText("Firebase error, please try again later")
+                            .setSmallIcon(R.mipmap.ic_launcher_music);
+
+                    NotificationManagerCompat.from(ImportService.this).notify(1, notificationBuilder.build());
                 }
             });
 
