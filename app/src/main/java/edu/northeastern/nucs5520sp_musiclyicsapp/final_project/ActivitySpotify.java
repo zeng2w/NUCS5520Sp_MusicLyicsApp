@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -77,12 +78,7 @@ public class ActivitySpotify extends AppCompatActivity {
                             }
                         });
                         // Cope with Genius API's rate limit for search, which is 1 per second.
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
+                        SystemClock.sleep(1000);
                     }
 
                 }
